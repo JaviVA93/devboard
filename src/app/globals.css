@@ -111,10 +111,6 @@ a {
   gap: 8px;
 }
 
-.mainMenu li {
-
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
