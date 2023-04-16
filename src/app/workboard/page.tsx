@@ -1,6 +1,10 @@
+import Pomodoro from "@/components/pomodoro/Pomodoro";
 
-export default function YourWorkboard() {
+export default function Workboard() {
     return (
-        <h1>Your Workboard</h1>
+        <div>
+            <h1>Your Workboard</h1>
+            <Pomodoro />
+        </div>
     )
 }

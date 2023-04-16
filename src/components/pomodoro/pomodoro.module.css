@@ -1,0 +1,54 @@
+.pomoCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: #2c3e50;
+    background-color: aquamarine;
+
+    width: 450px;
+    max-width: 100%;
+    padding: 15px;
+
+    border-radius: 5px;
+}
+
+.pomoTime {
+    font-size: 75px;
+    font-weight: bold;
+}
+
+.pomoBtnsWrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.startPauseButton {
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    transition: all 0.25s;
+}
+.startPauseButton:hover {
+    transform: scale(1.1);
+}
+
+.stopButton {
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+    border: 0;
+}
+.pomoButton {
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+    border: 0;
+    transition: all 0.25s;
+}
+.pomoButton:hover {
+    transform: scale(1.1);
+}
