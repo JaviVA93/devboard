@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import Issue from './issue'
+import NewIssueForm from './newIssueForm';
 import style from './toDo.module.css'
 
 const ToDo = () => {
 
     const [issues, setIssues] = useState<{ id: string, title: string, text: string }[]>([]);
 
+
+
     function createCard(title: string, text: string) {
-        const issuesTmp = issues || [];
+        const issuesTmp = [...issues] || []; // forze re-render without using "issues" direct reference
         issuesTmp.push({
             id: Math.floor(Math.random() * 100000).toString(),
             title: title,
@@ -19,6 +22,8 @@ const ToDo = () => {
         setIssues(issuesTmp)
     }
 
+
+
     function removeCard(card_id: string) {
         if (issues) {
             const issuesTmp = issues.filter(issue => issue.id !== card_id)
@@ -27,12 +32,18 @@ const ToDo = () => {
         }
     }
 
+
+
     useEffect(() => {
         let ls_cards_data = window.localStorage.getItem('cards_data');
         if (ls_cards_data)
             setIssues(JSON.parse(ls_cards_data))
 
     }, [])
+
+
+
+
 
     return (
         <div className={style.todoWrapper}>
@@ -51,7 +62,7 @@ const ToDo = () => {
                 }
             </div>
             <div className={style.issueFormContainer}>
-                {/* <NewIssueForm @create-card="createCard" /> */}
+                <NewIssueForm createIssueOnList={createCard} />
             </div>
         </div>
     )

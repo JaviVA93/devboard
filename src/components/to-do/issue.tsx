@@ -15,12 +15,6 @@ const Issue = (props: {
     const card = useRef<HTMLDivElement | null>(null)
 
 
-    // const cardEmit = defineEmits<{
-    //     (e: "removeCard", cardId: string): void;
-    // }>();
-
-    // const card = ref<HTMLElement | null>(null);
-
     function removeCard() {
         if (!card.current) return;
 
@@ -32,7 +26,10 @@ const Issue = (props: {
         tl.call(() => {
             if (props.id)
             removeIssueOnList(id);
+            tl.kill();
         });
+
+        // tl.kill();
     }
 
 
