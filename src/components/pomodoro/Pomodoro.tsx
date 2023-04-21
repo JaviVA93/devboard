@@ -52,12 +52,12 @@ const Pomodoro = () => {
     const playButton = <PlayButton fillColor="#2c3e50" />
     const [pomoTime, setPomoTime] = useState('');
     const [playPause, setPlayPause] = useState(playButton);
-    const pomoInterval = useRef<null | NodeJS.Timer>(null);
-
-    const pomoAlarm = new Audio(alarmFilePath);
-
-    const intervalTimeInMiliseconds = convertTimeToMS(pomo_vars.current.interval.minutes, pomo_vars.current.interval.seconds);
     const [progressBar, setProgressBar] = useState(<BatteryProgressBar percentageLoaded={100} />)
+    const [pomoAlarm, setPomoAlarm] = useState<HTMLAudioElement | null>(null)
+    const pomoInterval = useRef<null | NodeJS.Timer>(null);
+    const intervalTimeInMiliseconds = convertTimeToMS(pomo_vars.current.interval.minutes, pomo_vars.current.interval.seconds);
+
+    
 
     function startPauseResumePomodoro() {
 
@@ -90,8 +90,10 @@ const Pomodoro = () => {
     function stopPomodoro() {
 
         pomo_vars.current.status = 'stop';
-        pomoAlarm.pause();
-        pomoAlarm.currentTime = 0;
+        if (pomoAlarm) {
+            pomoAlarm.pause();
+            pomoAlarm.currentTime = 0;
+        }
         if (!pomo_vars.current.interval) return;
         pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
         if (pomoInterval.current) clearInterval(pomoInterval.current);
@@ -166,7 +168,7 @@ const Pomodoro = () => {
             pomo_vars.current.timeRemain.minutes = 0;
             pomo_vars.current.status = 'end';
 
-            pomoAlarm.play();
+            pomoAlarm?.play();
             pomoEndNotification();
             setPlayPause(<PauseButton />)
             if (pomoInterval.current)
@@ -206,6 +208,8 @@ const Pomodoro = () => {
 
 
     useEffect(() => {
+        
+        setPomoAlarm(new Audio(alarmFilePath));
         pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
 
         const timeRemain = getTimeRemainAsString();
@@ -213,6 +217,7 @@ const Pomodoro = () => {
 
         requestNotificatinoPermission();
         setPlayPause(playButton)
+
     }, []);
 
 
