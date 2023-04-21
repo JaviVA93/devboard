@@ -1,12 +1,11 @@
 .card {
     /* --- Variables --- */
-    --color_1: '#76B576';
-    --color_2: '#4C754C';
-    --color_3: '#1B291B';
-    --color_4: '#233623';
-    --color_5: '#1E2E1E';
+    --color_1: #76B576;
+    --color_2: #4C754C;
+    --color_3: #1B291B;
+    --color_4: #233623;
+    --color_5: #1E2E1E;
     /* --- Variables --- */
-
 
 
     display: flex;
@@ -21,20 +20,20 @@
     overflow: hidden;
 }
 
-h1 {
+.card h1 {
     font-size: 2rem;
     line-height: 2rem;
     color: var(--color_2);
     text-align: start;
 }
 
-span {
+.card span {
     color: var(--color_1);
     font-size: 1.2rem;
     margin-bottom: 9px;
 }
 
-button {
+.card button {
     align-self: flex-end;
 
     font-size: 1rem;
@@ -51,6 +50,6 @@ button {
     border: 0;
 }
 
-button:hover {
+.card button:hover {
     background-color: var(--color_1);
 }

@@ -37,7 +37,7 @@ const Issue = (props: {
 
 
     return (
-        <div className="card" id={id} ref={card}>
+        <div className={style.card} id={id} ref={card}>
             <h1>{title}</h1>
             <span>{text}</span>
             <button onClick={removeCard}>Remove card</button>

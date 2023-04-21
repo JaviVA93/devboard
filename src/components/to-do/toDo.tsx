@@ -5,16 +5,8 @@ import Issue from './issue'
 import style from './toDo.module.css'
 
 const ToDo = () => {
+
     const [issues, setIssues] = useState<{ id: string, title: string, text: string }[]>([]);
-
-    // onMounted(() => {
-    //     let ls_cards_data = window.localStorage.getItem('cards_data');
-    //     if (ls_cards_data)
-    //         issues.value = JSON.parse(ls_cards_data);
-
-    //     if (!issues.value)
-    //         issues.value = [];
-    // });
 
     function createCard(title: string, text: string) {
         const issuesTmp = issues || [];
@@ -28,7 +20,6 @@ const ToDo = () => {
     }
 
     function removeCard(card_id: string) {
-        debugger
         if (issues) {
             const issuesTmp = issues.filter(issue => issue.id !== card_id)
             window.localStorage.setItem('cards_data', JSON.stringify(issuesTmp))
@@ -44,13 +35,10 @@ const ToDo = () => {
     }, [])
 
     return (
-        <div className="todo-wrapper">
-            <h1 className="todo-wrapper-title">TODO</h1>
-            <div className="horizontal-line"></div>
-            <div className="issues-container">
-                {/* <div v-for="card in issues" :key="card.id" style="max-width: 100%;">
-            <Issue @remove-card="removeCard" :id="card.id" :title="card.title" :text="card.text" />
-        </div> */}
+        <div className={style.todoWrapper}>
+            <h1 className={style.todoWrapperTitle}>TODO</h1>
+            <div className={style.horizontalUine}></div>
+            <div className={style.issuesContainer}>
                 {
                     issues.map(data =>
                         <Issue
@@ -62,7 +50,7 @@ const ToDo = () => {
                         />)
                 }
             </div>
-            <div className="issue-form-container">
+            <div className={style.issueFormContainer}>
                 {/* <NewIssueForm @create-card="createCard" /> */}
             </div>
         </div>

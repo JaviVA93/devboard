@@ -1,0 +1,56 @@
+.todoWrapper {
+    /* --- Variables --- */
+    --color_1: #76B576;
+    --color_2: #4C754C;
+    --color_2_soft: #5e765e;
+    --color_3: #1B291B;
+    --color_4: #233623;
+    --color_5: #1E2E1E;
+    /* --- Variables --- */
+
+
+    width: 100%;
+    max-width: 1000px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--color_2_soft);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.todoWrapperTitle {
+    align-self: flex-start;
+    color: var(--color_5);
+}
+
+.horizontalLine {
+    border: 1px solid var(--color_4);
+}
+
+.issuesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    row-gap: 10px;
+    column-gap: 10px;
+    margin: 10px 0;
+    max-width: 100%;
+}
+
+.issuesContainer .card {
+    height: 100%;
+}
+
+.issueFormContainer {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    align-self: flex-start;
+}
+
+@media screen and (max-width: 450px) {
+    .issuesContainer {
+        grid-template-columns: 100%;
+    }
+}
