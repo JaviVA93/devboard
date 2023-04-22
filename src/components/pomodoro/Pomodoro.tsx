@@ -49,7 +49,8 @@ const Pomodoro = () => {
         },
         lastUpdateTimestamp: 0,
     });
-    const playButton = <PlayButton fillColor="#2c3e50" />
+    const playButton = <PlayButton fillColor="#567794" />
+    const pauseButton = <PauseButton fillColor="#567794" />
     const [pomoTime, setPomoTime] = useState('00:00');
     const [playPause, setPlayPause] = useState(playButton);
     const [progressBar, setProgressBar] = useState(<BatteryProgressBar percentageLoaded={100} />)
@@ -78,8 +79,7 @@ const Pomodoro = () => {
 
             pomo_vars.current.status = 'running';
 
-            // setPlayPauseButtonBackground('pause');
-            setPlayPause(<PauseButton />)
+            setPlayPause(pauseButton)
 
             pomoInterval.current = setInterval(updatePomodoro, 250);
         }
@@ -170,14 +170,14 @@ const Pomodoro = () => {
 
             pomoAlarm?.play();
             pomoEndNotification();
-            setPlayPause(<PauseButton />)
+            setPlayPause(pauseButton)
             if (pomoInterval.current)
                 clearInterval(pomoInterval.current);
         }
         else if (pomo_vars.current.status === 'pause')
             setPlayPause(playButton)
         else
-            setPlayPause(<PauseButton />)
+            setPlayPause(pauseButton)
     }
 
 
@@ -235,7 +235,7 @@ const Pomodoro = () => {
                     {playPause}
                 </button>
                 <button className={style.pomoButton} onClick={e => stopPomodoro()} aria-label="Stop pomodoro">
-                    <StopButton fillColor="#2c3e50" />
+                    <StopButton fillColor="#567794" />
                 </button>
             </div>
         </div>

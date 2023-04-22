@@ -1,18 +1,35 @@
 .pomoCard {
+    /* --- Variables --- */
+    --color_1: #567794;
+    --color_2: #151b24;
+    --color_2_90: #151b24e6;
+    --color_3: #687c85;
+    --color_4: #121e25;
+    --color_5: #1E2E1E;
+    /* --- Variables --- */
+
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 10px;
 
-    color: #2c3e50;
-    background-color: aquamarine;
+    color: var(--color_3);
+    background-color: var(--color_2_90);
 
     width: 450px;
     max-width: 100%;
     padding: 15px;
 
     border-radius: 5px;
+}
+
+.pomoCard h1 {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: var(--color_1);
+    align-self: flex-start;
 }
 
 .midWrapper {

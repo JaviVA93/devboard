@@ -1,10 +1,12 @@
 .progress {
+    --color1: #567794;
+    --color2: #687c85;
     width: 89.6px;
     height: 44.8px;
-    border: 2px solid #2c3e50;
+    border: 2px solid var(--color1);
     border-right-color: transparent;
     padding: 3.4px;
-    background: repeating-linear-gradient(90deg, #33933b 0 11.2px, #0000 0 16.8px) left/0% 100% no-repeat content-box content-box;
+    background: repeating-linear-gradient(90deg, var(--color2) 0 11.2px, #0000 0 16.8px) left/0% 100% no-repeat content-box content-box;
     position: relative;
     transform: scale(0.8);
 }
@@ -16,14 +18,14 @@
     bottom: -2px;
     left: 100%;
     width: 11.2px;
-    background: linear-gradient(#0000 calc(50% - 8.6px), #2c3e50 0 calc(50% - 6.6px),
-            #0000 0 calc(50% + 6.6px), #2c3e50 0 calc(50% + 8.6px),
+    background: linear-gradient(#0000 calc(50% - 8.6px), var(--color1) 0 calc(50% - 6.6px),
+            #0000 0 calc(50% + 6.6px), var(--color1) 0 calc(50% + 8.6px),
             #0000 0) left /100% 100%,
-            linear-gradient(#2c3e50 calc(50% - 6.6px),
+            linear-gradient(var(--color1) calc(50% - 6.6px),
             #0000 0 calc(50% + 6.6px),
-            #2c3e50 0) left /2px 100%,
+            var(--color1) 0) left /2px 100%,
             linear-gradient(#0000 calc(50% - 6.6px),
-            #2c3e50 0 calc(50% + 6.6px),
+            var(--color1) 0 calc(50% + 6.6px),
             #0000 0) right/2px 100%;
     background-repeat: no-repeat;
 }

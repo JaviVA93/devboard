@@ -1,11 +1,11 @@
 
-export default function PauseButton() {
+export default function PauseButton(props: {fillColor: string}) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0"
             y="0"
-            fill="#2c3e50"
+            fill={props.fillColor}
             enableBackground="new 0 0 122.88 122.88"
             version="1.1"
             viewBox="0 0 122.88 122.88"
