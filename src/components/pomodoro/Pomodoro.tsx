@@ -31,7 +31,7 @@ type PomoData = {
 /////////////////////////////
 const Pomodoro = () => {
 
-    const alarmFilePath = '/clock-alarm.mp3'
+    const alarmFilePath = '/audio/clock-alarm.mp3'
 
     const pomo_vars = useRef<PomoData>({
         status: '',
@@ -50,7 +50,7 @@ const Pomodoro = () => {
         lastUpdateTimestamp: 0,
     });
     const playButton = <PlayButton fillColor="#2c3e50" />
-    const [pomoTime, setPomoTime] = useState('');
+    const [pomoTime, setPomoTime] = useState('00:00');
     const [playPause, setPlayPause] = useState(playButton);
     const [progressBar, setProgressBar] = useState(<BatteryProgressBar percentageLoaded={100} />)
     const [pomoAlarm, setPomoAlarm] = useState<HTMLAudioElement | null>(null)
@@ -210,7 +210,9 @@ const Pomodoro = () => {
     useEffect(() => {
         
         setPomoAlarm(new Audio(alarmFilePath));
-        pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
+        // pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
+        const tmpCurrentInterval = {...structuredClone(pomo_vars.current.interval), totalInMiliseconds: 0};
+        pomo_vars.current.timeRemain = tmpCurrentInterval;
 
         const timeRemain = getTimeRemainAsString();
         setPomoTime(timeRemain);

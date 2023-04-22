@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import './globals.css'
 import { Overlock } from 'next/font/google'
+import SideBar from '@/components/sideBar/sideBar'
 
 export const metadata = {
   title: 'Workboard',
   description: 'Created by Javi Villar',
 }
 
-const overlock = Overlock({ 
-  weight: ['400', '700'],
+const overlock = Overlock({
+  weight: ['400', '700', '900'],
   subsets: ['latin']
 })
 
@@ -20,22 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={overlock.className}>
       <body>
-        <header className='mainMenu'>
-          <nav>
-            <ul>
-              <li>
-                <Link href="/">Home</Link>
-              </li>
-              <li>
-                <Link href="/workboard">Workboard</Link>
-              </li>
-              <li>
-                <Link href="/about">About</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        {children}
+        <SideBar />
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   )
