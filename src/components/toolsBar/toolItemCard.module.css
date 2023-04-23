@@ -1,0 +1,15 @@
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.card h2 {
+    padding: 5px;
+}
+
+.card img {
+    width: 100%;
+}

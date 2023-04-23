@@ -96,7 +96,8 @@ body {
 }
 
 main {
-  margin: 22px 0 0 72px;
+  box-sizing: border-box;
+  margin: 14px 0 0 72px;
 }
 
 @media (prefers-color-scheme: dark) {
