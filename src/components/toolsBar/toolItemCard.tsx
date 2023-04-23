@@ -8,7 +8,7 @@ const ToolItemCard = (props: {
     const { toolName, imagePreviewPath, mainCardColor, titleColor } = props;
     return (
         <div className={style.card} style={{ backgroundColor: mainCardColor }} draggable>
-            <h2 style={{color: titleColor}}>Item Name</h2>
+            <h2 style={{color: titleColor}}>{toolName}</h2>
             <Image src={imagePreviewPath} alt={`${toolName} image preview`} width='100' height='70' draggable="false" />
         </div>
     )

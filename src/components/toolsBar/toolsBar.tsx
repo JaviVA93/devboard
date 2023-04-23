@@ -9,28 +9,16 @@ import { useRef } from 'react'
 const ToolsBar = () => {
 
     const toolsList = [{
-        toolName: 'Item Name',
-        imagePreviewPath: '/images/todo-tool-preview.png',
-        mainCardColor: '#FFFFFF',
-        titleColor: '#000000',
+        toolName: 'Pomodoro',
+        imagePreviewPath: '/images/pomodoro-preview.png',
+        mainCardColor: '#567794',
+        titleColor: '#151b24',
     },
     {
-        toolName: 'Item Name',
+        toolName: 'To-Do List',
         imagePreviewPath: '/images/todo-tool-preview.png',
-        mainCardColor: '#FFFFFF',
-        titleColor: '#000000',
-    },
-    {
-        toolName: 'Item Name',
-        imagePreviewPath: '/images/todo-tool-preview.png',
-        mainCardColor: '#FFFFFF',
-        titleColor: '#000000',
-    },
-    {
-        toolName: 'Item Name',
-        imagePreviewPath: '/images/todo-tool-preview.png',
-        mainCardColor: '#FFFFFF',
-        titleColor: '#000000',
+        mainCardColor: '#1E2E1E',
+        titleColor: '#5e765ed7',
     },]
 
     const toolsBar = useRef<HTMLDivElement | null>(null)

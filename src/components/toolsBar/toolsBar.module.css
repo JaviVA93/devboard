@@ -18,12 +18,14 @@
     padding: 14px;
     overflow: hidden;
     background-color: #203136;
+    box-shadow: -3px 0px 10px 5px #00000042;
 
-    transition: all 0.2s;
+    transition: all 0.25s;
 }
 
 .toolsListHidden {
     background-color: transparent !important;
+    box-shadow: none;
 }
 
 
@@ -56,12 +58,13 @@
 .toolsList {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     width: 200px;
     position: relative;
     right: 0;
-    transition: all 0.2s;
+    transition: all 0.25s;
 }
 .toolsListHidden .toolsList{
     right: calc(-200px - 14px) !important;
+    opacity: 0;
 }

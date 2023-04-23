@@ -4,6 +4,7 @@
     flex-direction: column;
     border-radius: 7px;
     overflow: hidden;
+    box-shadow: 0px 0px 7px 2px #00000073;
 }
 
 .card h2 {
