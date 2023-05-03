@@ -67,8 +67,7 @@ const ToDo = () => {
     async function updateTodoList() {
         const { data, error } = await getTodos()
 
-        if (error) {
-            console.error(error)
+        if (error || data.length === 0) {
             updateTodoListFromLocal()
         }
         else

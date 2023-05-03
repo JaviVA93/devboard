@@ -1,12 +1,12 @@
 
 import Link from 'next/link'
 import style from './sideBar.module.css'
+import GithubLoginMenuItem from '../github-login/GithubLoginMenuItem'
 
 const SideBar = () => {
     const sidebarRoutes = [
         { name: 'Home', route: '/' },
         { name: 'Workboard', route: '/workboard' },
-        { name: 'Sign up', route: '/signup' },
         { name: 'About', route: '/about' },
     ]
 
@@ -18,6 +18,7 @@ const SideBar = () => {
                 </svg>
             </div>
             <menu>
+                <GithubLoginMenuItem />
                 {sidebarRoutes.map(r =>
                     <li key={r.route}>
                         <Link href={r.route}>{r.name}</Link>
