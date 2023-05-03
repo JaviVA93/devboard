@@ -16,11 +16,12 @@ export default function NewIssueForm(
 
     function createCard() {
 
-        let title = (titleInput.current?.value !== '') ? titleInput.current?.value : 'title not set';
+        const name = (titleInput.current?.value !== '') ? titleInput.current?.value : 'title not set';
 
-        let text = (textInput.current?.value !== '') ? textInput.current?.value : 'Text not set';
+        const description = (textInput.current?.value !== '') ? textInput.current?.value : 'Text not set';
 
-        createIssueOnList(title, text);
+        // createIssueOnList(title, text);
+        createIssueOnList(name, description)
         clearInputs();
     }
 

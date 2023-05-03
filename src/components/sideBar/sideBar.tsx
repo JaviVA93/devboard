@@ -3,6 +3,13 @@ import Link from 'next/link'
 import style from './sideBar.module.css'
 
 const SideBar = () => {
+    const sidebarRoutes = [
+        { name: 'Home', route: '/' },
+        { name: 'Workboard', route: '/workboard' },
+        { name: 'Sign up', route: '/signup' },
+        { name: 'About', route: '/about' },
+    ]
+
     return (
         <nav className={style.sideBar}>
             <div className={style.burguer}>
@@ -11,15 +18,11 @@ const SideBar = () => {
                 </svg>
             </div>
             <menu>
-                <li>
-                    <Link href="/">Home</Link>
-                </li>
-                <li>
-                    <Link href="/workboard">Workboard</Link>
-                </li>
-                <li>
-                    <Link href="/about">About</Link>
-                </li>
+                {sidebarRoutes.map(r =>
+                    <li key={r.route}>
+                        <Link href={r.route}>{r.name}</Link>
+                    </li>
+                )}
             </menu>
         </nav>
     )

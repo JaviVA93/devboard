@@ -2,6 +2,7 @@ import Link from 'next/link'
 import './globals.css'
 import { Overlock } from 'next/font/google'
 import SideBar from '@/components/sideBar/sideBar'
+import { User, createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 export const metadata = {
   title: 'Workboard',
@@ -13,11 +14,8 @@ const overlock = Overlock({
   subsets: ['latin']
 })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="en" className={overlock.className}>
       <body>

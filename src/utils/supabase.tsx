@@ -1,12 +1,42 @@
 import { createClient } from "@supabase/supabase-js";
+import { Database } from "@/db_schema";
 
 const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-debugger
-const supabase = createClient(supabaseURL, supabaseKey)
+
+const supabase = createClient<Database>(supabaseURL, supabaseKey)
+
+
+async function getTodos() {
+    return await supabase.from('todos').select()
+}
+
+type TodosResponse = Awaited<ReturnType<typeof getTodos>>
+export type TodosResponseSuccess = TodosResponse['data']
+export type TodosResponseError = TodosResponse['error']
+
+
+async function addTodo(todoData: {id: string, created_at: string, name: string, description: string, user_id: string}) {
+    const {id, created_at, name, description, user_id} = todoData
+    return await supabase.from('todos').insert({
+        id: id,
+        created_at: created_at,
+        name: name,
+        description: description,
+        user_id: user_id
+    })
+}
+
+
+async function removeTodo(id: string) {
+    return await supabase.from('todos').delete().eq('id', id)
+}
 
 
 export {
-    supabase
+    supabase,
+    getTodos,
+    addTodo,
+    removeTodo
 };
