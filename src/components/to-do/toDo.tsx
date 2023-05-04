@@ -7,25 +7,30 @@ import style from './toDo.module.css'
 import { TodosResponseSuccess, addTodo, removeTodo, getTodos, supabase } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 
+type Issue = {
+    created_at: string
+    description: string
+    id: string
+    name: string
+}
+
 const ToDo = () => {
 
-    const [issues, setIssues] = useState<TodosResponseSuccess>([])
+    const [issues, setIssues] = useState<Issue[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
 
 
     async function createCard(name: string, description: string) {
         const userResponse = await supabase.auth.getUser()
         const isLogged = (userResponse.data.user?.id) ? true : false
-        let userId = userResponse.data.user?.id || 'guest';
 
-        const issuesTmp = (issues) ? [...issues] : []; // forze re-render without using "issues" direct reference
+        const issuesTmp = (issues) ? [...issues] : []
         const currentDate = new Date().toISOString()
         const newIssue = {
             id: uuidv4(),
             name: name,
             description: description,
-            created_at: currentDate,
-            user_id: userId
+            created_at: currentDate
         }
         issuesTmp.push(newIssue)
         window.localStorage.setItem('cards_data', JSON.stringify(issuesTmp))

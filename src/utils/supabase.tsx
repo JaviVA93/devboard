@@ -17,14 +17,13 @@ export type TodosResponseSuccess = TodosResponse['data']
 export type TodosResponseError = TodosResponse['error']
 
 
-async function addTodo(todoData: {id: string, created_at: string, name: string, description: string, user_id: string}) {
-    const {id, created_at, name, description, user_id} = todoData
+async function addTodo(todoData: {id: string, created_at: string, name: string, description: string}) {
+    const {id, created_at, name, description} = todoData
     return await supabase.from('todos').insert({
         id: id,
         created_at: created_at,
         name: name,
-        description: description,
-        user_id: user_id
+        description: description
     })
 }
 
