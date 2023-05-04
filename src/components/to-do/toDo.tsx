@@ -61,12 +61,12 @@ const ToDo = () => {
         setIssues(issuesTmp)
 
 
-        const userResponse = await supabase.auth.getUser()
-        if (userResponse.data?.user) {
+        // const userResponse = await supabase.auth.getUser()
+        // if (userResponse.data?.user) {
             const { error } = await removeTodo(card_id)
             if (error)
                 console.error(error)
-        }
+        // }
     }
 
 
@@ -82,6 +82,9 @@ const ToDo = () => {
 
 
     async function updateTodoList() {
+
+        // TO-DO: UPDATE TODOS IN LOCALSTORAGE
+        // CHECK IF LOCAL AND REMOTE DATA IS THE SAME, IF NOT, CREATE LOCAL ISSUES INTO DB
 
         const { data, error } = await getTodos()
         
@@ -100,7 +103,7 @@ const ToDo = () => {
 
         setLoadingIssues(true)
         updateTodoList()
-        
+
     }, [])
 
 

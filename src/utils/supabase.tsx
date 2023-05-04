@@ -37,11 +37,9 @@ async function addTodo(todoData: { id: string, created_at: string, name: string,
 
 
 async function removeTodo(id: string) {
-    const req = await fetch(TODOS_URI, {
-        method: 'DELETE',
-        body: JSON.stringify({
-            id: id
-        })
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${TODOS_URI}?id=${encodedId}`, {
+        method: 'DELETE'
     })
     return await req.json()
     // return await supabase.from('todos').delete().eq('id', id)

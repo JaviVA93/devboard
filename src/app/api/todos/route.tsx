@@ -39,7 +39,9 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
     const supabase = createRouteHandlerSupabaseClient({ headers, cookies })
 
-    const { id } = await request.json()
+    const url = new URL(request.url)
+    const id = url.searchParams.get('id')
+    
     const { data, error } = await supabase.from('todos').delete().eq('id', id)
 
     return NextResponse.json({ data, error })
