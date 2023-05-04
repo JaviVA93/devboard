@@ -1,5 +1,4 @@
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { createClient } from "@supabase/supabase-js"
 import { NextResponse } from "next/server";
 import { headers, cookies } from "next/headers";
 
@@ -41,7 +40,7 @@ export async function DELETE(request: Request) {
 
     const url = new URL(request.url)
     const id = url.searchParams.get('id')
-    
+
     const { data, error } = await supabase.from('todos').delete().eq('id', id)
 
     return NextResponse.json({ data, error })

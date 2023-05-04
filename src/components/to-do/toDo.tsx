@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { TodosResponseSuccess, addTodo, removeTodo, getTodos } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodos } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import { useSupabase } from '@/app/supabase-context'
 
