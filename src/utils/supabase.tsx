@@ -7,9 +7,11 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
 const supabase = createClient<Database>(supabaseURL, supabaseKey)
 
+const TODOS_URI = '/api/todos'
 
 async function getTodos() {
-    return await supabase.from('todos').select()
+    const req = await fetch(TODOS_URI)
+    return await req.json()
 }
 
 type TodosResponse = Awaited<ReturnType<typeof getTodos>>
@@ -17,19 +19,32 @@ export type TodosResponseSuccess = TodosResponse['data']
 export type TodosResponseError = TodosResponse['error']
 
 
-async function addTodo(todoData: {id: string, created_at: string, name: string, description: string}) {
-    const {id, created_at, name, description} = todoData
-    return await supabase.from('todos').insert({
-        id: id,
-        created_at: created_at,
-        name: name,
-        description: description
+async function addTodo(todoData: { id: string, created_at: string, name: string, description: string }) {
+    const { id, created_at, name, description } = todoData
+    
+    const req = await fetch(TODOS_URI, {
+        method: 'POST',
+        body: JSON.stringify({
+            id: id,
+            created_at: created_at,
+            name: name,
+            description: description
+        })
     })
+
+    return await req.json()
 }
 
 
 async function removeTodo(id: string) {
-    return await supabase.from('todos').delete().eq('id', id)
+    const req = await fetch(TODOS_URI, {
+        method: 'DELETE',
+        body: JSON.stringify({
+            id: id
+        })
+    })
+    return await req.json()
+    // return await supabase.from('todos').delete().eq('id', id)
 }
 
 

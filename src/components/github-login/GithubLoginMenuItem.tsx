@@ -1,13 +1,16 @@
 "use client"
 
-import { TodosResponseSuccess, supabase } from "@/utils/supabase"
 import { User } from "@supabase/supabase-js"
 import { useEffect, useState } from "react"
 import GitHubLogo from "../assets/GitHubLogo"
 import style from './githubLoginMenuItem.module.css'
+import { useSupabase } from "@/app/supabase-context"
+
+// import { supabase } from '@/utils/supabase'
 
 const GithubLoginMenuItem = () => {
     const [user, setUser] = useState<User | null>(null)
+    const { supabase } = useSupabase()
 
     async function signUpGithub() {
         await supabase.auth.signInWithOAuth({

@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { TodosResponseSuccess, addTodo, removeTodo, getTodos, supabase } from '@/utils/supabase'
+import { TodosResponseSuccess, addTodo, removeTodo, getTodos } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
+import { useSupabase } from '@/app/supabase-context'
 
 type Issue = {
     created_at: string
@@ -18,9 +19,12 @@ const ToDo = () => {
 
     const [issues, setIssues] = useState<Issue[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
+    const { supabase } = useSupabase();
+
 
 
     async function createCard(name: string, description: string) {
+
         const userResponse = await supabase.auth.getUser()
         const isLogged = (userResponse.data.user?.id) ? true : false
 
@@ -37,6 +41,7 @@ const ToDo = () => {
 
         if (isLogged) {
             const { error } = await addTodo(newIssue)
+
             if (error)
                 console.error(error)
         }
@@ -47,6 +52,7 @@ const ToDo = () => {
 
 
     async function removeCard(card_id: string) {
+
         const issuesTmp = issues?.filter(issue => issue.id !== card_id)
         if (!issuesTmp)
             return
@@ -63,15 +69,22 @@ const ToDo = () => {
         }
     }
 
+
+
     function updateTodoListFromLocal() {
+
         let ls_cards_data = window.localStorage.getItem('cards_data');
         if (ls_cards_data)
             setIssues(JSON.parse(ls_cards_data))
+
     }
 
-    async function updateTodoList() {
-        const { data, error } = await getTodos()
 
+
+    async function updateTodoList() {
+
+        const { data, error } = await getTodos()
+        
         if (error || data.length === 0) {
             updateTodoListFromLocal()
         }
@@ -82,13 +95,13 @@ const ToDo = () => {
     }
 
 
+
     useEffect(() => {
+
         setLoadingIssues(true)
         updateTodoList()
-
+        
     }, [])
-
-
 
 
 
