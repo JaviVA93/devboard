@@ -16,14 +16,14 @@ const GithubLoginMenuItem = () => {
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: document.location.origin + document.location.pathname
+                redirectTo: document.location.origin + '/'
             }
         })
     }
 
     async function signOutGithub() {
         await supabase.auth.signOut()
-        location.reload()
+        location.href = '/'
     }
 
     async function checkUser() {
