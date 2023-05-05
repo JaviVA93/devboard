@@ -10,7 +10,7 @@ export async function GET(request: Request) {
         cookies
     })
 
-    const { data, error } = await supabase.from('todos').select()
+    const { data, error } = await supabase.from('todos').select('id,created_at,name,description')
 
     return NextResponse.json({ data, error })
 }

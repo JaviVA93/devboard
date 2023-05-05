@@ -9,12 +9,12 @@ const supabase = createClient<Database>(supabaseURL, supabaseKey)
 
 const TODOS_URI = '/api/todos'
 
-async function getTodos() {
+async function getTodosFromSB() {
     const req = await fetch(TODOS_URI)
     return await req.json()
 }
 
-type TodosResponse = Awaited<ReturnType<typeof getTodos>>
+type TodosResponse = Awaited<ReturnType<typeof getTodosFromSB>>
 export type TodosResponseSuccess = TodosResponse['data']
 export type TodosResponseError = TodosResponse['error']
 
@@ -48,7 +48,7 @@ async function removeTodo(id: string) {
 
 export {
     supabase,
-    getTodos,
+    getTodosFromSB,
     addTodo,
     removeTodo
 };
