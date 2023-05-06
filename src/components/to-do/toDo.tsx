@@ -8,6 +8,7 @@ import { addTodo, removeTodo, getTodosFromSB } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import { useSupabase } from '@/app/supabase-context'
 import CubeLoader from '../assets/cube-loader/CubeLoader'
+import toast from 'react-hot-toast'
 
 type Issue = {
     created_at: string
@@ -48,6 +49,8 @@ const ToDo = () => {
         }
 
         setTodos(todosTmp)
+
+        showToast('New to-do created!')
     }
 
 
@@ -68,6 +71,8 @@ const ToDo = () => {
         if (error)
             console.error(error)
         // }
+
+        showToast('To-do deleted.')
     }
 
 
@@ -82,16 +87,20 @@ const ToDo = () => {
 
 
 
-    const todosListElements = (todos.length === 0)
-        ? <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
-        : todos?.map(data =>
-            <Issue
-                removeIssueOnList={removeCard}
-                key={data.id}
-                id={data.id}
-                title={data.name}
-                text={data.description}
-            />)
+    function showToast(message: string) {
+        toast(message, {
+            position: 'bottom-center',
+            icon: '📝',
+            style: {
+                fontSize: 18,
+                fontWeight: 600,
+                backgroundColor: '#76B576',
+                color: '#1B291B',
+                border: '1px solid #acb9b7'
+            }
+        });
+    }
+
 
 
     useEffect(() => {
@@ -123,12 +132,24 @@ const ToDo = () => {
         })
 
     }, [])
-
+    
+    
+    
+    const todosListElements = (todos.length === 0)
+        ? <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
+        : todos?.map(data =>
+            <Issue
+                removeIssueOnList={removeCard}
+                key={data.id}
+                id={data.id}
+                title={data.name}
+                text={data.description}
+            />)
 
 
     return (
         <div className={style.todoWrapper}>
-            <h1 className={style.todoWrapperTitle}>TODO</h1>
+            <h1 className={style.todoWrapperTitle}>To-Do List</h1>
             <div className={style.horizontalUine}></div>
 
             <div className={style.issuesContainer}>
