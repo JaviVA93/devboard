@@ -1,0 +1,12 @@
+.ghMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    color: #8d8b8b;
+    cursor: pointer;
+}
+
+.icon *{
+    stroke: #8d8b8b;
+}

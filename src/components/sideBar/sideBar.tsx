@@ -1,8 +1,15 @@
 
 import Link from 'next/link'
 import style from './sideBar.module.css'
+import GithubLoginMenuItem from '../github-login/GithubLoginMenuItem'
 
 const SideBar = () => {
+    const sidebarRoutes = [
+        { name: 'Home', route: '/' },
+        { name: 'Workboard', route: '/workboard' },
+        { name: 'About', route: '/about' },
+    ]
+
     return (
         <nav className={style.sideBar}>
             <div className={style.burguer}>
@@ -11,15 +18,12 @@ const SideBar = () => {
                 </svg>
             </div>
             <menu>
-                <li>
-                    <Link href="/">Home</Link>
-                </li>
-                <li>
-                    <Link href="/workboard">Workboard</Link>
-                </li>
-                <li>
-                    <Link href="/about">About</Link>
-                </li>
+                <GithubLoginMenuItem />
+                {sidebarRoutes.map(r =>
+                    <li key={r.route}>
+                        <Link href={r.route}>{r.name}</Link>
+                    </li>
+                )}
             </menu>
         </nav>
     )

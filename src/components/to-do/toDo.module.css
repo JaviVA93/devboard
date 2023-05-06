@@ -28,6 +28,24 @@
     color: var(--color_5);
 }
 
+.horizontalUine {
+    width: 100%;
+    border: 1px solid var(--color_4)
+}
+
+.loadingWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    margin: 25px 0;
+}
+
+.loadingWrapper h2 {
+    color: var(--color_3);
+}
+
 .horizontalLine {
     border: 1px solid var(--color_4);
 }
@@ -37,11 +55,21 @@
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     row-gap: 10px;
     column-gap: 10px;
+
     margin: 10px 0;
+
     max-width: 100%;
 }
 
+.tasksCompletedTitle {
+    color: var(--color_1);
+    text-shadow: 0 0 5px #000000;
+    justify-self: center;
+    margin: 25px 0;
+}
+
 .issuesContainer .card {
+    max-width: 20rem;
     height: 100%;
 }
 
