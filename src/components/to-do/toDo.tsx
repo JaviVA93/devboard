@@ -82,35 +82,6 @@ const ToDo = () => {
 
 
 
-    async function updateTodoList() {
-
-        // TO-DO: UPDATE TODOS IN LOCALSTORAGE
-        // CHECK IF LOCAL AND REMOTE DATA IS THE SAME, IF NOT, CREATE LOCAL ISSUES INTO DB
-
-        const { data, error }:{ data: Issue[], error: any} = await getTodosFromSB()
-
-        if (error || data.length === 0) {
-            updateTodoListFromLocal()
-        }
-        else {
-            const rawLocalTodos = window.localStorage.getItem('todos_data')
-            const localTodos:Issue[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
-
-            
-            const diff = localTodos.filter(x => !data.find(y => y.id === x.id))
-            diff.forEach(todo => addTodo(todo))
-
-            const concateTodos = data.concat(diff)
-            window.localStorage.setItem('todos_data', JSON.stringify(concateTodos))
-
-            setTodos(concateTodos)
-        }
-
-        setLoadingIssues(false)
-    }
-
-
-
     const todosListElements = (todos.length === 0)
         ? <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
         : todos?.map(data =>
@@ -126,7 +97,30 @@ const ToDo = () => {
     useEffect(() => {
 
         setLoadingIssues(true)
-        updateTodoList()
+
+
+        getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
+
+
+            if (error || data.length === 0) {
+                updateTodoListFromLocal()
+            }
+            else {
+                const rawLocalTodos = window.localStorage.getItem('todos_data')
+                const localTodos: Issue[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
+
+
+                const diff = localTodos.filter(x => !data.find(y => y.id === x.id))
+                diff.forEach(todo => addTodo(todo))
+
+                const concateTodos = data.concat(diff)
+                window.localStorage.setItem('todos_data', JSON.stringify(concateTodos))
+
+                setTodos(concateTodos)
+            }
+
+            setLoadingIssues(false)
+        })
 
     }, [])
 
