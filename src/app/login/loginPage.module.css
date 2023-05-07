@@ -1,0 +1,129 @@
+.section {
+    display: flex;
+}
+
+.leftSide {
+    width: 50%;
+}
+.rightSide {
+    width: 50%;
+}
+
+
+.loginForm {
+    /* --- Variables --- */
+    --color_1: #76B576;
+    --color_2: #4C754C;
+    --color_3: #1B291B;
+    --color_4: #233623;
+    --color_5: #1E2E1E;
+    /* --- Variables --- */
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  
+    width: 400px;
+    max-width: 100%;
+  
+    background-color: var(--color_2);
+    box-shadow: -2px 2px 7px var(--color_4);
+  
+    border: 0px;
+    border-radius: 5px;
+  
+    padding: 15px 5px 5px;
+  }
+  
+  .loginForm .fieldWrapper {
+    width: 100%;
+    position: relative;
+  
+    height: 2.5rem;
+    
+    display: flex;
+    align-items: center;
+  }
+  
+  .loginForm .fieldWrapper:nth-child(1) {
+    margin-bottom: 10px;
+  }
+  
+  .loginForm input {
+    position: absolute;
+    font-family: inherit;
+    font-size: 1.2rem;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 5px;
+    background-color: var(--color_1);
+    padding: 8px 16px 0;
+    caret-color: var(--color_3);
+    color: var(--color_3);
+  }
+  
+  .loginForm .todoFormLabel {
+    z-index: 1;
+    position: relative;
+    top: 0px;
+    left: 16px;
+  
+    background: var(--color_1);
+  
+    font-weight: 900;
+    color: var(--color_3);
+  
+    padding: 1px 5px;
+    
+    transition: all 0.5s ease;
+  }
+  
+  .loginForm .fieldWrapper input:focus ~ .todoFormLabel {
+    top: -50%;
+    left: 12px;
+    scale: 0.9;
+    background-color: var(--color_2);
+    border-radius: 4px;
+  }
+  
+  .loginForm .fieldWrapper input:not(:placeholder-shown) ~ .todoFormLabel {
+    top: -50%;
+    left: 12px;
+    scale: 0.9;
+    background-color: var(--color_2);
+    border-radius: 4px;
+  }
+  
+  .loginForm input:focus-visible {
+    outline: var(--color_3) solid 1px;
+  }
+  
+  .loginForm button {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    width: 100px;
+  
+    color: var(--color_2);
+    background-color: var(--color_4);
+  
+    font-size: 1.2rem;
+    font-weight: 700;
+  
+    border-radius: 3px;
+    border: 0;
+    padding: 5px;
+    margin-top: 10px;
+
+    transition: all 0.25s;
+  }
+  
+  .loginForm button:hover {
+    background-color: var(--color_5);
+    box-shadow: 0px 0px 1px 2px var(--color_1);
+    color: var(--color_1)
+  }
