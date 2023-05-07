@@ -3,6 +3,8 @@
     flex-direction: column;
     gap: 20px;
     align-items: center;
+
+    margin-right: 72px;
 }
 
 .workboard h1 {
