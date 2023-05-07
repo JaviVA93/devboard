@@ -7,10 +7,11 @@ import StopButton from "../assets/StopButton";
 import style from './pomodoro.module.css'
 import BatteryProgressBar from "./BatteryProgressBar";
 import { convertMsToTime, convertTimeToMS } from "@/utils/utils";
+import toast, { Toaster } from "react-hot-toast";
 
 
 type PomoData = {
-    status: string,
+    state: string,
     interval: {
         minutes: number,
         seconds: number,
@@ -26,15 +27,22 @@ type PomoData = {
     lastUpdateTimestamp: number,
 }
 
-/////////////////////////////
-// USING AN ARROW FUNCTION DUE TO AN ERROR WITH NEXTJS VERSION 13.3 (ON CLIENT SIDE COMPONENTS 'USE CLIENT')
-/////////////////////////////
+const POMO_STATE = {
+    running: 'running',
+    paused: 'pause',
+    start: 'start',
+    ended: 'ended'
+}
+
+
+
+
 const Pomodoro = () => {
 
     const alarmFilePath = '/audio/clock-alarm.mp3'
 
     const pomo_vars = useRef<PomoData>({
-        status: '',
+        state: POMO_STATE.start,
         interval: {
             minutes: 25,
             seconds: 0,
@@ -58,18 +66,19 @@ const Pomodoro = () => {
     const pomoInterval = useRef<null | NodeJS.Timer>(null);
     const intervalTimeInMiliseconds = convertTimeToMS(pomo_vars.current.interval.minutes, pomo_vars.current.interval.seconds);
 
-    
+
 
     function startPauseResumePomodoro() {
 
-        if (pomo_vars.current.status === 'running') {
-            pomo_vars.current.status = 'pause';
+        if (pomo_vars.current.state === POMO_STATE.running) {
+            pomo_vars.current.state = POMO_STATE.paused;
             setPlayPause(playButton)
             if (pomoInterval.current)
                 clearInterval(pomoInterval.current);
         }
         else {
-            if (pomo_vars.current.status !== 'pause') {
+            if (pomo_vars.current.state === POMO_STATE.start) {
+                showToast("Let's work!")
                 pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
                 pomo_vars.current.timeRemain.totalInMiliseconds =
                     convertTimeToMS(pomo_vars.current.timeRemain.minutes, pomo_vars.current.timeRemain.seconds);
@@ -77,7 +86,7 @@ const Pomodoro = () => {
             }
             pomo_vars.current.lastUpdateTimestamp = new Date().getTime();
 
-            pomo_vars.current.status = 'running';
+            pomo_vars.current.state = POMO_STATE.running;
 
             setPlayPause(pauseButton)
 
@@ -89,7 +98,7 @@ const Pomodoro = () => {
 
     function stopPomodoro() {
 
-        pomo_vars.current.status = 'stop';
+        pomo_vars.current.state = POMO_STATE.start;
         if (pomoAlarm) {
             pomoAlarm.pause();
             pomoAlarm.currentTime = 0;
@@ -152,9 +161,7 @@ const Pomodoro = () => {
 
     function updatePomodoro() {
 
-        if (pomo_vars.current.status === 'pause' ||
-            pomo_vars.current.status === 'stop' ||
-            pomo_vars.current.status === 'end') {
+        if (pomo_vars.current.state !== POMO_STATE.running) {
             return;
         }
 
@@ -166,7 +173,7 @@ const Pomodoro = () => {
         if (pomo_vars.current.timeRemain.seconds <= 0 && pomo_vars.current.timeRemain.minutes <= 0) {
             pomo_vars.current.timeRemain.seconds = 0;
             pomo_vars.current.timeRemain.minutes = 0;
-            pomo_vars.current.status = 'end';
+            pomo_vars.current.state = POMO_STATE.ended;
 
             pomoAlarm?.play();
             pomoEndNotification();
@@ -174,7 +181,7 @@ const Pomodoro = () => {
             if (pomoInterval.current)
                 clearInterval(pomoInterval.current);
         }
-        else if (pomo_vars.current.status === 'pause')
+        else if (pomo_vars.current.state === POMO_STATE.paused)
             setPlayPause(playButton)
         else
             setPlayPause(pauseButton)
@@ -204,14 +211,29 @@ const Pomodoro = () => {
                 window.focus();
             }
         }
+        showToast('Pomodoro finished! Time for a break.') 
+    }
+
+
+    function showToast(message: string) {
+        toast(message, {
+            position: 'bottom-center',
+            icon: '⏰',
+            style: {
+                fontSize: 18,
+                fontWeight: 600,
+                backgroundColor: '#567794',
+                color: '#151b24',
+                border: '1px solid #acb9b7'
+            }
+        });
     }
 
 
     useEffect(() => {
-        
+
         setPomoAlarm(new Audio(alarmFilePath));
-        // pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
-        const tmpCurrentInterval = {...structuredClone(pomo_vars.current.interval), totalInMiliseconds: 0};
+        const tmpCurrentInterval = { ...structuredClone(pomo_vars.current.interval), totalInMiliseconds: 0 };
         pomo_vars.current.timeRemain = tmpCurrentInterval;
 
         const timeRemain = getTimeRemainAsString();
