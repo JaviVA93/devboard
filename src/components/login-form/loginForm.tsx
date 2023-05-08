@@ -5,10 +5,10 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import toast from 'react-hot-toast';
 import GithubLoginButton from '../github-login/GithubLoginButton';
 
-export default function LoginForm(props: { supabase: SupabaseClient }) {
+export default function LoginForm(props: { supabase: SupabaseClient, className: string }) {
     
     const emailInput = useRef<HTMLInputElement | null>(null);
-    const { supabase } = props
+    const { supabase, className } = props
 
 
 
@@ -39,7 +39,7 @@ export default function LoginForm(props: { supabase: SupabaseClient }) {
 
 
     return (
-        <section className={style.loginContainer}>
+        <section className={`${style.loginContainer} ${className}`}>
             <form className={style.loginForm} method='post' onSubmit={loginSubmit}>
                 <div className={style.fieldWrapper}>
                     <input name="email"

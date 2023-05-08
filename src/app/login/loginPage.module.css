@@ -1,9 +1,18 @@
 .section {
+  /* --- Variables --- */
+  --color_1: #b8c0b8;
+  --color_2: #dde6dd;
+  --color_3: #5c5c5c;
+  --color_4: #404140;
+  --color_5: #1E2E1E;
+  /* --- Variables --- */
+
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 40px 20px;
 
+  max-width: 1200px;
 
   border-radius: 8px;
   overflow: hidden;
@@ -14,25 +23,96 @@
   position: absolute;
   width: 50%;
   height: 100%;
-  background-color: black;
   z-index: 2;
 
   display: grid;
   place-content: center;
 
-  transition: left 0.2s;
+  transition: left 0.5s;
 }
 
-.curtain.showLogin {
+.showLogin .curtain button {
+  color: var(--color_4);
+  background-color: var(--color_2);
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  border-radius: 3px;
+  border: 1px solid var(--color_3);
+  padding: 5px;
+  margin-top: 20px;
+
+  transition: all 0.25s;
+}
+
+.showLogin .curtain button:hover {
+  background-color: var(--color_4);
+  box-shadow: 3px 3px 10px #000000c2;
+  color: var(--color_2)
+}
+
+.showSignup .curtain button {
+  color: var(--color_2);
+  background-color: var(--color_4);
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  border-radius: 3px;
+  border: 1px solid var(--color_3);
+  padding: 5px;
+  margin-top: 20px;
+
+  transition: all 0.25s;
+}
+
+.showSignup .curtain button:hover {
+  background-color: var(--color_2);
+  box-shadow: 3px 3px 10px #000000c2;
+  color: var(--color_4)
+}
+
+.showLogin .curtain {
   left: 50%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, white 15%, white  100%);
 }
 
-.curtain.showSignup {
+.loginImage,
+.signupImage {
+  display: none;
+}
+
+.showLogin .curtain .loginImage {
+  display: unset;
+}
+
+.showSignup .curtain {
   left: 0;
+  background: linear-gradient(90deg, white 0%, white 85%, rgba(255, 255, 255, 0) 100%);
+}
+
+.showSignup .curtain .signupImage {
+  display: unset;
 }
 
 .signupContainer {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.showLogin .signupContainer {
+  opacity: 0;
+}
+
+.loginContainer {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.showSignup .loginContainer {
+  opacity: 0;
 }

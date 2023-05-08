@@ -1,24 +1,24 @@
 
 .signupForm {
-    /* --- Variables --- */
-    --color_1: #5c5c5c;
-    --color_2: #404140;
-    --color_3: #b8c0b8;
-    --color_4: #dde6dd;
+  /* --- Variables --- */
+    --color_1: #b8c0b8;
+    --color_2: #dde6dd;
+    --color_3: #5c5c5c;
+    --color_4: #404140;
     --color_5: #1E2E1E;
     /* --- Variables --- */
-
+    
 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-  
+    
     width: 400px;
     max-width: 100%;
-  
+    
     background-color: var(--color_2);
-  
-    border: 0px;
+    
+    border: 1px solid var(--color_4);
     border-radius: 5px;
   
     padding: 35px 25px;
@@ -46,7 +46,7 @@
     background-color: var(--color_1);
     padding: 8px 16px 0;
     caret-color: var(--color_3);
-    color: var(--color_3);
+    color: var(--color_4);
   }
   
   .signupForm .todoFormLabel {
