@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import style from './sideBar.module.css'
-import GithubLoginMenuItem from '../github-login/GithubLoginMenuItem'
 import { useRef } from 'react'
 
 const SideBar = () => {
