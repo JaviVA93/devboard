@@ -56,13 +56,13 @@ export default function LoginPage() {
             <section ref={curtainElement} className={`${style.section} ${style.showLogin}`}>
                 <div className={`${style.curtain}`}>
                     <Image className={style.loginImage} 
-                        src='/svg/undraw_skateboard_re_we2n.svg'
+                        src='/svg/undraw_working_late_re_0c3y.svg'
                         alt="login cover"
                         width={200}
                         height={200}
                     />
                     <Image className={style.signupImage} 
-                        src='/svg/undraw_compose_music_re_wpiw.svg'
+                        src='/svg/undraw_launch_day_4e04.svg'
                         alt="signup cover"
                         width={200}
                         height={200}
@@ -77,6 +77,9 @@ export default function LoginPage() {
         return (
             <button type='button' onClick={signOut}>Logout</button>
         )
+    }
+    else {
+        // TO-DO: LOADING TEMPLATE
     }
 
 }
