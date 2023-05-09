@@ -48,7 +48,7 @@ export default function SignupForm(props: { supabase: SupabaseClient, className:
                     />
                     <label htmlFor="signup-form-password" className={style.todoFormLabel}>Password</label>
                 </div>
-                <button type='button'>Sign in</button>
+                <button type='button'>Sign up</button>
             </form>
         </section>
     )
