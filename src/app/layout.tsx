@@ -10,7 +10,7 @@ export const metadata = {
 }
 
 const overlock = Overlock({
-  weight: ['400', '700', '900'],
+  weight: ['400', '700'],
   subsets: ['latin']
 })
 
