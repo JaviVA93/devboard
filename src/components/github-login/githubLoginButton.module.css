@@ -1,0 +1,64 @@
+.ghMenuItem {
+    --color1: #dde6dd;
+    --color2: #404140;
+    --color3: #5c5c5c;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    font-size: 18px;
+
+    border: 0;
+    border-radius: 8px;
+    padding: 15px 30px;
+
+    background-color: var(--color2);
+    color: var(--color1);
+
+    transition: all 0.2s;
+}
+
+.ghMenuItem:hover {
+    background-color: var(--color1);
+    color: var(--color2);
+    outline: 1px solid var(--color2);
+    box-shadow: 3px 3px 10px #000000c2;
+}
+
+.ghIcon {
+    width: 40px;
+    height: 40px;
+}
+
+.ghIcon,
+.ghIcon * {
+    stroke: var(--color1);
+}
+
+.ghMenuItem:hover .ghIcon {
+    animation: shake 0.8s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.ghMenuItem:hover .ghIcon,
+.ghMenuItem:hover .ghIcon * {
+    stroke: var(--color2);
+}
+
+@keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-3px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }

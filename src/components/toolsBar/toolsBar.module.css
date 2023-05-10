@@ -9,6 +9,7 @@
     position: fixed;
     right: 0;
     top: 0;
+    width: 228px;
     height: 100%;
 
     display: flex;
@@ -24,6 +25,7 @@
 }
 
 .toolsListHidden {
+    width: 73px;
     background-color: transparent !important;
     box-shadow: none;
 }

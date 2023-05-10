@@ -1,0 +1,141 @@
+.section {
+  /* --- Variables --- */
+  --color_1: #b8c0b8;
+  --color_2: #dde6dd;
+  --color_3: #5c5c5c;
+  --color_4: #404140;
+  --color_5: #1E2E1E;
+  /* --- Variables --- */
+
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 40px 20px;
+
+  width: 1200px;
+  max-width: 85vw;
+
+  margin: 60px auto;
+
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.801);
+}
+
+.curtain {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+
+  display: grid;
+  place-content: center;
+
+  transition: left 0.5s;
+}
+
+.showLogin .curtain button {
+  color: var(--color_4);
+  background-color: transparent;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  border-radius: 3px;
+  border: 0;
+  padding: 5px;
+  margin-top: 20px;
+
+  transition: all 0.25s;
+}
+
+.showLogin .curtain button:hover {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* .showLogin .curtain button:hover {
+  background-color: var(--color_4);
+  box-shadow: 3px 3px 10px #000000c2;
+}
+
+.showLogin .curtain button:hover * {
+  color: var(--color_2) !important;
+} */
+
+.showSignup .curtain button {
+  color: var(--color_2);
+  background-color: transparent;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  border-radius: 3px;
+  border: 0;
+  padding: 5px;
+  margin-top: 20px;
+
+  transition: all 0.25s;
+}
+
+.showSignup .curtain button:hover {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+/* .showSignup .curtain button:hover {
+  background-color: var(--color_2);
+  box-shadow: 3px 3px 10px #000000c2;
+  color: var(--color_4)
+} */
+
+.showLogin .curtain {
+  left: 50%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, white 15%, white  100%);
+}
+
+.loginImage,
+.signupImage {
+  display: none;
+}
+
+.showLogin .curtain .loginImage {
+  display: unset;
+}
+
+.showSignup .curtain {
+  left: 0;
+  background: linear-gradient(90deg, white 0%, white 85%, rgba(255, 255, 255, 0) 100%);
+}
+
+.showSignup .curtain .signupImage {
+  display: unset;
+}
+
+.signupContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.showLogin .signupContainer {
+  opacity: 0;
+}
+
+.loginContainer {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.showSignup .loginContainer {
+  opacity: 0;
+}
+
+.glitchText *{
+  font-size: 32px !important;
+  text-decoration: underline;
+}
+
+.loaderBlock {
+  border-radius: 8px;
+}

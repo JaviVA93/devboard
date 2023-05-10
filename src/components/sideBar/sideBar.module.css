@@ -3,23 +3,31 @@
     height: 100vh;
     max-width: 48px;
     width: fit-content;
+    
     display: flex;
     flex-direction: column;
     padding: 14px;
     gap: 12px;
+    
     background-color: transparent;
+
     overflow: hidden;
     transition: max-width 0.2s;
+
+    z-index: 10;
 }
 
 .burguer {
     width: 24px;
     height: 24px;
+
+    cursor: pointer;
 }
 
-.sideBar:hover {
+.sideBar.show {
     max-width: 150px;
     background-color: #203136;
+    box-shadow: 2px 0px 13px 0px #000000ad;
 }
 
 .sideBar menu {
@@ -32,7 +40,8 @@
     height: 100%;
 }
 
-.sideBar:not(:hover) menu {
+.sideBar:not(.show) menu {
+    pointer-events: none;
     opacity: 0;
 }
 

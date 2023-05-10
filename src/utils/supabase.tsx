@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/db_schema";
+import { useSupabase } from "@/app/supabase-context";
 
 const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -7,7 +8,40 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
 const supabase = createClient<Database>(supabaseURL, supabaseKey)
 
+const LOGIN_URI = '/api/login'
+const SIGNUP_URI = '/api/signup'
 const TODOS_URI = '/api/todos'
+
+
+async function loginUser(email: string, password: string) {
+    const req = await fetch(LOGIN_URI, {
+        method: 'POST',
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+
+    const reqData = await req.json()
+    return reqData
+}
+
+
+
+async function signUpUser(email: string, password: string) {
+    const req = await fetch(SIGNUP_URI, {
+        method: 'POST',
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+
+    const reqData = await req.json()
+    return reqData
+}
+
+
 
 async function getTodosFromSB() {
     const req = await fetch(TODOS_URI)
@@ -48,6 +82,8 @@ async function removeTodo(id: string) {
 
 export {
     supabase,
+    loginUser,
+    signUpUser,
     getTodosFromSB,
     addTodo,
     removeTodo

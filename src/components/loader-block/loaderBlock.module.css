@@ -1,0 +1,14 @@
+.loaderBlock {
+    background: linear-gradient(to right, rgba(238,239,241,0.5) 0%, rgba(217,221,225,0.5) 30%, rgba(238,239,241,0.5) 60%);
+    background-size: 200%;
+    animation: loader-block-animation .75s linear infinite forwards;
+}
+
+@keyframes loader-block-animation {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
