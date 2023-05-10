@@ -1,7 +1,6 @@
-"use client"
+
 
 import { SupabaseClient, User } from "@supabase/supabase-js"
-import { useEffect, useState } from "react"
 import GitHubLogo from "../assets/GitHubLogo"
 import style from "./githubLoginButton.module.css"
 

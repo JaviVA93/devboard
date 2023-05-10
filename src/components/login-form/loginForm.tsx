@@ -4,6 +4,7 @@ import style from './loginForm.module.css'
 import { SupabaseClient } from '@supabase/supabase-js';
 import toast from 'react-hot-toast';
 import GithubLoginButton from '../github-login/GithubLoginButton';
+import GoogleLoginButton from '../google-login/googleLoginButton';
 
 export default function LoginForm(props: { supabase: SupabaseClient, className: string }) {
     
@@ -63,6 +64,7 @@ export default function LoginForm(props: { supabase: SupabaseClient, className: 
             </form>
             <div className={style.socialLoginContainer}>
                 <GithubLoginButton supabase={supabase} />
+                <GoogleLoginButton supabase={supabase}/>
             </div>
         </section>
     )
