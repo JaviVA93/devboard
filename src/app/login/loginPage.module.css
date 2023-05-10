@@ -12,7 +12,10 @@
   grid-template-columns: 1fr 1fr;
   padding: 40px 20px;
 
-  max-width: 1200px;
+  width: 1200px;
+  max-width: 85vw;
+
+  margin: 60px auto;
 
   border-radius: 8px;
   overflow: hidden;
@@ -131,4 +134,8 @@
 .glitchText *{
   font-size: 32px !important;
   text-decoration: underline;
+}
+
+.loaderBlock {
+  border-radius: 8px;
 }

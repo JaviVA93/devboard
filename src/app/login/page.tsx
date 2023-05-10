@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import LoginForm from '@/components/login-form/loginForm';
 import SignupForm from '@/components/signup-form/signupForm';
 import GlitchText from '@/components/glitch-text/glitchText';
+import LoaderBlock from '@/components/loader-block/loaderBlock';
 
 export default function LoginPage() {
 
@@ -83,7 +84,17 @@ export default function LoginPage() {
     }
     else {
         // TO-DO: LOADING TEMPLATE
-        return ('Loading')
+        return (
+            <section className={style.section}>
+                <div style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
+                    <LoaderBlock className={style.loaderBlock} height={212} width={400}/>
+                    <LoaderBlock className={style.loaderBlock} height={70} width={247} />
+                </div>
+                <div style={{alignSelf: 'flex-start'}}>
+                    <LoaderBlock className={style.loaderBlock} height={214} width={400}/>
+                </div>
+            </section>
+        )
     }
 
 }
