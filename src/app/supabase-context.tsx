@@ -21,8 +21,14 @@ export default function SupabaseProvider({
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-            router.refresh()
+            console.log('route refreshed')
         })
+
+        if (document.location.href.includes('access_token')) {
+            const cleanURL = document.location.origin + document.location.pathname
+            history.replaceState({}, '', cleanURL)
+        }
+
 
         return () => {
             subscription.unsubscribe();
