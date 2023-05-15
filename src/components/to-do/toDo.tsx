@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSupabase } from '@/app/supabase-context'
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
+import { User } from '@supabase/supabase-js'
 
 type Issue = {
     created_at: string
@@ -19,8 +20,9 @@ type Issue = {
 
 const ToDo = () => {
 
-    const [todos, setTodos] = useState<Issue[]>([])
+    const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[] | []>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
+    const [userId, setUserId] = useState<string>('guest')
     const { supabase } = useSupabase();
 
 
@@ -38,10 +40,21 @@ const ToDo = () => {
             description: description,
             created_at: currentDate
         }
-        todosTmp.push(newIssue)
+
+        const userTodosIndex = todos.findIndex(t => t.userId === userId)
+        console.dir(todosTmp)
+        console.log(userTodosIndex)
+        if (userTodosIndex === -1)
+            todosTmp.push({
+                userId: userId,
+                data: [newIssue]
+            })
+        else
+            todosTmp[userTodosIndex].data.push(newIssue)
+
         window.localStorage.setItem('todos_data', JSON.stringify(todosTmp))
 
-        if (isLogged) {
+        if (userId !== 'guest') {
             const { error } = await addTodo(newIssue)
 
             if (error)
@@ -56,21 +69,21 @@ const ToDo = () => {
 
 
     async function removeCard(card_id: string) {
+        const userTodosIndex = todos.findIndex(t => t.userId === userId)
+        if (userTodosIndex === -1)
+            return;
 
-        const issuesTmp = todos?.filter(issue => issue.id !== card_id)
-        if (!issuesTmp)
-            return
+        const tempTodos = (todos) ? [...todos] : []
+        tempTodos[userTodosIndex].data = tempTodos[userTodosIndex].data.filter(issue => issue.id !== card_id)
 
-        window.localStorage.setItem('todos_data', JSON.stringify(issuesTmp))
-        setTodos(issuesTmp)
+        window.localStorage.setItem('todos_data', JSON.stringify(tempTodos))
+        setTodos(tempTodos)
 
 
-        // const userResponse = await supabase.auth.getUser()
-        // if (userResponse.data?.user) {
         const { error } = await removeTodo(card_id)
         if (error)
             console.error(error)
-        // }
+
 
         showToast('To-do deleted.')
     }
@@ -107,45 +120,48 @@ const ToDo = () => {
 
         setLoadingIssues(true)
 
+        supabase.auth.getUser().then(userResponse => {
+            const userId = userResponse.data.user?.id || 'guest'
+            setUserId(userId)
 
-        getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
-
-
-            if (error || data.length === 0) {
-                updateTodoListFromLocal()
-            }
-            else {
-                const rawLocalTodos = window.localStorage.getItem('todos_data')
-                const localTodos: Issue[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
+            getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
 
 
-                const diff = localTodos.filter(x => !data.find(y => y.id === x.id))
-                diff.forEach(todo => addTodo(todo))
+                if (error || data.length === 0) {
+                    updateTodoListFromLocal()
+                }
+                else {
+                    const rawLocalTodos = window.localStorage.getItem('todos_data')
+                    const localTodosAll: { userId: string, data: Issue[] }[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
+                    // const localTodos: Issue[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
 
-                const concateTodos = data.concat(diff)
-                window.localStorage.setItem('todos_data', JSON.stringify(concateTodos))
 
-                setTodos(concateTodos)
-            }
+                    const localTodos: { userId: string; data: Issue[] | [] } = localTodosAll.find(e => e.userId === userId) || { userId: userId, data: [] }
 
-            setLoadingIssues(false)
+                    const diff = localTodos.data.filter(x => !data.find(y => y.id === x.id))
+                    diff.forEach(todo => addTodo(todo))
+
+                    const concateTodos = data.concat(diff)
+
+                    const index = localTodosAll.findIndex(e => e.userId === userId)
+                    if (index === -1)
+                        localTodosAll.push({ userId: userId, data: concateTodos })
+                    else
+                        localTodosAll[index].data = concateTodos
+
+                    window.localStorage.setItem('todos_data', JSON.stringify(localTodosAll))
+
+                    setTodos(localTodosAll)
+                }
+
+                setLoadingIssues(false)
+            })
         })
 
-    }, [])
-    
-    
-    
-    const todosListElements = (todos.length === 0)
-        ? <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
-        : todos?.map(data =>
-            <Issue
-                removeIssueOnList={removeCard}
-                key={data.id}
-                id={data.id}
-                title={data.name}
-                text={data.description}
-            />)
+    }, [supabase.auth])
 
+    const userTodosIndex = todos.findIndex(e => e.userId === userId)
+    
 
     return (
         <div className={style.todoWrapper}>
@@ -158,7 +174,18 @@ const ToDo = () => {
                         <h2>Loading tasks</h2>
                         <CubeLoader />
                     </div>
-                    : todosListElements
+                    : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
+                        ? todos[userTodosIndex].data.map(data => {
+                            return (
+                                <Issue
+                                    removeIssueOnList={removeCard}
+                                    key={data.id}
+                                    id={data.id}
+                                    title={data.name}
+                                    text={data.description}
+                                />)
+                        })
+                        : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
                 }
             </div>
             {loadingIssues

@@ -20,9 +20,7 @@ export default function SupabaseProvider({
     const [supabase] = useState(() => createBrowserSupabaseClient())
 
     useEffect(() => {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-            console.log('route refreshed')
-        })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(() => router.refresh())
 
         if (document.location.href.includes('access_token')) {
             const cleanURL = document.location.origin + document.location.pathname
@@ -37,7 +35,7 @@ export default function SupabaseProvider({
 
 
     return (
-        <Context.Provider value={{supabase}}>
+        <Context.Provider value={{ supabase }}>
             <>{children}</>
         </Context.Provider>
     )
