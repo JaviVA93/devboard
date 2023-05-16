@@ -25,6 +25,8 @@ export default function SupabaseProvider({
         if (document.location.href.includes('access_token')) {
             const cleanURL = document.location.origin + document.location.pathname
             history.replaceState({}, '', cleanURL)
+
+            // SHOW TOAST LOGIN SUCCESS!
         }
 
 

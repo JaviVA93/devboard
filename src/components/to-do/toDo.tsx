@@ -20,7 +20,7 @@ type Issue = {
 
 const ToDo = () => {
 
-    const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[] | []>([])
+    const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
     const [userId, setUserId] = useState<string>('guest')
     const { supabase } = useSupabase();
@@ -132,11 +132,10 @@ const ToDo = () => {
                 }
                 else {
                     const rawLocalTodos = window.localStorage.getItem('todos_data')
-                    const localTodosAll: { userId: string, data: Issue[] }[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
-                    // const localTodos: Issue[] | [] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
+                    const localTodosAll: { userId: string, data: Issue[] }[] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
 
 
-                    const localTodos: { userId: string; data: Issue[] | [] } = localTodosAll.find(e => e.userId === userId) || { userId: userId, data: [] }
+                    const localTodos: { userId: string; data: Issue[] } = localTodosAll.find(e => e.userId === userId) || { userId: userId, data: [] }
 
                     const diff = localTodos.data.filter(x => !data.find(y => y.id === x.id))
                     diff.forEach(todo => addTodo(todo))
