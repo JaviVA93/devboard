@@ -25,12 +25,11 @@ const ToDo = () => {
     const [userId, setUserId] = useState<string>('guest')
     const { supabase } = useSupabase();
 
+    const userTodosIndex = todos.findIndex(e => e.userId === userId)
+
 
 
     async function createCard(name: string, description: string) {
-
-        const userResponse = await supabase.auth.getUser()
-        const isLogged = (userResponse.data.user?.id) ? true : false
 
         const todosTmp = (todos) ? [...todos] : []
         const currentDate = new Date().toISOString()
@@ -41,7 +40,7 @@ const ToDo = () => {
             created_at: currentDate
         }
 
-        const userTodosIndex = todos.findIndex(t => t.userId === userId)
+
         console.dir(todosTmp)
         console.log(userTodosIndex)
         if (userTodosIndex === -1)
@@ -69,7 +68,7 @@ const ToDo = () => {
 
 
     async function removeCard(card_id: string) {
-        const userTodosIndex = todos.findIndex(t => t.userId === userId)
+        
         if (userTodosIndex === -1)
             return;
 
@@ -121,11 +120,11 @@ const ToDo = () => {
         setLoadingIssues(true)
 
         supabase.auth.getUser().then(userResponse => {
+
             const userId = userResponse.data.user?.id || 'guest'
             setUserId(userId)
 
             getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
-
 
                 if (error || data.length === 0) {
                     updateTodoListFromLocal()
@@ -159,8 +158,12 @@ const ToDo = () => {
 
     }, [supabase.auth])
 
-    const userTodosIndex = todos.findIndex(e => e.userId === userId)
-    
+    const loadingIssuesElement =
+        <div className={style.loadingWrapper}>
+            <h2>Loading tasks</h2>
+            <CubeLoader />
+        </div>
+
 
     return (
         <div className={style.todoWrapper}>
@@ -169,10 +172,7 @@ const ToDo = () => {
 
             <div className={style.issuesContainer}>
                 {loadingIssues
-                    ? <div className={style.loadingWrapper}>
-                        <h2>Loading tasks</h2>
-                        <CubeLoader />
-                    </div>
+                    ? loadingIssuesElement
                     : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
                         ? todos[userTodosIndex].data.map(data => {
                             return (
