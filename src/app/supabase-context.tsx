@@ -3,6 +3,7 @@
 import { SupabaseClient, createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { createContext, useEffect, useState, useContext } from 'react'
+import { toast } from "react-hot-toast";
 
 
 type SupabaseContext = {
@@ -21,8 +22,22 @@ export default function SupabaseProvider({
 
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-            router.refresh()
+            
+            console.log('AuthState changed')
+
+            if (document.location.href.includes('access_token')) {
+                const cleanURL = document.location.origin + document.location.pathname
+                history.replaceState({}, '', cleanURL)
+    
+                
+                // SHOW TOAST LOGIN SUCCESS!
+
+            }
+
+            // router.refresh()
+            
         })
+
 
         return () => {
             subscription.unsubscribe();
@@ -31,7 +46,7 @@ export default function SupabaseProvider({
 
 
     return (
-        <Context.Provider value={{supabase}}>
+        <Context.Provider value={{ supabase }}>
             <>{children}</>
         </Context.Provider>
     )
