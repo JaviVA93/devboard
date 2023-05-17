@@ -48,6 +48,9 @@ export default function LoginPage() {
                     setSession('guest')
                 else
                     setSession(session)
+            }).catch(err => {
+                console.error(err)
+                setSession('guest')
             })
         else
             setSession('guest')
@@ -77,13 +80,13 @@ export default function LoginPage() {
                 <SignupForm supabase={supabase} className={style.signupContainer} />
             </section>
         )
-    if (session) {
+    else if (session) {
         return (
             <button type='button' onClick={signOut}>Logout</button>
         )
     }
     else {
-        // TO-DO: LOADING TEMPLATE
+        // LOADING TEMPLATE <== Not "Suspense", just normal "load"(reload)
         return (
             <section className={style.section}>
                 <div style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
