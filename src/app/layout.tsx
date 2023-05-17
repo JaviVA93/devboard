@@ -1,8 +1,10 @@
+
 import './globals.css'
 import { Overlock } from 'next/font/google'
 import SideBar from '@/components/sideBar/sideBar'
 import SupabaseProvider from './supabase-context'
 import { Toaster } from 'react-hot-toast'
+
 
 export const metadata = {
   title: 'Workboard',
