@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSupabase } from '@/app/supabase-context'
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
-import { User } from '@supabase/supabase-js'
+
 
 type Issue = {
     created_at: string
@@ -68,7 +68,7 @@ const ToDo = () => {
 
 
     async function removeCard(card_id: string) {
-        
+
         if (userTodosIndex === -1)
             return;
 
@@ -169,24 +169,23 @@ const ToDo = () => {
         <div className={style.todoWrapper}>
             <h1 className={style.todoWrapperTitle}>To-Do List</h1>
             <div className={style.horizontalUine}></div>
-
-            <div className={style.issuesContainer}>
-                {loadingIssues
-                    ? loadingIssuesElement
-                    : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
-                        ? todos[userTodosIndex].data.map(data => {
-                            return (
-                                <Issue
-                                    removeIssueOnList={removeCard}
-                                    key={data.id}
-                                    id={data.id}
-                                    title={data.name}
-                                    text={data.description}
-                                />)
-                        })
-                        : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
-                }
-            </div>
+                <div className={style.issuesContainer}>
+                    {loadingIssues
+                        ? loadingIssuesElement
+                        : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
+                            ? todos[userTodosIndex].data.map(data => {
+                                return (
+                                    <Issue
+                                        removeIssueOnList={removeCard}
+                                        key={data.id}
+                                        id={data.id}
+                                        title={data.name}
+                                        text={data.description}
+                                    />)
+                            })
+                            : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
+                    }
+                </div>
             {loadingIssues
                 ? ''
                 : <div className={style.issueFormContainer}>
