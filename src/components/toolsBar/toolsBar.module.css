@@ -6,6 +6,9 @@
 }
 
 .toolsBar {
+    --mainColor: #39F0C1;
+    --secondaryColor: #4D4D4D;
+
     position: fixed;
     right: 0;
     top: 0;
@@ -18,7 +21,7 @@
 
     padding: 14px;
     overflow: hidden;
-    background-color: #203136;
+    background-color: var(--secondaryColor);
     box-shadow: -3px 0px 10px 5px #00000042;
 
     transition: all 0.25s;
@@ -32,21 +35,44 @@
 
 
 .addToolsIconsWrapper {
-    cursor: pointer;
+    display: flex;
     align-self: flex-end;
     background-color: transparent;
     border: 0
 }
 
-.toolsBar:not(.toolsListHidden) .addToolsIconsWrapper{
+.addToolsIconsWrapper,
+.addToolsIconsWrapper * {
+    transition: all 0.2s;
+}
+.addToolsIconsWrapper:hover {
+    transform: translateX(-5px);
+}
+.addToolsIconsWrapper:hover * {
+    stroke: var(--mainColor);
+}
+
+.toolsBar:not(.toolsListHidden) .addToolsIconsWrapper {
     display: none;
 }
 
 .closeToolsBar {
-    cursor: pointer;
     background-color: transparent;
     border: 0;
     align-self: flex-start;
+}
+
+.closeToolsBar,
+.closeToolsBar * {
+    transition: all 0.2s;
+}
+
+.closeToolsBar:hover {
+    transform: translateX(5px);
+}
+
+.closeToolsBar:hover * {
+    stroke: var(--mainColor);
 }
 
 .toolsListHidden .closeToolsBar {
@@ -66,7 +92,8 @@
     right: 0;
     transition: all 0.25s;
 }
-.toolsListHidden .toolsList{
+
+.toolsListHidden .toolsList {
     right: calc(-200px - 14px) !important;
     opacity: 0;
 }

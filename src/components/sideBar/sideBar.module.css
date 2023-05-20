@@ -1,4 +1,7 @@
 .sideBar {
+    --mainColor: #39F0C1;
+    --secondaryColor: #4D4D4D;
+
     position: fixed;
     height: 100vh;
     max-width: 48px;
@@ -6,13 +9,13 @@
     
     display: flex;
     flex-direction: column;
-    padding: 14px;
+    padding: 14px 20px 14px 14px;
     gap: 12px;
     
     background-color: transparent;
 
     overflow: hidden;
-    transition: max-width 0.2s;
+    transition: all 0.2s;
 
     z-index: 10;
 }
@@ -20,14 +23,22 @@
 .burguer {
     width: 24px;
     height: 24px;
+}
 
-    cursor: pointer;
+.burguer * {
+    transition: all 0.2s;
+}
+
+.burguer:hover *{
+    fill: var(--mainColor);
+    stroke: var(--mainColor);
+    transform: scale(1.05);
 }
 
 .sideBar.show {
     max-width: 150px;
-    background-color: #203136;
-    box-shadow: 2px 0px 13px 0px #000000ad;
+    background-color: var(--secondaryColor);
+    box-shadow: 2px 0px 13px 0px #000000;
 }
 
 .sideBar menu {
@@ -45,8 +56,16 @@
     opacity: 0;
 }
 
+.sideBar menu li {
+    transition: all 0.5s;
+}
+
 .sideBar menu li:last-child {
     margin-top: auto;
+}
+
+.sideBar menu li:hover {
+    color: var(--mainColor);
 }
 
 .sideBar a {
