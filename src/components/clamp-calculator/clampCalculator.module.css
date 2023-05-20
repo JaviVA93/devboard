@@ -1,0 +1,93 @@
+
+.clampCalc {
+    --color1: #AB7B76;
+    --color2: #5E3C38;
+    --color3: #c9c9c9;
+    --color4: #F77060;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--color1);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.clampCalc,
+.clampCalc * {
+    color: var(--color3)
+}
+
+.valuesWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    margin: 12px 0;
+}
+
+.valuesWrapper label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 18px;
+}
+
+.valuesWrapper input {
+    font-size: 22px;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #5E3C38;
+    border: 0;
+}
+
+.valuesWrapper input:focus-visible {
+    outline: var(--color3) solid 1px;
+    outline-offset: 1px;
+}
+
+.resultWrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.result {
+    width: 100%;
+    font-size: 23px;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 3px;
+    color: var(--color2);
+    background-color: var(--color3);
+}
+
+.copyBtn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    display: flex;
+    border: 1px solid var(--color2);
+    border-radius: 3px;
+
+    transition: background-color 0.2s;
+}
+
+.copyBtn:hover {
+    background-color: var(--color1);
+    border: 1px solid white;
+}
+.copyBtn:hover * {
+    stroke: white;
+}
+
+.copyBtn:active {
+    outline: 1px solid black;
+    outline-offset: 1px;
+}
+
+.copyBtn * {
+    stroke: var(--color2);
+}
