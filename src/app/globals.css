@@ -40,38 +40,6 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
-}
 
 * {
   box-sizing: border-box;
@@ -87,12 +55,14 @@ body {
 
 body {
   color: #c9c9c9;
-  background-image: url('/images/background-tree.jpg');
-  background-position: center center;
-  background-size: cover;
+  background-color: #141414;
+  background-image: url('/svg/undraw_developer_activity_re_39tg.svg');
+  background-position: right 100px bottom 100px ;
+  background-size: 250px;
   background-repeat: no-repeat;
   height: 100vh;
   width: 100vw;
+  animation: backgroundAnim infinite 20s;
 }
 
 main {
@@ -100,8 +70,16 @@ main {
   margin: 14px 0 0 72px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+
+
+@keyframes backgroundAnim {
+  0% {
+    backdrop-filter: blur(0px);
+  }
+  50% {
+    backdrop-filter: blur(5px);
+  }
+  100%{
+    backdrop-filter: blur(0px);
   }
 }
