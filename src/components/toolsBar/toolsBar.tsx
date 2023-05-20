@@ -22,7 +22,13 @@ const ToolsBar = () => {
         imagePreviewPath: '/images/todo-tool-preview.png',
         mainCardColor: '#1E2E1E',
         titleColor: '#5e765ed7',
-    },]
+    },
+    {
+        toolName: 'Clamp Calculator',
+        imagePreviewPath: '/images/clampcalc-preview.png',
+        mainCardColor: '#AB7B76',
+        titleColor: '#c9c9c9',
+    }]
 
     const toolsBar = useRef<HTMLDivElement | null>(null)
 
@@ -33,6 +39,8 @@ const ToolsBar = () => {
             toolsBar.current.classList.remove(style.toolsListHidden) :
             toolsBar.current.classList.add(style.toolsListHidden)
     }
+
+    // TO-DO: remove/add button on each card based on active tools on the workboard
 
     return (
         <div ref={toolsBar} className={`${style.toolsBar} ${style.toolsListHidden}`}>
