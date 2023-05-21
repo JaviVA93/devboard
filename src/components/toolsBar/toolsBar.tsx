@@ -1,7 +1,6 @@
 
 "use client"
 
-import Image from 'next/image'
 import style from './toolsBar.module.css'
 import ToolItemCard from './toolItemCard'
 import { useRef } from 'react'
@@ -16,18 +15,21 @@ const ToolsBar = () => {
         imagePreviewPath: '/images/pomodoro-preview.png',
         mainCardColor: '#567794',
         titleColor: '#151b24',
+        toolId: 'pomodoro',
     },
     {
         toolName: 'To-Do List',
         imagePreviewPath: '/images/todo-tool-preview.png',
         mainCardColor: '#1E2E1E',
         titleColor: '#5e765ed7',
+        toolId: 'todo',
     },
     {
         toolName: 'Clamp Calculator',
         imagePreviewPath: '/images/clampcalc-preview.png',
         mainCardColor: '#AB7B76',
         titleColor: '#c9c9c9',
+        toolId: 'clampcalc',
     }]
 
     const toolsBar = useRef<HTMLDivElement | null>(null)
@@ -41,6 +43,7 @@ const ToolsBar = () => {
     }
 
     // TO-DO: remove/add button on each card based on active tools on the workboard
+    // pass some "add/remove" function on props to control the behavior by the parent (Workboard page)
 
     return (
         <div ref={toolsBar} className={`${style.toolsBar} ${style.toolsListHidden}`}>
@@ -53,11 +56,12 @@ const ToolsBar = () => {
             </button>
             <div className={style.toolsList}>
                 { toolsList.map(v => <ToolItemCard
-                        key={v.toolName}
+                        key={v.toolId}
                         toolName={v.toolName}
                         imagePreviewPath={v.imagePreviewPath}
                         mainCardColor={v.mainCardColor}
-                        titleColor={v.titleColor} />)}
+                        titleColor={v.titleColor}
+                        toolId={v.toolId} />)}
             </div>
         </div>
     )

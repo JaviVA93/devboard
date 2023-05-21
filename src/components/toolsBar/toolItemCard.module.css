@@ -15,4 +15,19 @@
 
 .card img {
     width: 100%;
+    object-fit: contain;
+}
+
+.addRemoveWrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px !important;
+    width: fit-content;
+    transition: all 0.2s;
+    cursor: auto;
+}
+
+.addRemoveWrapper:hover {
+    transform: translateX(5px);
 }

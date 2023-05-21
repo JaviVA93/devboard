@@ -23,3 +23,8 @@ export function convertMsToTime(miliseconds: number) {
 export function convertTimeToMS(minutes: number, seconds: number): number {
     return (minutes * 60000) + (seconds * 1000);
 }
+
+
+export function getCookieValue(name: string) {
+    return document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || null
+}
