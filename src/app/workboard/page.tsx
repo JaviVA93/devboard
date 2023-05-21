@@ -6,6 +6,7 @@ import ToolsBar from "@/components/toolsBar/toolsBar";
 import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
 import { cookies } from "next/headers";
 import { cloneElement } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Workboard() {
     const toolsToShow: {id: string, component: JSX.Element}[] = []

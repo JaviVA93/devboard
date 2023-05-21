@@ -55,13 +55,14 @@ const ToolsBar = () => {
                 <FastArrowRightSvg />
             </button>
             <div className={style.toolsList}>
-                { toolsList.map(v => <ToolItemCard
-                        key={v.toolId}
-                        toolName={v.toolName}
-                        imagePreviewPath={v.imagePreviewPath}
-                        mainCardColor={v.mainCardColor}
-                        titleColor={v.titleColor}
-                        toolId={v.toolId} />)}
+                {toolsList.map(v => <ToolItemCard
+                    key={v.toolId}
+                    toolName={v.toolName}
+                    imagePreviewPath={v.imagePreviewPath}
+                    mainCardColor={v.mainCardColor}
+                    titleColor={v.titleColor}
+                    toolId={v.toolId}
+                />)}
             </div>
         </div>
     )

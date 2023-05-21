@@ -1,9 +1,3 @@
-.toolsBar,
-.toolsBar * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
 
 .toolsBar {
     --mainColor: #39F0C1;

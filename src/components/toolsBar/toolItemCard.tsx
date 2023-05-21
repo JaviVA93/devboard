@@ -5,6 +5,7 @@ import TrashSvg from '../assets/TrashSvg';
 import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
 
+
 const ToolItemCard = (props: {
     toolName: string, imagePreviewPath: string, mainCardColor: string, titleColor: string, toolId: string
 }) => {
@@ -13,17 +14,53 @@ const ToolItemCard = (props: {
     const toolsCookie = getCookieValue('workboard-tools')
     let toolOnBoard = (toolsCookie?.includes(toolId)) ? true : false;
 
-    // TO-DO: Add "mainColor" to the SVG stroke attribute
+    function addToolToBoard() {
+        const workboardToolsCookie = getCookieValue('workboard-tools')
+        let result = ''
+        if (!workboardToolsCookie) {
+            result = toolId
+        }
+        else if (!workboardToolsCookie.includes(toolId)) {
+            result = `${workboardToolsCookie},${toolId}`
+        }
+
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000*36000;
+        now.setTime(expireTime);
+        document.cookie = `workboard-tools=${result}; path=/; expires=${now.toUTCString()}`
+        document.location.reload()
+    }
+
+    function removeToolFromBoard() {
+        const workboardToolsCookie = getCookieValue('workboard-tools')
+        if (!workboardToolsCookie)
+            return
+        
+        const toolsArr = workboardToolsCookie.split(',')
+        const index = toolsArr.indexOf(toolId)
+        if (index === -1)
+            return
+        
+        toolsArr.splice(index, 1)
+
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000*36000;
+        now.setTime(expireTime);
+        document.cookie = `workboard-tools=${toolsArr.join(',')}; path=/; expires=${now.toUTCString()}`
+        document.location.reload()
+    }
 
     const removeWrapperElement =
-        <div className={style.addRemoveWrapper}>
+        <button type='button' className={style.addRemoveWrapper} onClick={removeToolFromBoard}>
             <TrashSvg /> Remove
-        </div>
+        </button>
 
     const addWrapperElement =
-        <div className={style.addRemoveWrapper}>
+        <button type='button' className={style.addRemoveWrapper} onClick={addToolToBoard}>
             <PlusSvg /> Add
-        </div>
+        </button>
 
     return (
         <div className={style.card} style={{ backgroundColor: mainCardColor }} draggable>
