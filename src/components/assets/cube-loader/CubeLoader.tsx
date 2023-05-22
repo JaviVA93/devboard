@@ -1,9 +1,10 @@
 
 import style from './cubeLoader.module.css'
 
-export default function CubeLoader() {
+export default function CubeLoader(props?: any) {
+    const { className } = props
     return (
-        <div className={style.spinner}>
+        <div {...props} className={`${style.spinner} ${className}`}>
             <div></div>
             <div></div>
             <div></div>

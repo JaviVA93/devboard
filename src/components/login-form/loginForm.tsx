@@ -40,7 +40,7 @@ export default function LoginForm(props: { supabase: SupabaseClient, className: 
 
 
     return (
-        <section className={`${style.loginContainer} ${className}`}>
+        <div className={`${style.loginContainer} ${className}`}>
             <form className={style.loginForm} method='post' onSubmit={loginSubmit}>
                 <div className={style.fieldWrapper}>
                     <input name="email"
@@ -66,6 +66,6 @@ export default function LoginForm(props: { supabase: SupabaseClient, className: 
                 <GithubLoginButton supabase={supabase} />
                 <GoogleLoginButton supabase={supabase}/>
             </div>
-        </section>
+        </div>
     )
 }
