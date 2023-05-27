@@ -1,0 +1,28 @@
+.section {
+    /* --- Variables --- */
+    --color_1: #b8c0b8;
+    --color_2: #dde6dd;
+    --color_3: #5c5c5c;
+    --color_4: #404140;
+    --color_5: #1E2E1E;
+    /* --- Variables --- */
+  
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  
+    width: 1200px;
+    max-width: 85vw;
+  
+    margin: 60px auto;
+  
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--color_3);
+}
+
+.loaderBlock {
+    border-radius: 8px;
+} 

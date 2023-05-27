@@ -11,9 +11,12 @@ import LoginForm from '@/components/login-form/loginForm';
 import SignupForm from '@/components/signup-form/signupForm';
 import GlitchText from '@/components/glitch-text/glitchText';
 import LoaderBlock from '@/components/loader-block/loaderBlock';
+import { useRouter } from 'next/navigation';
+import { PATHS } from '@/utils/constants';
 
 export default function LoginPage() {
 
+    const router = useRouter()
     const { supabase } = useSupabase()
     const [session, setSession] = useState<null | 'guest' | Session>(null)
     const [curtainBtnText, setCurtainBtnText] = useState('Sign up')
@@ -36,18 +39,15 @@ export default function LoginPage() {
     }
 
 
-    async function signOut() {
-        supabase.auth.signOut().then(() => location.href = '/')
-    }
-
 
     useEffect(() => {
+        
         if (Cookies.get('supabase-auth-token'))
             supabase.auth.getSession().then(({ data: { session } }) => {
                 if (!session)
                     setSession('guest')
                 else
-                    setSession(session)
+                    router.push(PATHS.PROFILE)
             }).catch(err => {
                 console.error(err)
                 setSession('guest')
@@ -56,7 +56,7 @@ export default function LoginPage() {
             setSession('guest')
     }, [supabase])
 
-    if (session === 'guest')
+    if (session === 'guest'){
         return (
             <section ref={curtainElement} className={`${style.section} ${style.showLogin}`}>
                 <div className={`${style.curtain}`}>
@@ -79,10 +79,6 @@ export default function LoginPage() {
                 <LoginForm supabase={supabase} className={style.loginContainer} />
                 <SignupForm supabase={supabase} className={style.signupContainer} />
             </section>
-        )
-    else if (session) {
-        return (
-            <button type='button' onClick={signOut}>Logout</button>
         )
     }
     else {
