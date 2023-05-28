@@ -10,3 +10,7 @@ export const PATHS = {
         TODOS: '/api/todos',
     }
 }
+
+export const IMAGES = {
+    PROFILE_DEFAULT: '/images/t-pose-100.png'
+}

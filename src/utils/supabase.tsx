@@ -1,17 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
+import { Session, createClient } from "@supabase/supabase-js";
 import { Database } from "@/db_schema";
 import { useSupabase } from "@/app/supabase-context";
 import { PATHS } from './constants'
-
-const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-
-
-const supabase = createClient<Database>(supabaseURL, supabaseKey)
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 
 
-async function loginUser(email: string, password: string) {
+export async function loginUser(email: string, password: string) {
     const req = await fetch(PATHS.APIS.LOGIN, {
         method: 'POST',
         body: JSON.stringify({
@@ -26,7 +22,7 @@ async function loginUser(email: string, password: string) {
 
 
 
-async function signUpUser(email: string, password: string) {
+export async function signUpUser(email: string, password: string) {
     const req = await fetch(PATHS.APIS.SIGNUP, {
         method: 'POST',
         body: JSON.stringify({
@@ -41,7 +37,7 @@ async function signUpUser(email: string, password: string) {
 
 
 
-async function getTodosFromSB() {
+export async function getTodosFromSB() {
     const req = await fetch(PATHS.APIS.TODOS)
     return await req.json()
 }
@@ -51,7 +47,7 @@ export type TodosResponseSuccess = TodosResponse['data']
 export type TodosResponseError = TodosResponse['error']
 
 
-async function addTodo(todoData: { id: string, created_at: string, name: string, description: string }) {
+export async function addTodo(todoData: { id: string, created_at: string, name: string, description: string }) {
     const { id, created_at, name, description } = todoData
     
     const req = await fetch(PATHS.APIS.TODOS, {
@@ -68,21 +64,40 @@ async function addTodo(todoData: { id: string, created_at: string, name: string,
 }
 
 
-async function removeTodo(id: string) {
+export async function removeTodo(id: string) {
     const encodedId = encodeURIComponent(id)
     const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}`, {
         method: 'DELETE'
     })
     return await req.json()
-    // return await supabase.from('todos').delete().eq('id', id)
 }
 
+export function useSupabaseSession() {
+    const [session, setSession] = useState<null | 'guest' | Session>(null)
+    const { supabase } = useSupabase()
+    
+    useEffect(() => {
+        console.log('useSupabaseSession useEffect')
+        if (Cookies.get('supabase-auth-token'))
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                (!session) ? setSession('guest') : setSession(session)
+            }).catch(err => {
+                console.error(err)
+                setSession('guest')
+            })
+        else
+            setSession('guest')    
+    }, [supabase])
 
-export {
-    supabase,
-    loginUser,
-    signUpUser,
-    getTodosFromSB,
-    addTodo,
-    removeTodo
-};
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log('useSupabaseSession onAuthStateChange')
+            if(!session)
+                setSession('guest')
+            else 
+                setSession(session)
+        })
+    }, [])
+
+    return session
+}
