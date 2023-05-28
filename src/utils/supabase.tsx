@@ -77,7 +77,7 @@ export function useSupabaseSession() {
     const { supabase } = useSupabase()
     
     useEffect(() => {
-        console.log('useSupabaseSession useEffect')
+        
         if (Cookies.get('supabase-auth-token'))
             supabase.auth.getSession().then(({ data: { session } }) => {
                 (!session) ? setSession('guest') : setSession(session)
@@ -91,7 +91,7 @@ export function useSupabaseSession() {
 
     useEffect(() => {
         supabase.auth.onAuthStateChange((event, session) => {
-            console.log('useSupabaseSession onAuthStateChange')
+            
             if(!session)
                 setSession('guest')
             else 

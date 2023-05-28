@@ -121,7 +121,6 @@ const ToDo = () => {
             return
         
         const userId = (session === 'guest') ? 'guest' : session.user.id
-        console.log(userId)
         setUserId(userId)
 
         if (userId === 'guest') {
