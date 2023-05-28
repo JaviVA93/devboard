@@ -1,13 +1,10 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
 
-const inter = Inter({ subsets: ['latin'] })
+import { redirect } from 'next/navigation'
+import { PATHS } from '../utils/constants'
+
 
 export default function Home() {
-  return (
-    <h1>
-      Home
-    </h1>
-  )
+  redirect(PATHS.BOARD)
+
+  return ('')
 }

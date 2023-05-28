@@ -80,8 +80,8 @@ export default function SignupForm(props: { supabase: SupabaseClient, className:
         return (
             <section className={style.signupContainer}>
                 <div className={style.successMsg}>
-                    <h2>Thank you for signinp up!</h2>
-                    <span>To complete the registration process, please check your email inbox ✉</span>
+                    <h2>Thank you for signing up!</h2>
+                    <span>To complete the registration process, please check your email inbox 📨</span>
                 </div>
             </section>
         )
