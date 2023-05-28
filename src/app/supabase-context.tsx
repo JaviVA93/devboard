@@ -23,12 +23,12 @@ export default function SupabaseProvider({
     useEffect(() => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
             
-            console.log('AuthState changed')
+            // console.log('AuthState changed')
 
-            if (document.location.href.includes('access_token')) {
-                const cleanURL = document.location.origin + document.location.pathname
-                history.replaceState({}, '', cleanURL)
-            }
+            // if (document.location.href.includes('access_token')) {
+            //     const cleanURL = document.location.origin + document.location.pathname
+            //     history.replaceState({}, '', cleanURL)
+            // }
         })
 
 
