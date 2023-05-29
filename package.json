@@ -28,6 +28,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@svgr/core": "^8.0.0",
     "@types/uuid": "^9.0.1",
     "encoding": "^0.1.13"
   }
