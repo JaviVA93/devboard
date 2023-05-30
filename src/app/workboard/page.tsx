@@ -4,6 +4,7 @@ import ToDo from "@/components/to-do/toDo";
 import style from './workoardPage.module.css'
 import ToolsBar from "@/components/toolsBar/toolsBar";
 import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
+import Weather from "@/components/weather/weather";
 
 export default function Workboard() {
     return (
@@ -13,6 +14,7 @@ export default function Workboard() {
             <Pomodoro />
             <ToDo />
             <ClampCalculator />
+            <Weather />
         </section>
     )
 }
