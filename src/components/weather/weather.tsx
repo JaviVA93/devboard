@@ -14,12 +14,8 @@ export default function Weather() {
         if (searchValue === '')
             return
 
-        const req = await fetch(`https://weatherapi-com.p.rapidapi.com/current.json?q=${searchValue}`, {
+        const req = await fetch(`/api/weather?q=${searchValue}`, {
             method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': '3bb3ed3a00msh08871bb7e87fcf7p196ee9jsnb2d8c2e70838',
-                'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
-            }
         })
         const data = await req.json()
         setWeatherData(JSON.stringify(data, undefined, 2))
