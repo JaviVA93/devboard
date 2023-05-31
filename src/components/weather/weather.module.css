@@ -1,0 +1,53 @@
+
+.weather {
+    padding: 15px 25px 25px;
+    background-color: rgb(46, 109, 204);
+    border-radius: 8px;
+}
+
+.searchWrapper {
+    position: relative;
+    width: fit-content;
+    margin-bottom: 15px;
+}
+
+.searchWrapper input {
+    padding: 5px 31px 5px 5px;
+}
+
+.searchBtn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: 0;
+}
+
+.searchBtn:hover *{
+    stroke: grey;
+}
+
+.locationInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.locationInfo span:nth-child(1) {
+    font-size: 20px;
+}
+.locationInfo span:nth-child(2) {
+    font-size: 16px;
+}
+
+.degreesWrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.conditionWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
