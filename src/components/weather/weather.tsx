@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState } from 'react'
+import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 import SearchSvg from '../assets/SearchSvg'
 import style from './weather.module.css'
 import Image from 'next/image'
@@ -26,7 +26,8 @@ export default function Weather() {
         setWeatherData(data)
     }
 
-    function doSearch() {
+    function doSearch(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
         if(!searcherElement.current)
             return
 
@@ -45,19 +46,23 @@ export default function Weather() {
             return
         
         getWeatherData(lastSearchValue)
+
+        if (!searcherElement.current)
+            return
+        searcherElement.current.value = lastSearchValue
     }
 
     useEffect(initValuesFromLastSearch, [])
 
-    return (weatherData) 
+    return (weatherData && !weatherData.error) 
         ?   (<div className={style.weather}>
-                <div className={style.searchWrapper}>
+                <form className={style.searchWrapper}>
                     {/* CHANGE THE SEARCH COMPOSITION TO A "FORM" IN ORDER TO USE ENTER TO START A SEARCH */}
-                    <input ref={searcherElement} placeholder='How is the weather in...'></input>
-                    <button className={style.searchBtn} onClick={doSearch}>
+                    <input type='text' ref={searcherElement} placeholder='How is the weather in...' />
+                    <button className={style.searchBtn} onClick={doSearch} type='submit'>
                         <SearchSvg />
                     </button>
-                </div>
+                </form>
                 <div className={style.locationInfo}>
                     <span>{weatherData.location.name}, {weatherData.location.region}</span>
                     <span>{weatherData.location.country}</span>
@@ -68,15 +73,18 @@ export default function Weather() {
                 </div>
                 <div className={style.conditionWrapper}>
                     <Image src={`https:${weatherData.current.condition.icon}`} 
-                        height={50} width={50} alt='weather image' />
+                        height={64} width={64} alt='weather image' />
                     <span>{weatherData.current.condition.text}</span>
                 </div>
             </div>)
-        :   <div className={style.searchWrapper}>
-                <input ref={searcherElement} placeholder='How is the weather in...'></input>
-                <button className={style.searchBtn} onClick={doSearch}>
-                    <SearchSvg />
-                </button>
+        :   <div className={style.weather} style={{display: 'flex', flexDirection: 'column'}}>
+                <div className={style.searchWrapper}>
+                    <input ref={searcherElement} placeholder='How is the weather in...' />
+                    <button className={style.searchBtn} onClick={doSearch}>
+                        <SearchSvg />
+                    </button>
+                </div>
+                <span>{(weatherData && weatherData.error)? weatherData.error.message : ''}</span>
             </div>
         
 }

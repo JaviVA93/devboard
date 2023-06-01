@@ -1,8 +1,10 @@
 
 .weather {
+    position: relative;
     padding: 15px 25px 25px;
     background-color: rgb(46, 109, 204);
     border-radius: 8px;
+    transition: all 0.2s;
 }
 
 .searchWrapper {
@@ -44,6 +46,13 @@
 .degreesWrapper {
     display: flex;
     align-items: flex-start;
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+}
+
+.degrees {
+    font-size: 48px !important;
 }
 
 .conditionWrapper {
