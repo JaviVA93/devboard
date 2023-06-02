@@ -37,7 +37,7 @@ export default function Weather() {
             return
 
         const searchValue = searcherElement.current.value
-        if (searchValue === '' || searchValue === getLastSearchFromLocalStorage())
+        if (searchValue === '')
             return
 
         saveLastSearchInLocalStorage(searchValue)
