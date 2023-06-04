@@ -30,6 +30,21 @@
     cursor: auto;
 }
 
+.removeBtn:hover {
+    color: white;
+    background-color: rgb(151, 57, 57);
+    outline: 2px solid black;
+}
+
+.removeBtn:hover * {
+    stroke: white;
+}
+
+.addBtn:hover {
+    background-color: #39F0C1;
+    outline: 2px solid black;
+}
+
 .addRemoveWrapper:active {
     outline: #1b1b1b 2px solid;
     outline-offset: -1px;

@@ -17,7 +17,7 @@
     overflow: hidden;
     background-color: var(--secondaryColor);
     box-shadow: -3px 0px 10px 5px #00000042;
-
+    z-index: 2;
     transition: all 0.25s;
 }
 

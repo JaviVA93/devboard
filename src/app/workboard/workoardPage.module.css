@@ -13,3 +13,34 @@
     align-self: flex-start;
     line-height: 0.9;
 }
+
+.emptyBoardMsg {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+
+.emptyBoardArrowWrapper {
+    position: absolute;
+    top: 0;
+    right: 50px;
+    animation: bounce 5s ease infinite;
+}
+
+.emptyBoardArrow {
+    width: 150px;
+    height: 100px;
+
+    transform: rotate(-16deg);
+}
+
+@keyframes bounce {
+    80% { transform:translateX(0%); }
+    88% { transform:translateX(-15%); }
+    93% { transform:translateX(0%); }
+    95% { transform:translateX(-7%); }
+    97% { transform:translateX(0%); }
+    99% { transform:translateX(-3%); }
+    100% { transform:translateX(0); }
+}

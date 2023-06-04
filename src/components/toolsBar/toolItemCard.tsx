@@ -53,12 +53,12 @@ const ToolItemCard = (props: {
     }
 
     const removeWrapperElement =
-        <button type='button' className={style.addRemoveWrapper} onClick={removeToolFromBoard}>
+        <button type='button' className={`${style.addRemoveWrapper} ${style.removeBtn}`} onClick={removeToolFromBoard}>
             <TrashSvg /> Remove
         </button>
 
     const addWrapperElement =
-        <button type='button' className={style.addRemoveWrapper} onClick={addToolToBoard}>
+        <button type='button' className={`${style.addRemoveWrapper} ${style.addBtn}`} onClick={addToolToBoard}>
             <PlusSvg /> Add
         </button>
 

@@ -32,9 +32,9 @@ const ToolsBar = () => {
         toolId: 'clampcalc',
     },{
         toolName: 'Weather',
-        imagePreviewPath: '/images/clampcalc-preview.png',
-        mainCardColor: '#2e6dcc',
-        titleColor: '#ffffff',
+        imagePreviewPath: '/images/weather-preview.png',
+        mainCardColor: '#ffffff',
+        titleColor: '#2e6dcc',
         toolId: 'weather',
     }]
 
