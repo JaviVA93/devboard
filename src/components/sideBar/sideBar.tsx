@@ -41,11 +41,11 @@ const SideBar = () => {
 
     return (
         <nav className={style.sideBar} ref={sideBar}>
-            <div className={style.burguer} onClick={showHideSideBar}>
+            <button type='button' className={style.burguer} onClick={showHideSideBar}>
                 <svg strokeWidth="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF">
                     <path d="M3 5h18M3 12h18M3 19h18" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                 </svg>
-            </div>
+            </button>
             <menu>
                 {sidebarRoutes.map(r =>
                     <li key={r.route}>
