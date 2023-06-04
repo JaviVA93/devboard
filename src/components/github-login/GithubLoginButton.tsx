@@ -17,7 +17,7 @@ const GithubLoginButton = (props: { supabase: SupabaseClient }) => {
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: document.location.origin + PATHS.BOARD
+                redirectTo: document.location.origin + PATHS.LOGIN_SUCCES
             }
         })
     }

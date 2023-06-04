@@ -35,19 +35,36 @@ export default async function Workboard() {
     ]
 
     let toolsCookie: null | string = null
+    let toolsConfigFromDB: null | string = null
+    const supabase = createRouteHandlerSupabaseClient({
+        headers,
+        cookies
+    })
     if (cookies().get('supabase-auth-token')) {
-        const supabase = createRouteHandlerSupabaseClient({
-            headers,
-            cookies
-        })
-    
+
         const { data, error } = await supabase.from('board-tools').select('tools')
-        if (data)
+
+        if (data && data.length > 0) {
             toolsCookie = data[0].tools
+            toolsConfigFromDB = data[0].tools
+        }
     }
-    
-    if (!toolsCookie)
+
+    if (!toolsCookie) {
         toolsCookie = cookies().get('devboard-tools')?.value || null
+
+        if (!toolsConfigFromDB) {
+            const user = await supabase.auth.getUser()
+            if (user.data.user) {
+                const id = user.data.user.id
+                supabase.from('board-tools').upsert({
+                    user_id: id,
+                    tools: toolsCookie
+                }).then(() => { /* DO NOTHING */})
+            }
+        }
+
+    }
 
     if (toolsCookie) {
         const toolsSplited = toolsCookie.split(',');

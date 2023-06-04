@@ -71,7 +71,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (session === 'guest')
-            router.push(PATHS.LOGIN)
+            router.replace(PATHS.LOGIN)
     }, [router, session])
         
 

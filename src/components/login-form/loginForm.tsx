@@ -5,11 +5,14 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import toast from 'react-hot-toast';
 import GithubLoginButton from '../github-login/GithubLoginButton';
 import GoogleLoginButton from '../google-login/googleLoginButton';
+import { useRouter } from 'next/navigation';
+import { PATHS } from '@/utils/constants';
 
 export default function LoginForm(props: { supabase: SupabaseClient, className: string }) {
     
     const emailInput = useRef<HTMLInputElement | null>(null);
     const { supabase, className } = props
+    const router = useRouter()
 
 
 
@@ -33,7 +36,7 @@ export default function LoginForm(props: { supabase: SupabaseClient, className: 
             if (res.error)
                 toast.error(res.error.message, { duration: 10000 })
             else
-                document.location.pathname = "/"
+                router.push(PATHS.LOGIN_SUCCES)
         })
 
     }

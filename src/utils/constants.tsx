@@ -2,6 +2,7 @@
 export const PATHS = {
     HOME: '/',
     LOGIN: '/login',
+    LOGIN_SUCCES: '/login-success',
     PROFILE: '/profile',
     BOARD: '/workboard',
     APIS: {
