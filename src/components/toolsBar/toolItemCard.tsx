@@ -4,6 +4,7 @@ import style from './toolItemCard.module.css'
 import TrashSvg from '../assets/TrashSvg';
 import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
+import { PATHS } from '@/utils/constants';
 
 
 const ToolItemCard = (props: {
@@ -11,11 +12,11 @@ const ToolItemCard = (props: {
 }) => {
 
     const { toolName, imagePreviewPath, mainCardColor, titleColor, toolId } = props;
-    const toolsCookie = getCookieValue('workboard-tools')
+    const toolsCookie = getCookieValue('devboard-tools')
     let toolOnBoard = (toolsCookie?.includes(toolId)) ? true : false;
 
     function addToolToBoard() {
-        const workboardToolsCookie = getCookieValue('workboard-tools')
+        const workboardToolsCookie = getCookieValue('devboard-tools')
         let result = ''
         if (!workboardToolsCookie) {
             result = toolId
@@ -24,16 +25,17 @@ const ToolItemCard = (props: {
             result = `${workboardToolsCookie},${toolId}`
         }
 
-        var now = new Date();
-        var time = now.getTime();
-        var expireTime = time + 1000*36000;
+        const now = new Date();
+        const time = now.getTime();
+        const expireTime = time + 1000 * 60 * 60 * 24 * 365;
         now.setTime(expireTime);
-        document.cookie = `workboard-tools=${result}; path=/; expires=${now.toUTCString()}`
-        document.location.reload()
+        document.cookie = `devboard-tools=${result}; path=/; expires=${now.toUTCString()}`
+        
+        updateInDB().then(() => document.location.reload())
     }
 
     function removeToolFromBoard() {
-        const workboardToolsCookie = getCookieValue('workboard-tools')
+        const workboardToolsCookie = getCookieValue('devboard-tools')
         if (!workboardToolsCookie)
             return
         
@@ -44,12 +46,24 @@ const ToolItemCard = (props: {
         
         toolsArr.splice(index, 1)
 
-        var now = new Date();
-        var time = now.getTime();
-        var expireTime = time + 1000*36000;
+        const now = new Date();
+        const time = now.getTime();
+        const expireTime = time + 1000 * 60 * 60 * 24 * 365;
         now.setTime(expireTime);
-        document.cookie = `workboard-tools=${toolsArr.join(',')}; path=/; expires=${now.toUTCString()}`
-        document.location.reload()
+        document.cookie = `devboard-tools=${toolsArr.join(',')}; path=/; expires=${now.toUTCString()}`
+        
+        updateInDB().then(() => document.location.reload())
+    }
+
+    async function updateInDB() {
+        if (!getCookieValue('supabase-auth-token'))
+            return
+        
+        
+        const req = await fetch(PATHS.APIS.BOARD_TOOLS, {
+            method: 'POST'
+        })
+        return
     }
 
     const removeWrapperElement =

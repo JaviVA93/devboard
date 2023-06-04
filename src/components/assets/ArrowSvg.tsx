@@ -1,6 +1,4 @@
 
-import React from "react";
-
 export default function ArrowSvg(props?: any) {
     return (
         <svg

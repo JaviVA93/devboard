@@ -8,6 +8,8 @@ export const PATHS = {
         LOGIN: '/api/login',
         SIGNUP: '/api/signup',
         TODOS: '/api/todos',
+        WEATHR: '/api/weather',
+        BOARD_TOOLS: '/api/board-tools',
     }
 }
 

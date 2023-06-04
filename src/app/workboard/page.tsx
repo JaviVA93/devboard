@@ -33,7 +33,7 @@ export default function Workboard() {
         }
     ]
 
-    const toolsCookie = cookies().get('workboard-tools')?.value
+    const toolsCookie = cookies().get('devboard-tools')?.value
     if (toolsCookie) {
         const toolsSplited = toolsCookie.split(',');
         toolsSplited.forEach(id => {
