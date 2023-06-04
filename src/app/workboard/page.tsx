@@ -5,13 +5,14 @@ import style from './workoardPage.module.css'
 import ToolsBar from "@/components/toolsBar/toolsBar";
 import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
 import Weather from "@/components/weather/weather";
-import { cookies } from "next/headers";
-import { cloneElement } from "react";
+import { cookies, headers } from "next/headers";
+import { cloneElement, useEffect } from "react";
 import ArrowSvg from "@/components/assets/ArrowSvg";
+import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 
 
-export default function Workboard() {
+export default async function Workboard() {
     const toolsToShow: { id: string, component: JSX.Element }[] = []
 
     const tools = [
@@ -33,7 +34,21 @@ export default function Workboard() {
         }
     ]
 
-    const toolsCookie = cookies().get('devboard-tools')?.value
+    let toolsCookie: null | string = null
+    if (cookies().get('supabase-auth-token')) {
+        const supabase = createRouteHandlerSupabaseClient({
+            headers,
+            cookies
+        })
+    
+        const { data, error } = await supabase.from('board-tools').select('tools')
+        if (data)
+            toolsCookie = data[0].tools
+    }
+    
+    if (!toolsCookie)
+        toolsCookie = cookies().get('devboard-tools')?.value || null
+
     if (toolsCookie) {
         const toolsSplited = toolsCookie.split(',');
         toolsSplited.forEach(id => {
@@ -42,8 +57,6 @@ export default function Workboard() {
                 toolsToShow.push(tool)
         })
     }
-
-
 
     return (
         <section className={style.workboard}>

@@ -3,12 +3,16 @@
 
 import style from './toolsBar.module.css'
 import ToolItemCard from './toolItemCard'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PlusSvg from '../assets/PlusSvg'
 import ToolsSvg from '../assets/ToolsSvg'
 import FastArrowRightSvg from '../assets/FastArrowRightSvg'
+import { PATHS } from '@/utils/constants'
 
-const ToolsBar = () => {
+
+export default function ToolsBar() {
+
+    const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
 
     const toolsList = [{
         toolName: 'Pomodoro',
@@ -30,7 +34,7 @@ const ToolsBar = () => {
         mainCardColor: '#AB7B76',
         titleColor: '#c9c9c9',
         toolId: 'clampcalc',
-    },{
+    }, {
         toolName: 'Weather',
         imagePreviewPath: '/images/weather-preview.png',
         mainCardColor: '#ffffff',
@@ -48,8 +52,19 @@ const ToolsBar = () => {
             toolsBar.current.classList.add(style.toolsListHidden)
     }
 
-    // TO-DO: remove/add button on each card based on active tools on the workboard
-    // pass some "add/remove" function on props to control the behavior by the parent (Workboard page)
+
+    useEffect(() => {
+        fetch(PATHS.APIS.BOARD_TOOLS).then(() => {
+            setIsLoadingBoardConfig(false)
+        })
+            .catch(() => {
+                setIsLoadingBoardConfig(false)
+            })
+    }, [])
+
+
+    if (isLoadingBoardConfig)
+        return <></>
 
     return (
         <div ref={toolsBar} className={`${style.toolsBar} ${style.toolsListHidden}`}>
@@ -73,5 +88,3 @@ const ToolsBar = () => {
         </div>
     )
 }
-
-export default ToolsBar

@@ -1,3 +1,4 @@
+"use client"
 
 import Image from 'next/image'
 import style from './toolItemCard.module.css'
@@ -5,6 +6,7 @@ import TrashSvg from '../assets/TrashSvg';
 import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
 import { PATHS } from '@/utils/constants';
+import { useEffect, useState } from 'react';
 
 
 const ToolItemCard = (props: {
@@ -12,8 +14,7 @@ const ToolItemCard = (props: {
 }) => {
 
     const { toolName, imagePreviewPath, mainCardColor, titleColor, toolId } = props;
-    const toolsCookie = getCookieValue('devboard-tools')
-    let toolOnBoard = (toolsCookie?.includes(toolId)) ? true : false;
+
 
     function addToolToBoard() {
         const workboardToolsCookie = getCookieValue('devboard-tools')
@@ -65,6 +66,11 @@ const ToolItemCard = (props: {
         })
         return
     }
+
+
+
+    let toolsCookie = getCookieValue('devboard-tools')
+    const toolOnBoard = (toolsCookie?.includes(toolId)) ? true : false;
 
     const removeWrapperElement =
         <button type='button' className={`${style.addRemoveWrapper} ${style.removeBtn}`} onClick={removeToolFromBoard}>

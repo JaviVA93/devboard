@@ -10,9 +10,26 @@ export async function GET() {
         cookies
     })
 
-    const { data, error } = await supabase.from('board-tools').select('tools')
+    const user = await supabase.auth.getUser()
+    if (user.error)
+        return NextResponse.json({ data: null, error: 'need login' }, { status: 500 })
 
-    return NextResponse.json({ data, error })
+    const { data, error } = await supabase.from('board-tools').select('tools')
+    if (error)
+        return NextResponse.json({ data: null, error: 'internal error' }, { status: 500 })
+
+    if (data){
+        const now = new Date();
+        const time = now.getTime();
+        const expireTime = time + 1000 * 60 * 60 * 24 * 365;
+        now.setTime(expireTime);
+        return new Response(undefined, {
+            status: 200,
+            headers: {
+                'Set-cookie': `devboard-tools=${data[0].tools}; path=/; expires${now.toUTCString()}`
+            }
+        })
+    }
 }
 
 
@@ -24,7 +41,6 @@ export async function POST() {
     })
 
     const user = await supabase.auth.getUser()
-    console.log(user)
     if (user.error)
         return NextResponse.json({ data: null, error: 'need login' }, { status: 500 })
 
