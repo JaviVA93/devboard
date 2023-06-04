@@ -29,7 +29,7 @@ export default function ProfilePage() {
 
     async function signOut() {
         supabase.auth.signOut().then(() => {
-            router.push('/')
+            router.push(PATHS.LOGIN)
         })
     }
 
