@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseSession } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import { useSupabase } from '@/app/supabase-context'
 import CubeLoader from '../assets/cube-loader/CubeLoader'
@@ -24,6 +24,7 @@ const ToDo = () => {
     const [loadingIssues, setLoadingIssues] = useState(true)
     const [userId, setUserId] = useState<string>('guest')
     const { supabase } = useSupabase();
+    const session = useSupabaseSession();
 
     const userTodosIndex = todos.findIndex(e => e.userId === userId)
 
@@ -41,8 +42,6 @@ const ToDo = () => {
         }
 
 
-        console.dir(todosTmp)
-        console.log(userTodosIndex)
         if (userTodosIndex === -1)
             todosTmp.push({
                 userId: userId,
@@ -118,17 +117,21 @@ const ToDo = () => {
     useEffect(() => {
 
         setLoadingIssues(true)
+        if (!session)
+            return
+        
+        const userId = (session === 'guest') ? 'guest' : session.user.id
+        setUserId(userId)
 
-        supabase.auth.getUser().then(userResponse => {
-
-            const userId = userResponse.data.user?.id || 'guest'
-            setUserId(userId)
-
+        if (userId === 'guest') {
+            updateTodoListFromLocal()
+            setLoadingIssues(false)
+        }
+        else
             getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
-
-                if (error || data.length === 0) {
+                
+                if (error || data.length === 0)
                     updateTodoListFromLocal()
-                }
                 else {
                     const rawLocalTodos = window.localStorage.getItem('todos_data')
                     const localTodosAll: { userId: string, data: Issue[] }[] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
@@ -154,9 +157,8 @@ const ToDo = () => {
 
                 setLoadingIssues(false)
             })
-        })
 
-    }, [supabase.auth])
+    }, [session])
 
     const loadingIssuesElement =
         <div className={style.loadingWrapper}>

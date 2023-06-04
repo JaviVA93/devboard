@@ -3,6 +3,7 @@
 import { SupabaseClient, User } from "@supabase/supabase-js"
 import GitHubLogo from "../assets/GitHubLogo"
 import style from "./githubLoginButton.module.css"
+import { PATHS } from "@/utils/constants"
 
 // import { supabase } from '@/utils/supabase'
 
@@ -16,7 +17,7 @@ const GithubLoginButton = (props: { supabase: SupabaseClient }) => {
         await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: document.location.origin + '/'
+                redirectTo: document.location.origin + PATHS.BOARD
             }
         })
     }

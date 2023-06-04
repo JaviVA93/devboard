@@ -30,6 +30,12 @@ const ToolsBar = () => {
         mainCardColor: '#AB7B76',
         titleColor: '#c9c9c9',
         toolId: 'clampcalc',
+    },{
+        toolName: 'Weather',
+        imagePreviewPath: '/images/clampcalc-preview.png',
+        mainCardColor: '#2e6dcc',
+        titleColor: '#ffffff',
+        toolId: 'weather',
     }]
 
     const toolsBar = useRef<HTMLDivElement | null>(null)

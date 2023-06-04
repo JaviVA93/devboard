@@ -5,17 +5,21 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image'
 import style from './loginPage.module.css'
 import { useSupabase } from '../supabase-context';
-import { Session } from '@supabase/supabase-js';
 import Cookies from 'js-cookie';
 import LoginForm from '@/components/login-form/loginForm';
 import SignupForm from '@/components/signup-form/signupForm';
 import GlitchText from '@/components/glitch-text/glitchText';
 import LoaderBlock from '@/components/loader-block/loaderBlock';
+import { useRouter } from 'next/navigation';
+import { PATHS } from '@/utils/constants';
+import { useSupabaseSession } from '@/utils/supabase';
 
 export default function LoginPage() {
 
+    const router = useRouter()
     const { supabase } = useSupabase()
-    const [session, setSession] = useState<null | 'guest' | Session>(null)
+    // const [session, setSession] = useState<null | 'guest' | Session>(null)
+    const session = useSupabaseSession()
     const [curtainBtnText, setCurtainBtnText] = useState('Sign up')
     const curtainElement = useRef<HTMLDivElement | null>(null)
 
@@ -36,27 +40,28 @@ export default function LoginPage() {
     }
 
 
-    async function signOut() {
-        supabase.auth.signOut().then(() => location.href = '/')
-    }
-
-
     useEffect(() => {
-        if (Cookies.get('supabase-auth-token'))
-            supabase.auth.getSession().then(({ data: { session } }) => {
-                if (!session)
-                    setSession('guest')
-                else
-                    setSession(session)
-            }).catch(err => {
-                console.error(err)
-                setSession('guest')
-            })
-        else
-            setSession('guest')
-    }, [supabase])
+        if (session && session !== 'guest')
+            router.push(PATHS.PROFILE)
+    }, [router, session])
 
-    if (session === 'guest')
+
+    if (!session){
+        return (
+            // LOADING TEMPLATE <== Not "Suspense", just normal "load"(reload)
+            <section className={style.section}>
+                <div style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
+                    <LoaderBlock className={style.loaderBlock} height={212} width={400}/>
+                    <LoaderBlock className={style.loaderBlock} height={70} width={247} />
+                    <LoaderBlock className={style.loaderBlock} height={70} width={247} />
+                </div>
+                <div style={{alignSelf: 'center', justifySelf: 'center'}}>
+                    <LoaderBlock className={style.loaderBlock} height={214} width={400}/>
+                </div>
+            </section>
+        )
+    }
+    else if (session === 'guest') {
         return (
             <section ref={curtainElement} className={`${style.section} ${style.showLogin}`}>
                 <div className={`${style.curtain}`}>
@@ -80,25 +85,8 @@ export default function LoginPage() {
                 <SignupForm supabase={supabase} className={style.signupContainer} />
             </section>
         )
-    else if (session) {
-        return (
-            <button type='button' onClick={signOut}>Logout</button>
-        )
     }
     else {
-        // LOADING TEMPLATE <== Not "Suspense", just normal "load"(reload)
-        return (
-            <section className={style.section}>
-                <div style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
-                    <LoaderBlock className={style.loaderBlock} height={212} width={400}/>
-                    <LoaderBlock className={style.loaderBlock} height={70} width={247} />
-                    <LoaderBlock className={style.loaderBlock} height={70} width={247} />
-                </div>
-                <div style={{alignSelf: 'center', justifySelf: 'center'}}>
-                    <LoaderBlock className={style.loaderBlock} height={214} width={400}/>
-                </div>
-            </section>
-        )
+        return ''
     }
-
 }

@@ -3,12 +3,12 @@
 import Link from 'next/link'
 import style from './sideBar.module.css'
 import { useRef } from 'react'
+import { PATHS } from '../../utils/constants'
 
 const SideBar = () => {
     const sidebarRoutes = [
-        { name: 'Home', route: '/' },
-        { name: 'Login', route: '/login' },
         { name: 'Workboard', route: '/workboard' },
+        { name: 'Profile', route: '/login', },
         { name: 'About', route: '/about' },
     ]
 

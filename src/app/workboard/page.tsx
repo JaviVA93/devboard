@@ -4,9 +4,13 @@ import ToDo from "@/components/to-do/toDo";
 import style from './workoardPage.module.css'
 import ToolsBar from "@/components/toolsBar/toolsBar";
 import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
+<<<<<<< HEAD
 import { cookies } from "next/headers";
 import { cloneElement } from "react";
 import { useRouter } from "next/navigation";
+=======
+import Weather from "@/components/weather/weather";
+>>>>>>> main
 
 export default function Workboard() {
     const toolsToShow: {id: string, component: JSX.Element}[] = []
@@ -42,9 +46,16 @@ export default function Workboard() {
         <section className={style.workboard}>
             <ToolsBar />
             <h1>Your Workboard</h1>
+<<<<<<< HEAD
             {toolsToShow.length > 0
                 ? toolsToShow.map(t =>  cloneElement(t.component, {key: t.id}))
                 : <h1>Add tools to your workboard!</h1>}
+=======
+            <Pomodoro />
+            <ToDo />
+            <ClampCalculator />
+            <Weather />
+>>>>>>> main
         </section>
     )
 }
