@@ -7,7 +7,7 @@ import { PATHS } from '../../utils/constants'
 
 const SideBar = () => {
     const sidebarRoutes = [
-        { name: 'Workboard', route: PATHS.BOARD },
+        { name: 'Board', route: PATHS.BOARD },
         { name: 'Profile', route: PATHS.LOGIN },
         { name: 'About', route: PATHS.ABOUT },
     ]
