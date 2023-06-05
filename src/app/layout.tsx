@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast'
 
 
 export const metadata = {
-  title: 'Workboard',
+  title: 'Devboard',
   description: 'Created by Javi Villar',
 }
 

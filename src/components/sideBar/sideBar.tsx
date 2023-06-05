@@ -7,9 +7,9 @@ import { PATHS } from '../../utils/constants'
 
 const SideBar = () => {
     const sidebarRoutes = [
-        { name: 'Workboard', route: '/workboard' },
-        { name: 'Profile', route: '/login', },
-        { name: 'About', route: '/about' },
+        { name: 'Workboard', route: PATHS.BOARD },
+        { name: 'Profile', route: PATHS.LOGIN },
+        { name: 'About', route: PATHS.ABOUT },
     ]
 
     const sideBar = useRef<HTMLElement | null>(null)
