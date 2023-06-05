@@ -7,6 +7,8 @@ import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
 import { PATHS } from '@/utils/constants';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { LoaderIcon } from 'react-hot-toast';
 
 
 const ToolItemCard = (props: {
@@ -15,10 +17,14 @@ const ToolItemCard = (props: {
 
     const { toolName, imagePreviewPath, mainCardColor, titleColor, toolId } = props;
     const router = useRouter();
+    const [isUpdatingTools, setIsUpdatingTools] = useState(false)
 
 
-    
+
     function addToolToBoard() {
+
+        setIsUpdatingTools(true)
+
         const workboardToolsCookie = getCookieValue('devboard-tools')
         let result = ''
         if (!workboardToolsCookie) {
@@ -33,22 +39,28 @@ const ToolItemCard = (props: {
         const expireTime = time + 1000 * 60 * 60 * 24 * 365;
         now.setTime(expireTime);
         document.cookie = `devboard-tools=${result}; path=/; expires=${now.toUTCString()}`
-        
-        updateInDB().then(() => router.refresh())
+
+        updateInDB().then(() => {
+            router.refresh()
+            setTimeout(() => { setIsUpdatingTools(false) }, 1000)
+        })
     }
 
 
 
     function removeToolFromBoard() {
+
+        setIsUpdatingTools(true)
+
         const workboardToolsCookie = getCookieValue('devboard-tools')
         if (!workboardToolsCookie)
             return
-        
+
         const toolsArr = workboardToolsCookie.split(',')
         const index = toolsArr.indexOf(toolId)
         if (index === -1)
             return
-        
+
         toolsArr.splice(index, 1)
 
         const now = new Date();
@@ -56,16 +68,19 @@ const ToolItemCard = (props: {
         const expireTime = time + 1000 * 60 * 60 * 24 * 365;
         now.setTime(expireTime);
         document.cookie = `devboard-tools=${toolsArr.join(',')}; path=/; expires=${now.toUTCString()}`
-        
-        updateInDB().then(() => router.refresh())
+
+        updateInDB().then(() => {
+            router.refresh()
+            setTimeout(() => { setIsUpdatingTools(false) }, 1000)
+        })
     }
 
 
     async function updateInDB() {
         if (!getCookieValue('supabase-auth-token'))
             return
-        
-        
+
+
         const req = await fetch(PATHS.APIS.BOARD_TOOLS, {
             method: 'POST'
         })
@@ -78,14 +93,20 @@ const ToolItemCard = (props: {
     const toolOnBoard = (toolsCookie?.includes(toolId)) ? true : false;
 
     const removeWrapperElement =
-        <button type='button' className={`${style.addRemoveWrapper} ${style.removeBtn}`} onClick={removeToolFromBoard}>
-            <TrashSvg /> Remove
+        <button type='button'
+            className={`${style.addRemoveWrapper} ${!isUpdatingTools ? style.removeBtn : ''}`}
+            onClick={removeToolFromBoard}>
+            {(isUpdatingTools) ? <LoaderIcon /> : <><TrashSvg /> Remove </>}
         </button>
 
     const addWrapperElement =
-        <button type='button' className={`${style.addRemoveWrapper} ${style.addBtn}`} onClick={addToolToBoard}>
-            <PlusSvg /> Add
+        <button type='button' 
+            className={`${style.addRemoveWrapper} ${!isUpdatingTools ? style.addBtn : ''}`} 
+            onClick={addToolToBoard}>
+            {(isUpdatingTools) ? <LoaderIcon /> : <><PlusSvg />Add</>}
         </button>
+
+
 
     return (
         <div className={style.card} style={{ backgroundColor: mainCardColor }} draggable>

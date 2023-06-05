@@ -19,6 +19,7 @@
 .addRemoveWrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 3px;
     color: #1b1b1b;
     background-color: #c9c9c9;
@@ -27,6 +28,8 @@
     margin-top: 5px;
     padding: 5px 8px 5px 5px;
     width: fit-content;
+    min-width: 65px;
+    min-height: 35px;
     transition: background-color 0.2s;
     cursor: auto;
 }
