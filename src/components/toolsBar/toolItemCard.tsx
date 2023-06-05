@@ -7,7 +7,7 @@ import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
 import { PATHS } from '@/utils/constants';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LoaderIcon } from 'react-hot-toast';
 
 
