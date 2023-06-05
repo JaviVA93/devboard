@@ -4,7 +4,8 @@ export const PATHS = {
     LOGIN: '/login',
     LOGIN_SUCCES: '/login-success',
     PROFILE: '/profile',
-    BOARD: '/workboard',
+    BOARD: '/',
+    ABOUT: '/about',
     APIS: {
         LOGIN: '/api/login',
         SIGNUP: '/api/signup',
