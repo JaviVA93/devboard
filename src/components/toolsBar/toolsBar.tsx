@@ -13,6 +13,7 @@ import { PATHS } from '@/utils/constants'
 export default function ToolsBar() {
 
     const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
+    const toolsBar = useRef<HTMLDivElement | null>(null)
 
     const toolsList = [{
         toolName: 'Pomodoro',
@@ -42,14 +43,33 @@ export default function ToolsBar() {
         toolId: 'weather',
     }]
 
-    const toolsBar = useRef<HTMLDivElement | null>(null)
 
-    function openCloseToolsBar() {
-        if (!toolsBar.current) return;
 
-        toolsBar.current.classList.contains(style.toolsListHidden) ?
-            toolsBar.current.classList.remove(style.toolsListHidden) :
+
+    function showHideToolsBar() {
+        if (!toolsBar.current)
+            return
+        
+        if (toolsBar.current.classList.contains(style.toolsListHidden)) {
+            window.addEventListener('click', outsideClicksListener, true)
+            toolsBar.current.classList.remove(style.toolsListHidden)
+        }
+        else {
+            window.removeEventListener('click', outsideClicksListener, true)
             toolsBar.current.classList.add(style.toolsListHidden)
+        }
+    }
+
+
+
+    function outsideClicksListener(event: MouseEvent) {
+        if (!event.target || !(event.target instanceof Node))
+            return
+        
+        if (event.target !== toolsBar.current && !toolsBar.current?.contains(event.target)) {
+            toolsBar.current?.classList.add(style.toolsListHidden)
+            window.removeEventListener('click', outsideClicksListener, true)
+        }
     }
 
 
@@ -68,11 +88,11 @@ export default function ToolsBar() {
 
     return (
         <div ref={toolsBar} className={`${style.toolsBar} ${style.toolsListHidden}`}>
-            <button className={style.addToolsIconsWrapper} type='button' onClick={openCloseToolsBar}>
+            <button className={style.addToolsIconsWrapper} type='button' onClick={showHideToolsBar}>
                 <PlusSvg />
                 <ToolsSvg />
             </button>
-            <button className={style.closeToolsBar} onClick={openCloseToolsBar}>
+            <button className={style.closeToolsBar} onClick={showHideToolsBar}>
                 <FastArrowRightSvg />
             </button>
             <div className={style.toolsList}>

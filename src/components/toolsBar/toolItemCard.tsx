@@ -6,7 +6,7 @@ import TrashSvg from '../assets/TrashSvg';
 import PlusSvg from '../assets/PlusSvg';
 import { getCookieValue } from '@/utils/utils';
 import { PATHS } from '@/utils/constants';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 const ToolItemCard = (props: {
@@ -14,8 +14,10 @@ const ToolItemCard = (props: {
 }) => {
 
     const { toolName, imagePreviewPath, mainCardColor, titleColor, toolId } = props;
+    const router = useRouter();
 
 
+    
     function addToolToBoard() {
         const workboardToolsCookie = getCookieValue('devboard-tools')
         let result = ''
@@ -32,8 +34,10 @@ const ToolItemCard = (props: {
         now.setTime(expireTime);
         document.cookie = `devboard-tools=${result}; path=/; expires=${now.toUTCString()}`
         
-        updateInDB().then(() => document.location.reload())
+        updateInDB().then(() => router.refresh())
     }
+
+
 
     function removeToolFromBoard() {
         const workboardToolsCookie = getCookieValue('devboard-tools')
@@ -53,8 +57,9 @@ const ToolItemCard = (props: {
         now.setTime(expireTime);
         document.cookie = `devboard-tools=${toolsArr.join(',')}; path=/; expires=${now.toUTCString()}`
         
-        updateInDB().then(() => document.location.reload())
+        updateInDB().then(() => router.refresh())
     }
+
 
     async function updateInDB() {
         if (!getCookieValue('supabase-auth-token'))

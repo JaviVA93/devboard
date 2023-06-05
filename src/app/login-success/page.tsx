@@ -8,8 +8,7 @@ export default function LoginSuccessPage() {
     const router = useRouter()
     const [seconds, setSeconds] = useState('3')
 
-    useEffect(() => { 
-        // setTimeout(() => router.replace(PATHS.BOARD), 3000)
+    useEffect(() => {
         let s = 3
         const int = setInterval(() => {
             if (s <= 0) {
