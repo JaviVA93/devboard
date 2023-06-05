@@ -26,6 +26,9 @@ export function convertTimeToMS(minutes: number, seconds: number): number {
 
 
 export function getCookieValue(name: string) {
+    if (typeof window === 'undefined')
+        return null
+
     return document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || null
 }
 

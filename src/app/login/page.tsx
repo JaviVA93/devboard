@@ -42,7 +42,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (session && session !== 'guest')
-            router.push(PATHS.PROFILE)
+            router.replace(PATHS.PROFILE)
     }, [router, session])
 
 

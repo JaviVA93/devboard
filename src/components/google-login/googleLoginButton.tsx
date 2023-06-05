@@ -15,7 +15,7 @@ const GoogleLoginButton = (props: { supabase: SupabaseClient }) => {
         await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: document.location.origin + PATHS.BOARD
+                redirectTo: document.location.origin + PATHS.LOGIN_SUCCES
             }
         })
     }

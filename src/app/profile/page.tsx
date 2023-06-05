@@ -29,7 +29,7 @@ export default function ProfilePage() {
 
     async function signOut() {
         supabase.auth.signOut().then(() => {
-            router.push('/')
+            router.push(PATHS.LOGIN)
         })
     }
 
@@ -71,7 +71,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (session === 'guest')
-            router.push(PATHS.LOGIN)
+            router.replace(PATHS.LOGIN)
     }, [router, session])
         
 

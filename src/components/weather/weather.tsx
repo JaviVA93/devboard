@@ -86,12 +86,12 @@ export default function Weather() {
                 </div>
             </div>)
         :   <div className={style.weather} style={{display: 'flex', flexDirection: 'column'}}>
-                <div className={style.searchWrapper}>
+                <form className={style.searchWrapper}>
                     <input ref={searcherElement} placeholder='How is the weather in...' />
                     <button className={style.searchBtn} onClick={doSearch}>
                         {(!isLoadingData) ? <SearchSvg /> : <SimpleLoader style={{width: 15, height: 15}}/>}
                     </button>
-                </div>
+                </form>
                 <span>{(weatherData && weatherData.error)? weatherData.error.message : ''}</span>
             </div>
         

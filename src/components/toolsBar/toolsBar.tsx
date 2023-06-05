@@ -3,12 +3,17 @@
 
 import style from './toolsBar.module.css'
 import ToolItemCard from './toolItemCard'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PlusSvg from '../assets/PlusSvg'
 import ToolsSvg from '../assets/ToolsSvg'
 import FastArrowRightSvg from '../assets/FastArrowRightSvg'
+import { PATHS } from '@/utils/constants'
 
-const ToolsBar = () => {
+
+export default function ToolsBar() {
+
+    const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
+    const toolsBar = useRef<HTMLDivElement | null>(null)
 
     const toolsList = [{
         toolName: 'Pomodoro',
@@ -30,7 +35,7 @@ const ToolsBar = () => {
         mainCardColor: '#AB7B76',
         titleColor: '#c9c9c9',
         toolId: 'clampcalc',
-    },{
+    }, {
         toolName: 'Weather',
         imagePreviewPath: '/images/weather-preview.png',
         mainCardColor: '#ffffff',
@@ -38,26 +43,56 @@ const ToolsBar = () => {
         toolId: 'weather',
     }]
 
-    const toolsBar = useRef<HTMLDivElement | null>(null)
 
-    function openCloseToolsBar() {
-        if (!toolsBar.current) return;
 
-        toolsBar.current.classList.contains(style.toolsListHidden) ?
-            toolsBar.current.classList.remove(style.toolsListHidden) :
+
+    function showHideToolsBar() {
+        if (!toolsBar.current)
+            return
+        
+        if (toolsBar.current.classList.contains(style.toolsListHidden)) {
+            window.addEventListener('click', outsideClicksListener, true)
+            toolsBar.current.classList.remove(style.toolsListHidden)
+        }
+        else {
+            window.removeEventListener('click', outsideClicksListener, true)
             toolsBar.current.classList.add(style.toolsListHidden)
+        }
     }
 
-    // TO-DO: remove/add button on each card based on active tools on the workboard
-    // pass some "add/remove" function on props to control the behavior by the parent (Workboard page)
+
+
+    function outsideClicksListener(event: MouseEvent) {
+        if (!event.target || !(event.target instanceof Node))
+            return
+        
+        if (event.target !== toolsBar.current && !toolsBar.current?.contains(event.target)) {
+            toolsBar.current?.classList.add(style.toolsListHidden)
+            window.removeEventListener('click', outsideClicksListener, true)
+        }
+    }
+
+
+    useEffect(() => {
+        fetch(PATHS.APIS.BOARD_TOOLS).then(() => {
+            setIsLoadingBoardConfig(false)
+        })
+            .catch(() => {
+                setIsLoadingBoardConfig(false)
+            })
+    }, [])
+
+
+    if (isLoadingBoardConfig)
+        return <></>
 
     return (
         <div ref={toolsBar} className={`${style.toolsBar} ${style.toolsListHidden}`}>
-            <button className={style.addToolsIconsWrapper} type='button' onClick={openCloseToolsBar}>
+            <button className={style.addToolsIconsWrapper} type='button' onClick={showHideToolsBar}>
                 <PlusSvg />
                 <ToolsSvg />
             </button>
-            <button className={style.closeToolsBar} onClick={openCloseToolsBar}>
+            <button className={style.closeToolsBar} onClick={showHideToolsBar}>
                 <FastArrowRightSvg />
             </button>
             <div className={style.toolsList}>
@@ -73,5 +108,3 @@ const ToolsBar = () => {
         </div>
     )
 }
-
-export default ToolsBar
