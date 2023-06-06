@@ -6,6 +6,7 @@
     --color_3: #687c85;
     --color_4: #121e25;
     --color_5: #1E2E1E;
+    --mainBackColor: #262626ce;
     /* --- Variables --- */
 
 
@@ -16,14 +17,14 @@
     gap: 10px;
 
     color: var(--color_3);
-    background-color: var(--color_2_90);
+    background-color: var(--mainBackColor);
 
     width: 450px;
     max-width: 100%;
     padding: 15px;
 
     border-radius: 5px;
-
+    border: 1px solid var(--color_1)
 }
 
 .pomoCard h1 {
