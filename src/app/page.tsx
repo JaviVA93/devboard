@@ -60,7 +60,7 @@ export default async function Workboard() {
                 supabase.from('board-tools').upsert({
                     user_id: id,
                     tools: toolsCookie
-                }).then(() => { /* DO NOTHING */})
+                }).then(() => { /* DO NOTHING */ })
             }
         }
 
@@ -80,7 +80,9 @@ export default async function Workboard() {
             <ToolsBar />
             <h1>Your Board</h1>
             {toolsToShow.length > 0
-                ? toolsToShow.map(t => cloneElement(t.component, { key: t.id }))
+                ? <div className={style.toolsContainer}>
+                    {toolsToShow.map(t => cloneElement(t.component, { key: t.id }))}
+                </div>
                 : <div>
                     <h1 className={style.emptyBoardMsg}>Add tools to your workboard!</h1>
                     <div className={style.emptyBoardArrowWrapper}>

@@ -8,10 +8,20 @@
     margin-bottom: 25px;
 }
 
-.workboard h1 {
+.workboard > h1 {
     font-size: 2.2rem;
     align-self: flex-start;
     line-height: 0.9;
+}
+
+.toolsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 50%);
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+    max-width: 100%;
+    width: 1444px;
 }
 
 .emptyBoardMsg {
@@ -35,12 +45,40 @@
     transform: rotate(-16deg);
 }
 
+@media screen and (max-width: 700px) {
+    .toolsContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
 @keyframes bounce {
-    80% { transform:translateX(0%); }
-    88% { transform:translateX(-15%); }
-    93% { transform:translateX(0%); }
-    95% { transform:translateX(-7%); }
-    97% { transform:translateX(0%); }
-    99% { transform:translateX(-3%); }
-    100% { transform:translateX(0); }
+    80% {
+        transform: translateX(0%);
+    }
+
+    88% {
+        transform: translateX(-15%);
+    }
+
+    93% {
+        transform: translateX(0%);
+    }
+
+    95% {
+        transform: translateX(-7%);
+    }
+
+    97% {
+        transform: translateX(0%);
+    }
+
+    99% {
+        transform: translateX(-3%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
