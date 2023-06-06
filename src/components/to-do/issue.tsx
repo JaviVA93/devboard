@@ -31,7 +31,6 @@ const Issue = (props: {
             tl.kill();
         });
 
-        // tl.kill();
     }
 
 

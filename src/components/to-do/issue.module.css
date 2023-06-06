@@ -23,15 +23,15 @@
 }
 
 .card h1 {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 22px !important;
+    line-height: 1;
     color: var(--color_2);
     text-align: start;
 }
 
 .card span {
     color: var(--color_1);
-    font-size: 1.2rem;
+    font-size: 16px;
     margin-bottom: 9px;
 }
 

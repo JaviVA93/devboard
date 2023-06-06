@@ -9,6 +9,10 @@
     max-width: 100%;
 }
 
+.weather h1 {
+    margin-bottom: 8px;
+}
+
 .searchWrapper {
     position: relative;
     width: 100%;

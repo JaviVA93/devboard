@@ -62,8 +62,8 @@ export default function Weather() {
 
     return (weatherData && !weatherData.error) 
         ?   (<div className={style.weather}>
+                <h1>Weather</h1>
                 <form className={style.searchWrapper}>
-                    {/* CHANGE THE SEARCH COMPOSITION TO A "FORM" IN ORDER TO USE ENTER TO START A SEARCH */}
                     <input type='text' ref={searcherElement} placeholder='How is the weather in...' />
                     <button className={style.searchBtn} onClick={doSearch} type='submit'>
                         {(!isLoadingData) ? <SearchSvg /> : <SimpleLoader style={{width: 15, height: 15}} />}
@@ -86,6 +86,7 @@ export default function Weather() {
                 </div>
             </div>)
         :   <div className={style.weather} style={{display: 'flex', flexDirection: 'column'}}>
+                <h1>Weather</h1>
                 <form className={style.searchWrapper}>
                     <input ref={searcherElement} placeholder='How is the weather in...' />
                     <button className={style.searchBtn} onClick={doSearch}>
