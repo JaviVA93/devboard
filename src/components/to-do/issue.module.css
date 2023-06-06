@@ -5,6 +5,8 @@
     --color_3: #1B291B;
     --color_4: #233623;
     --color_5: #1E2E1E;
+    --color_negative: #D9534F;
+    --color_positive: #339966;
     /* --- Variables --- */
 
 
@@ -17,7 +19,7 @@
     box-shadow: -2px 2px 7px var(--color_3);
     background-color: var(--color_5);
     border-radius: 5px;
-    overflow: hidden;
+    max-width: 400px;
 }
 
 .card h1 {
@@ -33,25 +35,39 @@
     margin-bottom: 9px;
 }
 
+.ctasWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .card button {
-    align-self: flex-end;
-
-    font-size: 1rem;
-    font-weight: 700;
-    text-align: center;
-    text-decoration: none;
-
+    display: flex;
+    
     color: var(--color_3);
     background-color: var(--color_2);
-
     margin-top: auto;
     padding: 5px;
     border-radius: 3px;
     border: 0;
+    text-decoration: none;    
 
     transition: all 0.25s;
 }
 
-.card button:hover {
-    background-color: var(--color_1);
+.card .removeBtn:hover {
+    background-color: var(--color_negative);
+}
+
+.card .removeBtn:hover svg * {
+    fill: white;
+}
+
+
+.card .completeBtn:hover {
+    background-color: var(--color_positive);
+}
+
+.card .completeBtn:hover svg * {
+    stroke: white;
 }
