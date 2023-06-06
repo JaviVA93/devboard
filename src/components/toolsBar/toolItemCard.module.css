@@ -1,5 +1,7 @@
 
 .card {
+    --color_negative: #D9534F;
+    --color_positive: #4c9154;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,7 +38,7 @@
 
 .removeBtn:hover {
     color: white;
-    background-color: rgb(151, 57, 57);
+    background-color: var(--color_negative);
     outline: 2px solid black;
 }
 
@@ -45,7 +47,7 @@
 }
 
 .addBtn:hover {
-    background-color: #39F0C1;
+    background-color: var(--color_positive);
     outline: 2px solid black;
 }
 

@@ -169,8 +169,7 @@ const ToDo = () => {
 
     return (
         <div className={style.todoWrapper}>
-            <h1 className={style.todoWrapperTitle}>To-Do List</h1>
-            <div className={style.horizontalUine}></div>
+            <h1 className={style.todoWrapperTitle}>My Tasks</h1>
                 <div className={style.issuesContainer}>
                     {loadingIssues
                         ? loadingIssuesElement

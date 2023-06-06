@@ -6,7 +6,7 @@
     --color_4: #233623;
     --color_5: #1E2E1E;
     --color_negative: #D9534F;
-    --color_positive: #339966;
+    --color_positive: #4c9154;
     /* --- Variables --- */
 
 
@@ -14,9 +14,8 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
-    padding: 5px;
+    padding: 10px;
     border: 0;
-    box-shadow: -2px 2px 7px var(--color_3);
     background-color: var(--color_5);
     border-radius: 5px;
     max-width: 400px;
@@ -41,18 +40,21 @@
     justify-content: space-between;
 }
 
-.card button {
+.card .ctasWrapper button {
     display: flex;
     
     color: var(--color_3);
-    background-color: var(--color_2);
     margin-top: auto;
-    padding: 5px;
     border-radius: 3px;
     border: 0;
     text-decoration: none;    
-
+    
     transition: all 0.25s;
+}
+
+.card .removeBtn {
+    padding: 5px;
+    background-color: var(--color_1);
 }
 
 .card .removeBtn:hover {
@@ -63,8 +65,17 @@
     fill: white;
 }
 
+.card .completeBtn {
+    padding: 2px 10px;
+}
+
+.card .completeBtn svg {
+    height: 25px;
+    width: 25px;
+}
 
 .card .completeBtn:hover {
+    background-color: var(--color_2);
     background-color: var(--color_positive);
 }
 
