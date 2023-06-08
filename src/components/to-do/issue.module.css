@@ -38,13 +38,13 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-top: auto;
 }
 
 .card .ctasWrapper button {
     display: flex;
     
     color: var(--color_3);
-    margin-top: auto;
     border-radius: 3px;
     border: 0;
     text-decoration: none;    
@@ -54,7 +54,7 @@
 
 .card .removeBtn {
     padding: 5px;
-    background-color: var(--color_1);
+    background-color: var(--color_4);
 }
 
 .card .removeBtn:hover {
