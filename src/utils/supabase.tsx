@@ -77,6 +77,8 @@ export async function setTodoAsDone(id: string) {
     const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=true`, {
         method: 'PUT'
     })
+
+    return await req.json()
 }
 
 export function useSupabaseUserSession() {

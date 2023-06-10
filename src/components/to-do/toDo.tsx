@@ -15,6 +15,7 @@ type Issue = {
     description: string
     id: string
     name: string
+    is_done: boolean
 }
 
 const ToDo = () => {
@@ -37,7 +38,8 @@ const ToDo = () => {
             id: uuidv4(),
             name: name,
             description: description,
-            created_at: currentDate
+            created_at: currentDate,
+            is_done: false,
         }
 
 
@@ -172,7 +174,7 @@ const ToDo = () => {
                 {loadingIssues
                     ? loadingIssuesElement
                     : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
-                        ? todos[userTodosIndex].data.map(data => {
+                        ? todos[userTodosIndex].data.filter(e => e.is_done === false).map(data => {
                             return (
                                 <Issue
                                     removeIssueOnList={removeCard}
@@ -180,6 +182,7 @@ const ToDo = () => {
                                     id={data.id}
                                     title={data.name}
                                     text={data.description}
+                                    isDone={data.is_done}
                                 />)
                         })
                         : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
@@ -187,7 +190,21 @@ const ToDo = () => {
             </div>
             {loadingIssues
                 ? ''
-                : <div></div>}
+                : <div className={`${style.doneIssuesContainer} ${style.issuesContainer}`}>
+                    {
+                        todos[userTodosIndex].data.filter(e => e.is_done === true).map(data => {
+                            return (
+                                <Issue
+                                    removeIssueOnList={removeCard}
+                                    key={data.id}
+                                    id={data.id}
+                                    title={data.name}
+                                    text={data.description}
+                                    isDone={data.is_done}
+                                />)
+                        })
+                    }
+                </div>}
             {loadingIssues
                 ? ''
                 : <div className={style.issueFormContainer}>

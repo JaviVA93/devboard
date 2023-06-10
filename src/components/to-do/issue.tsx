@@ -6,12 +6,14 @@ import { gsap } from 'gsap'
 import Trash2Svg from '../assets/Trash2Svg';
 import DoneSvg from '../assets/DoneSvg';
 import { setTodoAsDone } from '@/utils/supabase';
+import UndoSvg from '../assets/UndoSvg';
 
 const Issue = (props: {
     removeIssueOnList: Function,
     id: string,
     title: string,
-    text: string
+    text: string,
+    isDone: boolean
 }) => {
 
     const { removeIssueOnList, id, title, text } = props;
@@ -38,22 +40,39 @@ const Issue = (props: {
     function markCardAsCompleted() {
         if (!card.current) return;
 
-        setTodoAsDone(props.id)
+        // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
+        // MAYBE THE "SETTODOASDONE" CAN HANDLE IF THE USER
+        // IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
+
+        setTodoAsDone(props.id).then(r => {
+            // REFRESH THE TASKS AFTER THE UPDATE
+        })
+    }
+
+    function markCardAsIncompleted() {
+
     }
 
 
     return (
-        <div className={style.card} id={id} ref={card}>
+        <div className={(props.isDone) ? `${style.card} ${style.cardDone}` : style.card} id={id} ref={card}>
             <h1>{title}</h1>
             <span>{text}</span>
-            <div className={style.ctasWrapper}>
-                <button className={style.removeBtn} onClick={removeCard}>
-                    <Trash2Svg />
-                </button>
-                <button className={style.completeBtn} onClick={markCardAsCompleted}>
-                    <DoneSvg />
-                </button>
-            </div>
+            {!props.isDone
+                ? <div className={style.ctasWrapper}>
+                    <button className={style.removeBtn} onClick={removeCard}>
+                        <Trash2Svg />
+                    </button>
+                    <button className={style.completeBtn} onClick={markCardAsCompleted}>
+                        <DoneSvg />
+                    </button>
+                </div>
+                : <div className={style.ctasWrapper}>
+                    <button className={style.undoBtn} onClick={markCardAsIncompleted}>
+                        <UndoSvg />
+                    </button>
+                </div>
+            }
         </div >
     )
 }

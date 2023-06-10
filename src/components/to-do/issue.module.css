@@ -6,6 +6,7 @@
     --color_4: #233623;
     --color_5: #1E2E1E;
     --color_negative: #D9534F;
+    --color_negative2: #88312e;
     --color_positive: #4c9154;
     /* --- Variables --- */
 
@@ -19,6 +20,15 @@
     background-color: var(--color_5);
     border-radius: 5px;
     max-width: 400px;
+}
+
+.cardDone {
+    background-color: var(--color_1);
+}
+
+.cardDone * {
+    text-decoration:line-through;
+    color: var(--color_2) !important;
 }
 
 .card h1 {
@@ -63,6 +73,10 @@
 
 .card .removeBtn:hover svg * {
     fill: white;
+}
+
+.card .removeBtn:active {
+    background-color: var(--color_negative2);
 }
 
 .card .completeBtn {
