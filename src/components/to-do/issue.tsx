@@ -5,6 +5,7 @@ import style from './issue.module.css'
 import { gsap } from 'gsap'
 import Trash2Svg from '../assets/Trash2Svg';
 import DoneSvg from '../assets/DoneSvg';
+import { setTodoAsDone } from '@/utils/supabase';
 
 const Issue = (props: {
     removeIssueOnList: Function,
@@ -36,6 +37,8 @@ const Issue = (props: {
 
     function markCardAsCompleted() {
         if (!card.current) return;
+
+        setTodoAsDone(props.id)
     }
 
 

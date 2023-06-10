@@ -77,6 +77,11 @@
 .card .completeBtn:hover {
     background-color: var(--color_2);
     background-color: var(--color_positive);
+    outline: 1px solid white;
+}
+
+.card .completeBtn:active {
+    background-color: var(--color_4);
 }
 
 .card .completeBtn:hover svg * {

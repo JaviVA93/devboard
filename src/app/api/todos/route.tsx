@@ -45,3 +45,18 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ data, error })
 }
+
+
+export async function PUT(request: Request) {
+    const supabase = createRouteHandlerSupabaseClient({ headers, cookies })
+
+    const url = new URL(request.url)
+    const id = url.searchParams.get('id')
+    const done = !!(url.searchParams.get('done'))
+
+    const { data, error } = await supabase.from('todos')
+        .update({ 'is_done': done })
+        .eq('id', id)
+
+    return NextResponse.json({ data, error })
+}

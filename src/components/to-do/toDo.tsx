@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB, useSupabaseSession } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
-import { useSupabase } from '@/app/supabase-context'
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
 
@@ -23,8 +22,8 @@ const ToDo = () => {
     const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
     const [userId, setUserId] = useState<string>('guest')
-    const { supabase } = useSupabase();
-    const session = useSupabaseSession();
+    const userSession = useSupabaseUserSession();
+    const logged = useLoggedUser();
 
     const userTodosIndex = todos.findIndex(e => e.userId === userId)
 
@@ -115,12 +114,11 @@ const ToDo = () => {
 
 
     useEffect(() => {
-
         setLoadingIssues(true)
-        if (!session)
+        if (logged === 'loading' || !userSession)
             return
-        
-        const userId = (session === 'guest') ? 'guest' : session.user.id
+
+        const userId = (userSession === 'guest') ? 'guest' : userSession.id
         setUserId(userId)
 
         if (userId === 'guest') {
@@ -129,7 +127,7 @@ const ToDo = () => {
         }
         else
             getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
-                
+
                 if (error || data.length === 0)
                     updateTodoListFromLocal()
                 else {
@@ -158,7 +156,7 @@ const ToDo = () => {
                 setLoadingIssues(false)
             })
 
-    }, [session])
+    }, [logged])
 
     const loadingIssuesElement =
         <div className={style.loadingWrapper}>
@@ -170,23 +168,26 @@ const ToDo = () => {
     return (
         <div className={style.todoWrapper}>
             <h1 className={style.todoWrapperTitle}>My Tasks</h1>
-                <div className={style.issuesContainer}>
-                    {loadingIssues
-                        ? loadingIssuesElement
-                        : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
-                            ? todos[userTodosIndex].data.map(data => {
-                                return (
-                                    <Issue
-                                        removeIssueOnList={removeCard}
-                                        key={data.id}
-                                        id={data.id}
-                                        title={data.name}
-                                        text={data.description}
-                                    />)
-                            })
-                            : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
-                    }
-                </div>
+            <div className={style.issuesContainer}>
+                {loadingIssues
+                    ? loadingIssuesElement
+                    : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
+                        ? todos[userTodosIndex].data.map(data => {
+                            return (
+                                <Issue
+                                    removeIssueOnList={removeCard}
+                                    key={data.id}
+                                    id={data.id}
+                                    title={data.name}
+                                    text={data.description}
+                                />)
+                        })
+                        : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
+                }
+            </div>
+            {loadingIssues
+                ? ''
+                : <div></div>}
             {loadingIssues
                 ? ''
                 : <div className={style.issueFormContainer}>

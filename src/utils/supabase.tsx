@@ -1,4 +1,4 @@
-import { Session, createClient } from "@supabase/supabase-js";
+import { Session, User, createClient } from "@supabase/supabase-js";
 import { Database } from "@/db_schema";
 import { useSupabase } from "@/app/supabase-context";
 import { PATHS } from './constants'
@@ -72,15 +72,22 @@ export async function removeTodo(id: string) {
     return await req.json()
 }
 
-export function useSupabaseSession() {
-    const [session, setSession] = useState<null | 'guest' | Session>(null)
+export async function setTodoAsDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=true`, {
+        method: 'PUT'
+    })
+}
+
+export function useSupabaseUserSession() {
+    const [session, setSession] = useState<null | 'guest' | User>(null)
     const { supabase } = useSupabase()
     
     useEffect(() => {
         
         if (Cookies.get('supabase-auth-token'))
             supabase.auth.getSession().then(({ data: { session } }) => {
-                (!session) ? setSession('guest') : setSession(session)
+                (!session) ? setSession('guest') : setSession(session.user)
             }).catch(err => {
                 console.error(err)
                 setSession('guest')
@@ -95,7 +102,36 @@ export function useSupabaseSession() {
             if(!session)
                 setSession('guest')
             else 
-                setSession(session)
+                setSession(session.user)
+        })
+    }, [])
+
+    return session
+}
+
+export function useLoggedUser() {
+    const [session, setSession] = useState<'loading' | boolean>('loading')
+    const { supabase } = useSupabase()
+    
+    useEffect(() => {
+        
+        if (Cookies.get('supabase-auth-token'))
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                (!session) ? setSession(false) : setSession(true)
+            }).catch(err => {
+                console.error(err)
+                setSession(false)
+            })
+        else
+            setSession(false)    
+    }, [supabase])
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            if(!session)
+                setSession(false)
+            else 
+                setSession(true)
         })
     }, [])
 

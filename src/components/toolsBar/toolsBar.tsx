@@ -8,12 +8,14 @@ import PlusSvg from '../assets/PlusSvg'
 import ToolsSvg from '../assets/ToolsSvg'
 import FastArrowRightSvg from '../assets/FastArrowRightSvg'
 import { PATHS } from '@/utils/constants'
+import { useLoggedUser } from '@/utils/supabase'
 
 
 export default function ToolsBar() {
 
     const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
     const toolsBar = useRef<HTMLDivElement | null>(null)
+    const logged = useLoggedUser()
 
     const toolsList = [{
         toolName: 'Pomodoro',
@@ -49,7 +51,7 @@ export default function ToolsBar() {
     function showHideToolsBar() {
         if (!toolsBar.current)
             return
-        
+
         if (toolsBar.current.classList.contains(style.toolsListHidden)) {
             window.addEventListener('click', outsideClicksListener, true)
             toolsBar.current.classList.remove(style.toolsListHidden)
@@ -65,7 +67,7 @@ export default function ToolsBar() {
     function outsideClicksListener(event: MouseEvent) {
         if (!event.target || !(event.target instanceof Node))
             return
-        
+
         if (event.target !== toolsBar.current && !toolsBar.current?.contains(event.target)) {
             toolsBar.current?.classList.add(style.toolsListHidden)
             window.removeEventListener('click', outsideClicksListener, true)
@@ -74,13 +76,15 @@ export default function ToolsBar() {
 
 
     useEffect(() => {
-        fetch(PATHS.APIS.BOARD_TOOLS).then(() => {
-            setIsLoadingBoardConfig(false)
-        })
-            .catch(() => {
+        if (logged === true)
+            fetch(PATHS.APIS.BOARD_TOOLS).then(() => {
+                setIsLoadingBoardConfig(false)
+            }).catch(() => {
                 setIsLoadingBoardConfig(false)
             })
-    }, [])
+        else
+            setIsLoadingBoardConfig(false)
+    }, [logged])
 
 
     if (isLoadingBoardConfig)

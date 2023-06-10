@@ -1,6 +1,6 @@
 "use client"
 
-import { Session, UserMetadata } from "@supabase/supabase-js"
+import { Session, User, UserMetadata } from "@supabase/supabase-js"
 import Cookies from "js-cookie"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import {  useRouter } from "next/navigation"
@@ -12,7 +12,7 @@ import Image from "next/image"
 import { IMAGES } from "../../utils/constants"
 import GitHubLogo from "@/components/assets/GitHubLogo"
 import GoogleLogo from "@/components/assets/GoogleLogo"
-import { useSupabaseSession } from "@/utils/supabase"
+import { useSupabaseUserSession } from "@/utils/supabase"
 
 export default function ProfilePage() {
 
@@ -24,7 +24,7 @@ export default function ProfilePage() {
     const [username, setUsername] = useState<string | null>(null)
     const [hasGithubProvider, setHasGithubProvider] = useState(false)
     const [hasGoogleProvider, setHasGoogleProvider] = useState(false)
-    const session = useSupabaseSession()
+    const userSession = useSupabaseUserSession()
 
 
     async function signOut() {
@@ -34,49 +34,49 @@ export default function ProfilePage() {
     }
 
 
-    function setUserData(session: Session | null | 'guest') {
+    function setUserData(userSession: User | null | 'guest') {
         
-        if (!session || session === 'guest')
+        if (!userSession || userSession === 'guest')
             return
 
-        if (session.user.email)
-            setEmail(session.user.email)
+        if (userSession.email)
+            setEmail(userSession.email)
 
-        if (session.user.user_metadata.name)
-            setName(session.user.user_metadata.name)
+        if (userSession.user_metadata.name)
+            setName(userSession.user_metadata.name)
 
-        if (session.user.user_metadata.user_name)
-            setUsername(session.user.user_metadata.user_name)
+        if (userSession.user_metadata.user_name)
+            setUsername(userSession.user_metadata.user_name)
 
-        if (session.user.user_metadata.picture)
-            setProfileImg(session.user.user_metadata.picture)
-        else if (session.user.user_metadata.avatar_url)
-            setProfileImg(session.user.user_metadata.avatar_url)
+        if (userSession.user_metadata.picture)
+            setProfileImg(userSession.user_metadata.picture)
+        else if (userSession.user_metadata.avatar_url)
+            setProfileImg(userSession.user_metadata.avatar_url)
 
-        if(session.user.app_metadata.provider === 'github')
+        if(userSession.app_metadata.provider === 'github')
             setHasGithubProvider(true)
-        else if(session.user.app_metadata.providers && session.user.app_metadata.providers.includes('github'))
+        else if(userSession.app_metadata.providers && userSession.app_metadata.providers.includes('github'))
             setHasGithubProvider(true)
 
-        if(session.user.app_metadata.provider === 'google')
+        if(userSession.app_metadata.provider === 'google')
             setHasGoogleProvider(true)
-        else if(session.user.app_metadata.providers && session.user.app_metadata.providers.includes('google'))
+        else if(userSession.app_metadata.providers && userSession.app_metadata.providers.includes('google'))
             setHasGoogleProvider(true)
         
-        return session
+        return userSession
     }
 
 
-    useMemo(() => setUserData(session), [session])
+    useMemo(() => setUserData(userSession), [userSession])
 
     useEffect(() => {
-        if (session === 'guest')
+        if (userSession === 'guest')
             router.replace(PATHS.LOGIN)
-    }, [router, session])
+    }, [router, userSession])
         
 
 
-    if (session && session !== 'guest') 
+    if (userSession && userSession !== 'guest') 
             return (
                 <section className={style.section}>
                     <Image className={style.profileImage} src={profileImg} height={100} width={100} alt="Profile Image"/>
