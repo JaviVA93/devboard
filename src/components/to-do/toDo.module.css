@@ -8,6 +8,7 @@
     --color_4: #233623;
     --color_5: #1E2E1E;
     --mainBackColor: #262626ce;
+    --mainBackColorSoft: #474646ce;
     /* --- Variables --- */
 
 
@@ -77,6 +78,13 @@
     border-radius: 6px;
     background-color: var(--color_3);
     border: 1px solid black;
+}
+
+.doneIssuesContainer {
+    background-color: var(--mainBackColorSoft);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 10px 0;
 }
 
 

@@ -113,50 +113,60 @@ const ToDo = () => {
         });
     }
 
+    function getUpdatedTasks() {
+        return new Promise(resolve => {
+
+            if (logged === 'loading' || !userSession)
+                resolve('loading')
+
+            const userId = (userSession === 'guest') ? 'guest' : userSession.id
+            setUserId(userId)
+
+            if (userId === 'guest') {
+                updateTodoListFromLocal()
+                resolve('done')
+            }
+            else {
+                getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
+                    if (error || data.length === 0)
+                        updateTodoListFromLocal()
+                    else {
+                        const rawLocalTodos = window.localStorage.getItem('todos_data')
+                        const localTodosAll: { userId: string, data: Issue[] }[] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
+
+
+                        const localTodos: { userId: string; data: Issue[] } = localTodosAll.find(e => e.userId === userId) || { userId: userId, data: [] }
+
+                        const diff = localTodos.data.filter(x => !data.find(y => y.id === x.id))
+                        diff.forEach(todo => addTodo(todo))
+
+                        const concateTodos = data.concat(diff)
+
+                        const index = localTodosAll.findIndex(e => e.userId === userId)
+                        if (index === -1)
+                            localTodosAll.push({ userId: userId, data: concateTodos })
+                        else
+                            localTodosAll[index].data = concateTodos
+
+                        window.localStorage.setItem('todos_data', JSON.stringify(localTodosAll))
+
+                        setTodos(localTodosAll)
+                    }
+
+                    resolve('done')
+                })
+            }
+        })
+    }
+
 
 
     useEffect(() => {
         setLoadingIssues(true)
-        if (logged === 'loading' || !userSession)
-            return
-
-        const userId = (userSession === 'guest') ? 'guest' : userSession.id
-        setUserId(userId)
-
-        if (userId === 'guest') {
-            updateTodoListFromLocal()
-            setLoadingIssues(false)
-        }
-        else
-            getTodosFromSB().then(({ data, error }: { data: Issue[], error: any }) => {
-
-                if (error || data.length === 0)
-                    updateTodoListFromLocal()
-                else {
-                    const rawLocalTodos = window.localStorage.getItem('todos_data')
-                    const localTodosAll: { userId: string, data: Issue[] }[] = (rawLocalTodos) ? JSON.parse(rawLocalTodos) : []
-
-
-                    const localTodos: { userId: string; data: Issue[] } = localTodosAll.find(e => e.userId === userId) || { userId: userId, data: [] }
-
-                    const diff = localTodos.data.filter(x => !data.find(y => y.id === x.id))
-                    diff.forEach(todo => addTodo(todo))
-
-                    const concateTodos = data.concat(diff)
-
-                    const index = localTodosAll.findIndex(e => e.userId === userId)
-                    if (index === -1)
-                        localTodosAll.push({ userId: userId, data: concateTodos })
-                    else
-                        localTodosAll[index].data = concateTodos
-
-                    window.localStorage.setItem('todos_data', JSON.stringify(localTodosAll))
-
-                    setTodos(localTodosAll)
-                }
-
+        getUpdatedTasks().then(r => {
+            if (r === 'done')
                 setLoadingIssues(false)
-            })
+        })
 
     }, [logged])
 
@@ -178,6 +188,7 @@ const ToDo = () => {
                             return (
                                 <Issue
                                     removeIssueOnList={removeCard}
+                                    updateTasks={getUpdatedTasks}
                                     key={data.id}
                                     id={data.id}
                                     title={data.name}
@@ -190,20 +201,24 @@ const ToDo = () => {
             </div>
             {loadingIssues
                 ? ''
-                : <div className={`${style.doneIssuesContainer} ${style.issuesContainer}`}>
-                    {
-                        todos[userTodosIndex].data.filter(e => e.is_done === true).map(data => {
-                            return (
-                                <Issue
-                                    removeIssueOnList={removeCard}
-                                    key={data.id}
-                                    id={data.id}
-                                    title={data.name}
-                                    text={data.description}
-                                    isDone={data.is_done}
-                                />)
-                        })
-                    }
+                : <div className={style.doneIssuesContainer}>
+                    <h2>Completed tasks</h2>
+                    <div className={style.issuesContainer}>
+                        {
+                            todos[userTodosIndex].data.filter(e => e.is_done === true).map(data => {
+                                return (
+                                    <Issue
+                                        removeIssueOnList={removeCard}
+                                        updateTasks={getUpdatedTasks}
+                                        key={data.id}
+                                        id={data.id}
+                                        title={data.name}
+                                        text={data.description}
+                                        isDone={data.is_done}
+                                    />)
+                            })
+                        }
+                    </div>
                 </div>}
             {loadingIssues
                 ? ''

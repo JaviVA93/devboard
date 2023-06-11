@@ -5,11 +5,13 @@ import style from './issue.module.css'
 import { gsap } from 'gsap'
 import Trash2Svg from '../assets/Trash2Svg';
 import DoneSvg from '../assets/DoneSvg';
-import { setTodoAsDone } from '@/utils/supabase';
+import { setTodoAsDone, setTodoAsNotDone } from '@/utils/supabase';
 import UndoSvg from '../assets/UndoSvg';
+import { toast } from 'react-hot-toast';
 
 const Issue = (props: {
     removeIssueOnList: Function,
+    updateTasks: Function,
     id: string,
     title: string,
     text: string,
@@ -46,11 +48,27 @@ const Issue = (props: {
 
         setTodoAsDone(props.id).then(r => {
             // REFRESH THE TASKS AFTER THE UPDATE
+            if (r.error) {
+                toast.error('Error updating the task status')
+                return
+            }
+
+            props.updateTasks()
         })
     }
 
     function markCardAsIncompleted() {
+        if (!card.current) return;
 
+        setTodoAsNotDone(props.id).then(r => {
+            // REFRESH THE TASKS AFTER THE UPDATE
+            if (r.error) {
+                toast.error('Error updating the task status')
+                return
+            }
+
+            props.updateTasks()
+        })
     }
 
 

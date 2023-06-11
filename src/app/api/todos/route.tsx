@@ -52,7 +52,15 @@ export async function PUT(request: Request) {
 
     const url = new URL(request.url)
     const id = url.searchParams.get('id')
-    const done = !!(url.searchParams.get('done'))
+    const doneParam = url.searchParams.get('done')
+    const done = (doneParam === 'true') 
+        ? true 
+        : (doneParam === 'false') 
+            ? false 
+            : null
+
+    if (done === null)
+        return NextResponse.json({data: null, error: 'invalid request data'}, { status: 400 })
 
     const { data, error } = await supabase.from('todos')
         .update({ 'is_done': done })

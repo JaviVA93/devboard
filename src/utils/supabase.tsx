@@ -81,6 +81,15 @@ export async function setTodoAsDone(id: string) {
     return await req.json()
 }
 
+export async function setTodoAsNotDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=false`, {
+        method: 'PUT'
+    })
+
+    return await req.json()
+}
+
 export function useSupabaseUserSession() {
     const [session, setSession] = useState<null | 'guest' | User>(null)
     const { supabase } = useSupabase()
