@@ -116,8 +116,10 @@ const ToDo = () => {
     function getUpdatedTasks() {
         return new Promise(resolve => {
 
-            if (logged === 'loading' || !userSession)
+            if (logged === 'loading' || !userSession) {
                 resolve('loading')
+                return
+            }
 
             const userId = (userSession === 'guest') ? 'guest' : userSession.id
             setUserId(userId)

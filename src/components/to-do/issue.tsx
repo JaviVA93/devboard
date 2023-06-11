@@ -43,23 +43,29 @@ const Issue = (props: {
         if (!card.current) return;
 
         // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
-        // MAYBE THE "SETTODOASDONE" CAN HANDLE IF THE USER
-        // IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
-
+        
+        // IF THE USER IS LOGGED THEN
         setTodoAsDone(props.id).then(r => {
             // REFRESH THE TASKS AFTER THE UPDATE
             if (r.error) {
                 toast.error('Error updating the task status')
                 return
             }
-
+            
             props.updateTasks()
         })
+
+        // ELSE
+        // IF IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
     }
 
     function markCardAsIncompleted() {
         if (!card.current) return;
 
+
+        // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
+        
+        // IF THE USER IS LOGGED THEN
         setTodoAsNotDone(props.id).then(r => {
             // REFRESH THE TASKS AFTER THE UPDATE
             if (r.error) {
@@ -69,6 +75,9 @@ const Issue = (props: {
 
             props.updateTasks()
         })
+
+        // ELSE
+        // IF IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
     }
 
 
