@@ -5,13 +5,14 @@ import style from './issue.module.css'
 import { gsap } from 'gsap'
 import Trash2Svg from '../assets/Trash2Svg';
 import DoneSvg from '../assets/DoneSvg';
-import { setTodoAsDone, setTodoAsNotDone } from '@/utils/supabase';
+import { setTodoAsDone, setTodoAsNotDone, useLoggedUser } from '@/utils/supabase';
 import UndoSvg from '../assets/UndoSvg';
 import { toast } from 'react-hot-toast';
 
 const Issue = (props: {
     removeIssueOnList: Function,
     updateTasks: Function,
+    updateTaskStatus: Function,
     id: string,
     title: string,
     text: string,
@@ -20,7 +21,7 @@ const Issue = (props: {
 
     const { removeIssueOnList, id, title, text } = props;
     const card = useRef<HTMLDivElement | null>(null)
-
+    const logged = useLoggedUser()
 
     function removeCard() {
         if (!card.current) return;
@@ -45,18 +46,22 @@ const Issue = (props: {
         // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
         
         // IF THE USER IS LOGGED THEN
-        setTodoAsDone(props.id).then(r => {
-            // REFRESH THE TASKS AFTER THE UPDATE
-            if (r.error) {
-                toast.error('Error updating the task status')
-                return
-            }
-            
-            props.updateTasks()
-        })
+        if (logged && logged !== 'loading')
+            setTodoAsDone(props.id).then(r => {
+                // REFRESH THE TASKS AFTER THE UPDATE
+                if (r.error) {
+                    toast.error('Error updating the task status')
+                    return
+                }
+                
+                props.updateTasks()
+            })
 
         // ELSE
         // IF IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
+        else {
+
+        }
     }
 
     function markCardAsIncompleted() {

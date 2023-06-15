@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
@@ -22,11 +22,11 @@ const ToDo = () => {
 
     const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
-    const [userId, setUserId] = useState<string>('guest')
+    const [userId, setUserId] = useState('guest')
+    const [showingCompletedTasks, setShowingCompletedTasks] = useState(false)
     const userSession = useSupabaseUserSession()
     const logged = useLoggedUser()
     const completedTasksContainer = useRef<HTMLDivElement>(null)
-    const [showingCompletedTasks, setShowingCompletedTasks] = useState(false)
 
     const userTodosIndex = todos.findIndex(e => e.userId === userId)
 
@@ -101,6 +101,29 @@ const ToDo = () => {
 
 
 
+    function updateTaskStatus(taskId: string, isCompleted: boolean) {
+        if (isCompleted) {
+            // Update the value locally
+
+
+            if (logged && logged !== 'loading')
+                setTodoAsDone(taskId).then(r => {
+                    // REFRESH THE TASKS AFTER THE UPDATE
+                    if (r.error) {
+                        toast.error('Error updating the task status')
+
+                        // return to previous state?
+                        return
+                    }
+                })
+        }
+        else {
+
+        }
+    }
+
+
+
     function showToast(message: string) {
         toast(message, {
             position: 'bottom-center',
@@ -115,22 +138,7 @@ const ToDo = () => {
         });
     }
 
-    function showCompletedTasks() {
-        // if (!completedTasksContainer.current)
-        //     return
 
-        // completedTasksContainer.current.classList.remove(style.doneIssuesHidden)
-        setShowingCompletedTasks(true)
-    }
-
-
-    function hideCompletedTasks() {
-        // if (!completedTasksContainer.current)
-        //     return
-
-        // completedTasksContainer.current.classList.add(style.doneIssuesHidden)
-        setShowingCompletedTasks(false)
-    }
 
     function getUpdatedTasks() {
         return new Promise(resolve => {
@@ -210,6 +218,7 @@ const ToDo = () => {
                                 <Issue
                                     removeIssueOnList={removeCard}
                                     updateTasks={getUpdatedTasks}
+                                    updateTaskStatus={updateTaskStatus}
                                     key={data.id}
                                     id={data.id}
                                     title={data.name}
@@ -235,6 +244,7 @@ const ToDo = () => {
                                     <Issue
                                         removeIssueOnList={removeCard}
                                         updateTasks={getUpdatedTasks}
+                                        updateTaskStatus={updateTaskStatus}
                                         key={data.id}
                                         id={data.id}
                                         title={data.name}

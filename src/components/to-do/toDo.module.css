@@ -90,17 +90,29 @@
     margin: 10px 0;
 }
 
-.doneIssuesHidden {
-    height: 0;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-}
-
 .hideCompletedTasksBtn {
     position: absolute;
     top: 8px;
     right: 8px;
+
+    color: #c9c9c9;
+    background-color: var(--color_2);
+
+    font-size:  14px;
+
+    border-radius: 3px;
+    border: 0;
+    padding: 5px;
+
+    transition: all 0.25s;
+}
+
+.hideCompletedTasksBtn:hover {
+    box-shadow: 0px 0px 1px 2px #c9c9c9;
+}
+
+.hideCompletedTasksBtn:active {
+    background-color: #609460;
 }
 
 .tasksCompletedTitle {
@@ -126,6 +138,27 @@
     position: absolute;
     right: 8px;
     bottom: 8px;
+
+    color: var(--color_2);
+    background-color: var(--color_4);
+
+    font-size: 14px;
+
+    border-radius: 3px;
+    border: 0;
+    padding: 5px;
+
+    transition: all 0.25s;
+}
+
+.showCompletedTasksBtn:hover {
+    background-color: var(--color_5);
+    box-shadow: 0px 0px 1px 2px var(--color_1);
+    color: var(--color_1)
+}
+
+.showCompletedTasksBtn:active {
+    background-color: #365236;
 }
 
 @media screen and (max-width: 450px) {
