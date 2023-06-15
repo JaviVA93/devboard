@@ -5,9 +5,7 @@ import style from './issue.module.css'
 import { gsap } from 'gsap'
 import Trash2Svg from '../assets/Trash2Svg';
 import DoneSvg from '../assets/DoneSvg';
-import { setTodoAsDone, setTodoAsNotDone, useLoggedUser } from '@/utils/supabase';
 import UndoSvg from '../assets/UndoSvg';
-import { toast } from 'react-hot-toast';
 
 const Issue = (props: {
     removeIssueOnList: Function,
@@ -19,9 +17,8 @@ const Issue = (props: {
     isDone: boolean
 }) => {
 
-    const { removeIssueOnList, id, title, text } = props;
+    const { removeIssueOnList, id, title, text } = props
     const card = useRef<HTMLDivElement | null>(null)
-    const logged = useLoggedUser()
 
     function removeCard() {
         if (!card.current) return;
@@ -37,52 +34,6 @@ const Issue = (props: {
             tl.kill();
         });
 
-    }
-
-
-    function markCardAsCompleted() {
-        if (!card.current) return;
-
-        // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
-        
-        // IF THE USER IS LOGGED THEN
-        if (logged && logged !== 'loading')
-            setTodoAsDone(props.id).then(r => {
-                // REFRESH THE TASKS AFTER THE UPDATE
-                if (r.error) {
-                    toast.error('Error updating the task status')
-                    return
-                }
-                
-                props.updateTasks()
-            })
-
-        // ELSE
-        // IF IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
-        else {
-
-        }
-    }
-
-    function markCardAsIncompleted() {
-        if (!card.current) return;
-
-
-        // CONTROL THE BEHAVIOR IF THE USER IS NOT LOGGED
-        
-        // IF THE USER IS LOGGED THEN
-        setTodoAsNotDone(props.id).then(r => {
-            // REFRESH THE TASKS AFTER THE UPDATE
-            if (r.error) {
-                toast.error('Error updating the task status')
-                return
-            }
-
-            props.updateTasks()
-        })
-
-        // ELSE
-        // IF IS NOT LOGGED THEN, UPDATE THE TASK LOCALLY
     }
 
 

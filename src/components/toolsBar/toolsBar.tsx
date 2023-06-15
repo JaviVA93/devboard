@@ -8,14 +8,14 @@ import PlusSvg from '../assets/PlusSvg'
 import ToolsSvg from '../assets/ToolsSvg'
 import FastArrowRightSvg from '../assets/FastArrowRightSvg'
 import { PATHS } from '@/utils/constants'
-import { useLoggedUser } from '@/utils/supabase'
+import { useLoggedUser, sessionState } from '@/utils/supabase'
 
 
 export default function ToolsBar() {
 
     const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
     const toolsBar = useRef<HTMLDivElement | null>(null)
-    const logged = useLoggedUser()
+    const loggedState = useLoggedUser()
 
     const toolsList = [{
         toolName: 'Pomodoro',
@@ -76,7 +76,7 @@ export default function ToolsBar() {
 
 
     useEffect(() => {
-        if (logged === true)
+        if (loggedState === sessionState.logged)
             fetch(PATHS.APIS.BOARD_TOOLS).then(() => {
                 setIsLoadingBoardConfig(false)
             }).catch(() => {
@@ -84,7 +84,7 @@ export default function ToolsBar() {
             })
         else
             setIsLoadingBoardConfig(false)
-    }, [logged])
+    }, [loggedState])
 
 
     if (isLoadingBoardConfig)
