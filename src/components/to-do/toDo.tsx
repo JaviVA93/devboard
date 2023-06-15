@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
@@ -23,8 +23,10 @@ const ToDo = () => {
     const [todos, setTodos] = useState<{ userId: string, data: Issue[] }[]>([])
     const [loadingIssues, setLoadingIssues] = useState(true)
     const [userId, setUserId] = useState<string>('guest')
-    const userSession = useSupabaseUserSession();
-    const logged = useLoggedUser();
+    const userSession = useSupabaseUserSession()
+    const logged = useLoggedUser()
+    const completedTasksContainer = useRef<HTMLDivElement>(null)
+    const [showingCompletedTasks, setShowingCompletedTasks] = useState(false)
 
     const userTodosIndex = todos.findIndex(e => e.userId === userId)
 
@@ -111,6 +113,23 @@ const ToDo = () => {
                 border: '1px solid #acb9b7'
             }
         });
+    }
+
+    function showCompletedTasks() {
+        // if (!completedTasksContainer.current)
+        //     return
+
+        // completedTasksContainer.current.classList.remove(style.doneIssuesHidden)
+        setShowingCompletedTasks(true)
+    }
+
+
+    function hideCompletedTasks() {
+        // if (!completedTasksContainer.current)
+        //     return
+
+        // completedTasksContainer.current.classList.add(style.doneIssuesHidden)
+        setShowingCompletedTasks(false)
     }
 
     function getUpdatedTasks() {
@@ -201,10 +220,14 @@ const ToDo = () => {
                         : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
                 }
             </div>
-            {loadingIssues
-                ? ''
-                : <div className={style.doneIssuesContainer}>
+            {!loadingIssues && showingCompletedTasks
+                ? <div ref={completedTasksContainer} className={style.doneIssuesContainer}>
                     <h2>Completed tasks</h2>
+                    <button className={style.hideCompletedTasksBtn}
+                        onClick={() => setShowingCompletedTasks(false)}
+                    >
+                        Hide completed tasks
+                    </button>
                     <div className={style.issuesContainer}>
                         {
                             todos[userTodosIndex].data.filter(e => e.is_done === true).map(data => {
@@ -221,12 +244,20 @@ const ToDo = () => {
                             })
                         }
                     </div>
-                </div>}
+                </div>
+                : ''
+            }
             {loadingIssues
                 ? ''
                 : <div className={style.issueFormContainer}>
                     <NewIssueForm createIssueOnList={createCard} />
                 </div>
+            }
+            {(!loadingIssues && todos[userTodosIndex].data.filter(e => e.is_done === true).length > 0 && !showingCompletedTasks)
+                ? <button className={style.showCompletedTasksBtn} onClick={() => setShowingCompletedTasks(true)}>
+                    Show completed tasks
+                </button>
+                : ''
             }
         </div>
     )
