@@ -116,6 +116,7 @@ const ToolItemCard = (props: {
                 width='100'
                 height='70'
                 draggable="false"
+                loading="lazy"
             />
             {!!(toolOnBoard)
                 ? removeWrapperElement

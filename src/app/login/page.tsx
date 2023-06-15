@@ -76,6 +76,7 @@ export default function LoginPage() {
                         alt="signup cover"
                         width={200}
                         height={200}
+                        loading="lazy"
                     />
                     <button type='button' onClick={moveCurtain}>
                         <GlitchText text={curtainBtnText} className={style.glitchText} />
