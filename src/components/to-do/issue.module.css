@@ -27,7 +27,7 @@
 }
 
 .cardDone * {
-    text-decoration:line-through;
+    text-decoration: line-through;
     color: var(--color_2) !important;
 }
 
@@ -53,12 +53,12 @@
 
 .card .ctasWrapper button {
     display: flex;
-    
+
     color: var(--color_3);
     border-radius: 3px;
     border: 0;
-    text-decoration: none;    
-    
+    text-decoration: none;
+
     transition: all 0.25s;
 }
 
@@ -100,4 +100,24 @@
 
 .card .completeBtn:hover svg * {
     stroke: white;
+}
+
+.undoBtn {
+    background-color: var(--color_2);
+}
+
+.undoBtn svg * {
+    stroke: var(--color_5);
+}
+
+.undoBtn:hover {
+    background-color: var(--color_3);
+}
+
+.undoBtn:hover svg * {
+    stroke: var(--color_1);
+}
+
+.undoBtn:active {
+    background-color: #436643;
 }

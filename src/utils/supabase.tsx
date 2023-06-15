@@ -120,29 +120,35 @@ export function useSupabaseUserSession() {
     return session
 }
 
+export enum sessionState {
+    loading = 'loading',
+    logged = 'logged',
+    guest = 'guest'
+}
+
 export function useLoggedUser() {
-    const [session, setSession] = useState<'loading' | boolean>('loading')
+    const [session, setSession] = useState<sessionState>(sessionState.loading)
     const { supabase } = useSupabase()
     
     useEffect(() => {
         
         if (Cookies.get('supabase-auth-token'))
             supabase.auth.getSession().then(({ data: { session } }) => {
-                (!session) ? setSession(false) : setSession(true)
+                (!session) ? setSession(sessionState.guest) : setSession(sessionState.logged)
             }).catch(err => {
                 console.error(err)
-                setSession(false)
+                setSession(sessionState.logged)
             })
         else
-            setSession(false)    
+            setSession(sessionState.guest)    
     }, [supabase])
 
     useEffect(() => {
         supabase.auth.onAuthStateChange((event, session) => {
             if(!session)
-                setSession(false)
+                setSession(sessionState.guest)
             else 
-                setSession(true)
+                setSession(sessionState.logged)
         })
     }, [])
 

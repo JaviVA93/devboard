@@ -95,12 +95,12 @@ const Issue = (props: {
                     <button className={style.removeBtn} onClick={removeCard}>
                         <Trash2Svg />
                     </button>
-                    <button className={style.completeBtn} onClick={markCardAsCompleted}>
+                    <button className={style.completeBtn} onClick={() => props.updateTaskStatus(id, true)}>
                         <DoneSvg />
                     </button>
                 </div>
                 : <div className={style.ctasWrapper}>
-                    <button className={style.undoBtn} onClick={markCardAsIncompleted}>
+                    <button className={style.undoBtn} onClick={() => props.updateTaskStatus(id, false)}>
                         <UndoSvg />
                     </button>
                 </div>

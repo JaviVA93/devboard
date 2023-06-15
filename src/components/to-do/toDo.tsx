@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone, sessionState, setTodoAsNotDone } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
@@ -25,11 +25,13 @@ const ToDo = () => {
     const [userId, setUserId] = useState('guest')
     const [showingCompletedTasks, setShowingCompletedTasks] = useState(false)
     const userSession = useSupabaseUserSession()
-    const logged = useLoggedUser()
+    const loggedState = useLoggedUser()
     const completedTasksContainer = useRef<HTMLDivElement>(null)
 
     const userTodosIndex = todos.findIndex(e => e.userId === userId)
 
+    const todosDone = todos[userTodosIndex]?.data.filter(e => e.is_done === true) || []
+    const todosPending = todos[userTodosIndex]?.data.filter(e => e.is_done === false) || []
 
 
     async function createCard(name: string, description: string) {
@@ -81,9 +83,11 @@ const ToDo = () => {
         setTodos(tempTodos)
 
 
-        const { error } = await removeTodo(card_id)
-        if (error)
-            console.error(error)
+        if (loggedState === sessionState.logged) {
+            const { error } = await removeTodo(card_id)
+            if (error)
+                console.error(error)
+        }
 
 
         showToast('To-do deleted.')
@@ -102,23 +106,38 @@ const ToDo = () => {
 
 
     function updateTaskStatus(taskId: string, isCompleted: boolean) {
-        if (isCompleted) {
-            // Update the value locally
 
+        if (userTodosIndex === -1)
+            return
 
-            if (logged && logged !== 'loading')
+        const tempTodos = (todos) ? [...todos] : []
+        if (tempTodos.length === 0)
+            return
+
+        const taskIndex = tempTodos[userTodosIndex].data.findIndex(i => i.id === taskId)
+        if (taskIndex === -1)
+            toast.error('Error updating task status, task not found.')
+
+        tempTodos[userTodosIndex].data[taskIndex].is_done = isCompleted;
+
+        window.localStorage.setItem('todos_data', JSON.stringify(tempTodos))
+        setTodos(tempTodos)
+
+        if (loggedState === sessionState.logged) {
+            if (isCompleted) {
                 setTodoAsDone(taskId).then(r => {
                     // REFRESH THE TASKS AFTER THE UPDATE
-                    if (r.error) {
+                    if (r.error)
                         toast.error('Error updating the task status')
-
-                        // return to previous state?
-                        return
-                    }
                 })
-        }
-        else {
-
+            }
+            else {
+                setTodoAsNotDone(taskId).then(r => {
+                    // REFRESH THE TASKS AFTER THE UPDATE
+                    if (r.error)
+                        toast.error('Error updating the task status')
+                })
+            }
         }
     }
 
@@ -143,7 +162,7 @@ const ToDo = () => {
     function getUpdatedTasks() {
         return new Promise(resolve => {
 
-            if (logged === 'loading' || !userSession) {
+            if (loggedState === sessionState.loading || !userSession) {
                 resolve('loading')
                 return
             }
@@ -197,7 +216,7 @@ const ToDo = () => {
                 setLoadingIssues(false)
         })
 
-    }, [logged])
+    }, [loggedState])
 
     const loadingIssuesElement =
         <div className={style.loadingWrapper}>
@@ -212,8 +231,8 @@ const ToDo = () => {
             <div className={style.issuesContainer}>
                 {loadingIssues
                     ? loadingIssuesElement
-                    : (userTodosIndex !== -1 && todos[userTodosIndex].data.length > 0)
-                        ? todos[userTodosIndex].data.filter(e => e.is_done === false).map(data => {
+                    : (userTodosIndex !== -1 && todosPending.length > 0)
+                        ? todosPending.map(data => {
                             return (
                                 <Issue
                                     removeIssueOnList={removeCard}
@@ -229,17 +248,16 @@ const ToDo = () => {
                         : <h1 className={style.tasksCompletedTitle}>All tasks completed 😃</h1>
                 }
             </div>
-            {!loadingIssues && showingCompletedTasks
+            {!loadingIssues && showingCompletedTasks && todosDone.length > 0
                 ? <div ref={completedTasksContainer} className={style.doneIssuesContainer}>
                     <h2>Completed tasks</h2>
                     <button className={style.hideCompletedTasksBtn}
-                        onClick={() => setShowingCompletedTasks(false)}
-                    >
+                        onClick={() => setShowingCompletedTasks(false)}>
                         Hide completed tasks
                     </button>
                     <div className={style.issuesContainer}>
                         {
-                            todos[userTodosIndex].data.filter(e => e.is_done === true).map(data => {
+                            todosDone.map(data => {
                                 return (
                                     <Issue
                                         removeIssueOnList={removeCard}
@@ -263,7 +281,7 @@ const ToDo = () => {
                     <NewIssueForm createIssueOnList={createCard} />
                 </div>
             }
-            {(!loadingIssues && todos[userTodosIndex].data.filter(e => e.is_done === true).length > 0 && !showingCompletedTasks)
+            {(!loadingIssues && todosDone.length > 0 && !showingCompletedTasks)
                 ? <button className={style.showCompletedTasksBtn} onClick={() => setShowingCompletedTasks(true)}>
                     Show completed tasks
                 </button>
