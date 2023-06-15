@@ -12,14 +12,14 @@ import GlitchText from '@/components/glitch-text/glitchText';
 import LoaderBlock from '@/components/loader-block/loaderBlock';
 import { useRouter } from 'next/navigation';
 import { PATHS } from '@/utils/constants';
-import { useSupabaseSession } from '@/utils/supabase';
+import { useSupabaseUserSession } from '@/utils/supabase';
 
 export default function LoginPage() {
 
     const router = useRouter()
     const { supabase } = useSupabase()
     // const [session, setSession] = useState<null | 'guest' | Session>(null)
-    const session = useSupabaseSession()
+    const userSession = useSupabaseUserSession()
     const [curtainBtnText, setCurtainBtnText] = useState('Sign up')
     const curtainElement = useRef<HTMLDivElement | null>(null)
 
@@ -41,12 +41,12 @@ export default function LoginPage() {
 
 
     useEffect(() => {
-        if (session && session !== 'guest')
+        if (userSession && userSession !== 'guest')
             router.replace(PATHS.PROFILE)
-    }, [router, session])
+    }, [router, userSession])
 
 
-    if (!session){
+    if (!userSession){
         return (
             // LOADING TEMPLATE <== Not "Suspense", just normal "load"(reload)
             <section className={style.section}>
@@ -61,7 +61,7 @@ export default function LoginPage() {
             </section>
         )
     }
-    else if (session === 'guest') {
+    else if (userSession === 'guest') {
         return (
             <section ref={curtainElement} className={`${style.section} ${style.showLogin}`}>
                 <div className={`${style.curtain}`}>

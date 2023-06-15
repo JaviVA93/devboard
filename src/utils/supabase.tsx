@@ -1,4 +1,4 @@
-import { Session, createClient } from "@supabase/supabase-js";
+import { Session, User, createClient } from "@supabase/supabase-js";
 import { Database } from "@/db_schema";
 import { useSupabase } from "@/app/supabase-context";
 import { PATHS } from './constants'
@@ -72,15 +72,33 @@ export async function removeTodo(id: string) {
     return await req.json()
 }
 
-export function useSupabaseSession() {
-    const [session, setSession] = useState<null | 'guest' | Session>(null)
+export async function setTodoAsDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=true`, {
+        method: 'PUT'
+    })
+
+    return await req.json()
+}
+
+export async function setTodoAsNotDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=false`, {
+        method: 'PUT'
+    })
+
+    return await req.json()
+}
+
+export function useSupabaseUserSession() {
+    const [session, setSession] = useState<null | 'guest' | User>(null)
     const { supabase } = useSupabase()
     
     useEffect(() => {
         
         if (Cookies.get('supabase-auth-token'))
             supabase.auth.getSession().then(({ data: { session } }) => {
-                (!session) ? setSession('guest') : setSession(session)
+                (!session) ? setSession('guest') : setSession(session.user)
             }).catch(err => {
                 console.error(err)
                 setSession('guest')
@@ -95,7 +113,42 @@ export function useSupabaseSession() {
             if(!session)
                 setSession('guest')
             else 
-                setSession(session)
+                setSession(session.user)
+        })
+    }, [])
+
+    return session
+}
+
+export enum sessionState {
+    loading = 'loading',
+    logged = 'logged',
+    guest = 'guest'
+}
+
+export function useLoggedUser() {
+    const [session, setSession] = useState<sessionState>(sessionState.loading)
+    const { supabase } = useSupabase()
+    
+    useEffect(() => {
+        
+        if (Cookies.get('supabase-auth-token'))
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                (!session) ? setSession(sessionState.guest) : setSession(sessionState.logged)
+            }).catch(err => {
+                console.error(err)
+                setSession(sessionState.logged)
+            })
+        else
+            setSession(sessionState.guest)    
+    }, [supabase])
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            if(!session)
+                setSession(sessionState.guest)
+            else 
+                setSession(sessionState.logged)
         })
     }, [])
 

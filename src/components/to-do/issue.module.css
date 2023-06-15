@@ -6,6 +6,7 @@
     --color_4: #233623;
     --color_5: #1E2E1E;
     --color_negative: #D9534F;
+    --color_negative2: #88312e;
     --color_positive: #4c9154;
     /* --- Variables --- */
 
@@ -19,6 +20,15 @@
     background-color: var(--color_5);
     border-radius: 5px;
     max-width: 400px;
+}
+
+.cardDone {
+    background-color: var(--color_1);
+}
+
+.cardDone * {
+    text-decoration: line-through;
+    color: var(--color_2) !important;
 }
 
 .card h1 {
@@ -43,12 +53,12 @@
 
 .card .ctasWrapper button {
     display: flex;
-    
+
     color: var(--color_3);
     border-radius: 3px;
     border: 0;
-    text-decoration: none;    
-    
+    text-decoration: none;
+
     transition: all 0.25s;
 }
 
@@ -65,6 +75,10 @@
     fill: white;
 }
 
+.card .removeBtn:active {
+    background-color: var(--color_negative2);
+}
+
 .card .completeBtn {
     padding: 2px 10px;
 }
@@ -77,8 +91,33 @@
 .card .completeBtn:hover {
     background-color: var(--color_2);
     background-color: var(--color_positive);
+    outline: 1px solid white;
+}
+
+.card .completeBtn:active {
+    background-color: var(--color_4);
 }
 
 .card .completeBtn:hover svg * {
     stroke: white;
+}
+
+.undoBtn {
+    background-color: var(--color_2);
+}
+
+.undoBtn svg * {
+    stroke: var(--color_5);
+}
+
+.undoBtn:hover {
+    background-color: var(--color_3);
+}
+
+.undoBtn:hover svg * {
+    stroke: var(--color_1);
+}
+
+.undoBtn:active {
+    background-color: #436643;
 }
