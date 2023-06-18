@@ -51,8 +51,14 @@
     margin-top: auto;
 }
 
+.ctasWrapperDone {
+    justify-content: flex-start;
+    gap: 8px;
+}
+
 .card .ctasWrapper button {
-    display: flex;
+    display: grid;
+    place-items: center;
 
     color: var(--color_3);
     border-radius: 3px;
@@ -62,20 +68,37 @@
     transition: all 0.25s;
 }
 
-.card .removeBtn {
+.card :not(.ctasWrapperDone) .removeBtn {
     padding: 5px;
     background-color: var(--color_4);
 }
 
-.card .removeBtn:hover {
+.card :not(.ctasWrapperDone) .removeBtn:hover {
     background-color: var(--color_negative);
 }
 
-.card .removeBtn:hover svg * {
+.card :not(.ctasWrapperDone) .removeBtn:hover svg * {
     fill: white;
 }
 
-.card .removeBtn:active {
+.card :not(.ctasWrapperDone) .removeBtn:active {
+    background-color: var(--color_negative2);
+}
+
+.card .ctasWrapperDone .removeBtn {
+    padding: 5px;
+    background-color: var(--color_2);
+}
+
+.card .ctasWrapperDone .removeBtn:hover {
+    background-color: var(--color_negative);
+}
+
+.card .ctasWrapperDone .removeBtn:hover svg * {
+    fill: white;
+}
+
+.card .ctasWrapperDone .removeBtn:active {
     background-color: var(--color_negative2);
 }
 
@@ -103,6 +126,7 @@
 }
 
 .undoBtn {
+    padding: 5px;
     background-color: var(--color_2);
 }
 
