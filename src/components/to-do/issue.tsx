@@ -50,7 +50,10 @@ const Issue = (props: {
                         <DoneSvg />
                     </button>
                 </div>
-                : <div className={style.ctasWrapper}>
+                : <div className={`${style.ctasWrapper} ${style.ctasWrapperDone}`}>
+                    <button className={style.removeBtn} onClick={removeCard}>
+                        <Trash2Svg />
+                    </button>
                     <button className={style.undoBtn} onClick={() => props.updateTaskStatus(id, false)}>
                         <UndoSvg />
                     </button>
