@@ -1,0 +1,25 @@
+.notFoundSection {
+    display: grid;
+    place-items: center;
+    width: 100vw;
+    gap: 15px;
+}
+
+.notFoundSection a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 30px;
+    border-radius: 6px;
+    background-color: #4D4D4D;
+    color: #c9c9c9;
+}
+
+.notFoundSection a:hover {
+    background-color: #c9c9c9;
+    color: #4D4D4D;
+}
+
+.notFoundSection a:active {
+    background-color: #8d8d8d;
+}
