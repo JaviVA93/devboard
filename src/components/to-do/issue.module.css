@@ -34,13 +34,19 @@
 .card h1 {
     font-size: 22px !important;
     line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--color_2);
     text-align: start;
 }
 
 .card span {
-    color: var(--color_1);
     font-size: 16px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color_1);
     margin-bottom: 9px;
 }
 
