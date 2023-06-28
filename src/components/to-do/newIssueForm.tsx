@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import style from './newIssueForm.module.css'
+import { toast } from 'react-hot-toast';
 
 export default function NewIssueForm(
     props: {
@@ -14,13 +15,17 @@ export default function NewIssueForm(
     const urlInput = useRef<HTMLInputElement | null>(null);
 
 
-    function createCard() {
+    function createCard(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
 
-        const name = (titleInput.current?.value !== '') ? titleInput.current?.value : 'title not set';
+        const name = (titleInput.current?.value !== '') ? titleInput.current?.value : null
+        if (!name) {
+            toast.error('Add a titlte to the task')
+            return
+        }
 
-        const description = (textInput.current?.value !== '') ? textInput.current?.value : 'Text not set';
+        const description = (textInput.current?.value !== '') ? textInput.current?.value : '';
 
-        // createIssueOnList(title, text);
         createIssueOnList(name, description)
         clearInputs();
     }
@@ -31,16 +36,16 @@ export default function NewIssueForm(
     }
 
     return (
-        <div className={style.newCardForm}>
+        <form className={style.newCardForm} onSubmit={createCard}>
             <div className={style.fieldWrapper}>
-                <input type="text" ref={titleInput} id="todo-form-title-field" placeholder=" " />
+                <input type="text" ref={titleInput} id="todo-form-title-field" placeholder=" " autoComplete="off" />
                 <label htmlFor="todo-form-title-field" className={style.todoFormLabel}>Task title</label>
             </div>
             <div className={style.fieldWrapper}>
-                <input type="text" ref={textInput} id="todo-form-text-field" placeholder=" " />
+                <input type="text" ref={textInput} id="todo-form-text-field" placeholder=" " autoComplete="off" />
                 <label htmlFor="todo-form-text-field" className={style.todoFormLabel}>Task description</label>
             </div>
-            <button onClick={createCard}>Add task</button>
-        </div>
+            <button type='submit'>Add task</button>
+        </form>
     )
 }
