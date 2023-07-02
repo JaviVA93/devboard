@@ -9,7 +9,6 @@ import UndoSvg from '../assets/UndoSvg';
 
 const Issue = (props: {
     removeIssueOnList: Function,
-    updateTasks: Function,
     updateTaskStatus: Function,
     id: string,
     title: string,
