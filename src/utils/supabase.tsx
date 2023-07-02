@@ -72,6 +72,14 @@ export async function removeTodo(id: string) {
     return await req.json()
 }
 
+
+export async function clearCompletedTasks() {
+    const req = await fetch(`${PATHS.APIS.TODOS}?clearCompleted=true&id=`, {
+        method: 'DELETE'
+    })
+    return await req.json()
+}
+
 export async function setTodoAsDone(id: string) {
     const encodedId = encodeURIComponent(id)
     const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=true`, {

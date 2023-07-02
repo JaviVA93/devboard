@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone, sessionState, setTodoAsNotDone } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone, sessionState, setTodoAsNotDone, clearCompletedTasks as sbClearCompletedTasks } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
@@ -56,7 +56,9 @@ const ToDo = () => {
             todosTmp[userTodosIndex].data.push(newIssue)
 
         window.localStorage.setItem('todos_data', JSON.stringify(todosTmp))
+        setTodos(todosTmp)
 
+        
         if (userId !== 'guest') {
             const { error } = await addTodo(newIssue)
 
@@ -64,7 +66,6 @@ const ToDo = () => {
                 console.error(error)
         }
 
-        setTodos(todosTmp)
 
         showToast('New to-do created!')
     }
@@ -96,7 +97,6 @@ const ToDo = () => {
 
 
     function updateTodoListFromLocal() {
-
         let lsCardsData = window.localStorage.getItem('todos_data');
         if (lsCardsData)
             setTodos(JSON.parse(lsCardsData))
@@ -139,6 +139,29 @@ const ToDo = () => {
                 })
             }
         }
+    }
+
+
+
+    async function clearCompletedTasks() {
+        if (userTodosIndex === -1)
+            return;
+
+        const tempTodos = (todos) ? [...todos] : []
+        tempTodos[userTodosIndex].data = tempTodos[userTodosIndex].data.filter(issue => !issue.is_done)
+
+        window.localStorage.setItem('todos_data', JSON.stringify(tempTodos))
+        setTodos(tempTodos)
+
+
+        if (loggedState === sessionState.logged) {
+            const { error } = await sbClearCompletedTasks()
+            if (error)
+                console.error(error)
+        }
+
+
+        showToast('To-do deleted.')
     }
 
 
@@ -236,7 +259,6 @@ const ToDo = () => {
                             return (
                                 <Issue
                                     removeIssueOnList={removeCard}
-                                    updateTasks={getUpdatedTasks}
                                     updateTaskStatus={updateTaskStatus}
                                     key={data.id}
                                     id={data.id}
@@ -251,7 +273,7 @@ const ToDo = () => {
             {!loadingIssues && showingCompletedTasks && todosDone.length > 0
                 ? <div ref={completedTasksContainer} className={style.doneIssuesContainer}>
                     <h2>Completed tasks</h2>
-                    <button className={style.hideCompletedTasksBtn}
+                    <button className={`${style.hideCompletedTasksBtn} ${style.completedTasksBtns}`}
                         onClick={() => setShowingCompletedTasks(false)}>
                         Hide completed tasks
                     </button>
@@ -261,7 +283,6 @@ const ToDo = () => {
                                 return (
                                     <Issue
                                         removeIssueOnList={removeCard}
-                                        updateTasks={getUpdatedTasks}
                                         updateTaskStatus={updateTaskStatus}
                                         key={data.id}
                                         id={data.id}
@@ -272,6 +293,12 @@ const ToDo = () => {
                             })
                         }
                     </div>
+                    <button
+                        className={`${style.clearCompletedTasks} ${style.completedTasksBtns}`}
+                        onClick={clearCompletedTasks}
+                        type='button'>
+                        Clear all
+                    </button>
                 </div>
                 : ''
             }
