@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Issue from './issue'
 import NewIssueForm from './newIssueForm'
 import style from './toDo.module.css'
-import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone, sessionState, setTodoAsNotDone, clearCompletedTasks as sbClearCompletedTasks } from '@/utils/supabase'
+import { addTodo, removeTodo, getTodosFromSB, useSupabaseUserSession, useLoggedUser, setTodoAsDone, sessionState, setTodoAsNotDone, clearCompletedTasks as sbClearCompletedTasks, spUpdateTaskContent } from '@/utils/supabase'
 import { v4 as uuidv4 } from 'uuid';
 import CubeLoader from '../assets/cube-loader/CubeLoader'
 import toast from 'react-hot-toast'
@@ -58,7 +58,7 @@ const ToDo = () => {
         window.localStorage.setItem('todos_data', JSON.stringify(todosTmp))
         setTodos(todosTmp)
 
-        
+
         if (userId !== 'guest') {
             const { error } = await addTodo(newIssue)
 
@@ -165,6 +165,32 @@ const ToDo = () => {
     }
 
 
+    async function updateTaskContent(id: string, name: string, description: string) {
+        if (userTodosIndex === -1)
+            return
+
+        const tempTodos = (todos) ? [...todos] : []
+        if (tempTodos.length === 0)
+            return
+
+        const taskIndex = tempTodos[userTodosIndex].data.findIndex(i => i.id === id)
+        if (taskIndex === -1)
+            toast.error('Error updating task status, task not found.')
+
+        tempTodos[userTodosIndex].data[taskIndex].name = name;
+        tempTodos[userTodosIndex].data[taskIndex].description = description;
+
+        window.localStorage.setItem('todos_data', JSON.stringify(tempTodos))
+        setTodos(tempTodos)
+
+        if (loggedState === sessionState.logged) {
+            const { error } = await spUpdateTaskContent(id, name, description)
+            if (error)
+                toast.error('Error updating the task remotely')
+        }
+    }
+
+
 
     function showToast(message: string) {
         toast(message, {
@@ -260,10 +286,11 @@ const ToDo = () => {
                                 <Issue
                                     removeIssueOnList={removeCard}
                                     updateTaskStatus={updateTaskStatus}
+                                    updateTaskContent={updateTaskContent}
                                     key={data.id}
                                     id={data.id}
-                                    title={data.name}
-                                    text={data.description}
+                                    name={data.name}
+                                    description={data.description}
                                     isDone={data.is_done}
                                 />)
                         })
@@ -284,10 +311,11 @@ const ToDo = () => {
                                     <Issue
                                         removeIssueOnList={removeCard}
                                         updateTaskStatus={updateTaskStatus}
+                                        updateTaskContent={updateTaskContent}
                                         key={data.id}
                                         id={data.id}
-                                        title={data.name}
-                                        text={data.description}
+                                        name={data.name}
+                                        description={data.description}
                                         isDone={data.is_done}
                                     />)
                             })

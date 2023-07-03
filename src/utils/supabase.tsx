@@ -98,6 +98,19 @@ export async function setTodoAsNotDone(id: string) {
     return await req.json()
 }
 
+export async function spUpdateTaskContent(id: string, name: string, description: string) {
+    const req = await fetch(PATHS.APIS.TODOS, {
+        method: 'PATCH',
+        body: JSON.stringify({
+            id,
+            name,
+            description
+        })
+    })
+
+    return await req.json()
+}
+
 export function useSupabaseUserSession() {
     const [session, setSession] = useState<null | 'guest' | User>(null)
     const { supabase } = useSupabase()

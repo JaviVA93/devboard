@@ -79,3 +79,14 @@ export async function PUT(request: Request) {
 
     return NextResponse.json({ data, error })
 }
+
+export async function PATCH(request: Request) {
+    const supabase = createRouteHandlerSupabaseClient({ headers, cookies })
+
+    const { id, name, description } = await request.json()
+    const { data, error } = await supabase.from('todos')
+        .update({ 'name': name, 'description': description })
+        .eq('id', id)
+
+    return NextResponse.json({data, error})
+}

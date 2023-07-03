@@ -8,6 +8,8 @@
     --color_negative: #D9534F;
     --color_negative2: #88312e;
     --color_positive: #4c9154;
+    --color_warning: orange;
+    --color_warning2: rgb(180, 118, 2);
     /* --- Variables --- */
 
 
@@ -72,6 +74,30 @@
     text-decoration: none;
 
     transition: all 0.25s;
+}
+
+.card .btnsLeftSide {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card .editBtn {
+    padding: 5px;
+    background-color: var(--color_4);
+}
+
+.card .editBtn:hover {
+    background-color: var(--color_warning);
+}
+
+.card .editBtn:active {
+    background-color: var(--color_warning2);
+}
+
+.card .pencil {
+    width: 20px;
+    height: 20px;
 }
 
 .card :not(.ctasWrapperDone) .removeBtn {
@@ -150,4 +176,58 @@
 
 .undoBtn:active {
     background-color: #436643;
+}
+
+.ctasWrapperEditing {
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.card input {
+    background-color: var(--color_1);
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.nameInput,
+.descriptionInput {
+    width: 100%;
+}
+
+.nameInput input {
+    font-size: 22px;
+    font-weight: 700;
+    
+}
+
+.descriptionInput input {
+    font-size: 16px;
+}
+
+.ctasWrapperEditing button {
+    background-color: var(--color_2);
+    padding: 5px;
+}
+
+.ctasWrapperEditing button:active {
+    filter:brightness(0.5);
+}
+
+.ctasWrapperEditing button:hover {
+    outline: 1px solid black;
+}
+
+.rejectChangesBte:hover {
+    background-color: var(--color_4);
+}
+
+.acceptChangesBte:hover {
+    background-color: var(--color_1);
+}
+
+.editingCard {
+    box-shadow: 3px 5px 2px rgb(0 0 0 / 0.6);
 }
