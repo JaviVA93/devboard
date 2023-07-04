@@ -73,7 +73,7 @@ export default function ClampCalculator() {
                         ref={maxSizeInput} />
                 </label>
                 <label>
-                    Maximum Viewport (px)
+                    Minimum Viewport (px)
                     <input type='number'
                         defaultValue={500}
                         onChange={calculateClampResult}
