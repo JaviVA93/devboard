@@ -35,7 +35,7 @@
 
 .card h1 {
     font-size: 22px !important;
-    line-height: 1;
+    line-height: 1.4;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
