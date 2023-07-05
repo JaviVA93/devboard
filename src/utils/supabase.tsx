@@ -1,20 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
+import { Session, User, createClient } from "@supabase/supabase-js";
 import { Database } from "@/db_schema";
 import { useSupabase } from "@/app/supabase-context";
-
-const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-
-
-const supabase = createClient<Database>(supabaseURL, supabaseKey)
-
-const LOGIN_URI = '/api/login'
-const SIGNUP_URI = '/api/signup'
-const TODOS_URI = '/api/todos'
+import { PATHS } from './constants'
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 
-async function loginUser(email: string, password: string) {
-    const req = await fetch(LOGIN_URI, {
+
+export async function loginUser(email: string, password: string) {
+    const req = await fetch(PATHS.APIS.LOGIN, {
         method: 'POST',
         body: JSON.stringify({
             email: email,
@@ -28,8 +22,8 @@ async function loginUser(email: string, password: string) {
 
 
 
-async function signUpUser(email: string, password: string) {
-    const req = await fetch(SIGNUP_URI, {
+export async function signUpUser(email: string, password: string) {
+    const req = await fetch(PATHS.APIS.SIGNUP, {
         method: 'POST',
         body: JSON.stringify({
             email: email,
@@ -43,8 +37,8 @@ async function signUpUser(email: string, password: string) {
 
 
 
-async function getTodosFromSB() {
-    const req = await fetch(TODOS_URI)
+export async function getTodosFromSB() {
+    const req = await fetch(PATHS.APIS.TODOS)
     return await req.json()
 }
 
@@ -53,10 +47,10 @@ export type TodosResponseSuccess = TodosResponse['data']
 export type TodosResponseError = TodosResponse['error']
 
 
-async function addTodo(todoData: { id: string, created_at: string, name: string, description: string }) {
+export async function addTodo(todoData: { id: string, created_at: string, name: string, description: string }) {
     const { id, created_at, name, description } = todoData
     
-    const req = await fetch(TODOS_URI, {
+    const req = await fetch(PATHS.APIS.TODOS, {
         method: 'POST',
         body: JSON.stringify({
             id: id,
@@ -70,21 +64,114 @@ async function addTodo(todoData: { id: string, created_at: string, name: string,
 }
 
 
-async function removeTodo(id: string) {
+export async function removeTodo(id: string) {
     const encodedId = encodeURIComponent(id)
-    const req = await fetch(`${TODOS_URI}?id=${encodedId}`, {
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}`, {
         method: 'DELETE'
     })
     return await req.json()
-    // return await supabase.from('todos').delete().eq('id', id)
 }
 
 
-export {
-    supabase,
-    loginUser,
-    signUpUser,
-    getTodosFromSB,
-    addTodo,
-    removeTodo
-};
+export async function clearCompletedTasks() {
+    const req = await fetch(`${PATHS.APIS.TODOS}?clearCompleted=true&id=`, {
+        method: 'DELETE'
+    })
+    return await req.json()
+}
+
+export async function setTodoAsDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=true`, {
+        method: 'PUT'
+    })
+
+    return await req.json()
+}
+
+export async function setTodoAsNotDone(id: string) {
+    const encodedId = encodeURIComponent(id)
+    const req = await fetch(`${PATHS.APIS.TODOS}?id=${encodedId}&done=false`, {
+        method: 'PUT'
+    })
+
+    return await req.json()
+}
+
+export async function spUpdateTaskContent(id: string, name: string, description: string) {
+    const req = await fetch(PATHS.APIS.TODOS, {
+        method: 'PATCH',
+        body: JSON.stringify({
+            id,
+            name,
+            description
+        })
+    })
+
+    return await req.json()
+}
+
+export function useSupabaseUserSession() {
+    const [session, setSession] = useState<null | 'guest' | User>(null)
+    const { supabase } = useSupabase()
+    
+    useEffect(() => {
+        
+        if (Cookies.get('supabase-auth-token'))
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                (!session) ? setSession('guest') : setSession(session.user)
+            }).catch(err => {
+                console.error(err)
+                setSession('guest')
+            })
+        else
+            setSession('guest')    
+    }, [supabase])
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            
+            if(!session)
+                setSession('guest')
+            else 
+                setSession(session.user)
+        })
+    }, [])
+
+    return session
+}
+
+export enum sessionState {
+    loading = 'loading',
+    logged = 'logged',
+    guest = 'guest'
+}
+
+export function useLoggedUser() {
+    const [session, setSession] = useState<sessionState>(sessionState.loading)
+    const { supabase } = useSupabase()
+    
+    useEffect(() => {
+        
+        if (Cookies.get('supabase-auth-token'))
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                (!session) ? setSession(sessionState.guest) : setSession(sessionState.logged)
+            }).catch(err => {
+                console.error(err)
+                setSession(sessionState.logged)
+            })
+        else
+            setSession(sessionState.guest)    
+    }, [supabase])
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange((event, session) => {
+            if(!session)
+                setSession(sessionState.guest)
+            else 
+                setSession(sessionState.logged)
+        })
+    }, [])
+
+    return session
+}

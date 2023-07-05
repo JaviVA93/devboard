@@ -1,0 +1,84 @@
+.workboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+
+    margin-right: 72px;
+    margin-bottom: 25px;
+}
+
+.workboard > h1 {
+    font-size: 2.2rem;
+    align-self: flex-start;
+    line-height: 0.9;
+}
+
+.toolsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 50%);
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+    max-width: 100%;
+    width: 1444px;
+}
+
+.emptyBoardMsg {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+
+.emptyBoardArrowWrapper {
+    position: absolute;
+    top: 0;
+    right: 50px;
+    animation: bounce 5s ease infinite;
+}
+
+.emptyBoardArrow {
+    width: 150px;
+    height: 100px;
+
+    transform: rotate(-16deg);
+}
+
+@media screen and (max-width: 700px) {
+    .toolsContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@keyframes bounce {
+    80% {
+        transform: translateX(0%);
+    }
+
+    88% {
+        transform: translateX(-15%);
+    }
+
+    93% {
+        transform: translateX(0%);
+    }
+
+    95% {
+        transform: translateX(-7%);
+    }
+
+    97% {
+        transform: translateX(0%);
+    }
+
+    99% {
+        transform: translateX(-3%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}

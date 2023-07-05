@@ -5,6 +5,11 @@
     --color_3: #1B291B;
     --color_4: #233623;
     --color_5: #1E2E1E;
+    --color_negative: #D9534F;
+    --color_negative2: #88312e;
+    --color_positive: #4c9154;
+    --color_warning: orange;
+    --color_warning2: rgb(180, 118, 2);
     /* --- Variables --- */
 
 
@@ -12,46 +17,217 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
-    padding: 5px;
+    padding: 10px;
     border: 0;
-    box-shadow: -2px 2px 7px var(--color_3);
     background-color: var(--color_5);
     border-radius: 5px;
-    overflow: hidden;
+    max-width: 400px;
+}
+
+.cardDone {
+    background-color: var(--color_1);
+}
+
+.cardDone * {
+    text-decoration: line-through;
+    color: var(--color_2) !important;
 }
 
 .card h1 {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 22px !important;
+    line-height: 1.4;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--color_2);
     text-align: start;
 }
 
 .card span {
+    font-size: 16px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--color_1);
-    font-size: 1.2rem;
     margin-bottom: 9px;
 }
 
-.card button {
-    align-self: flex-end;
+.ctasWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}
 
-    font-size: 1rem;
-    font-weight: 700;
-    text-align: center;
-    text-decoration: none;
+.ctasWrapperDone {
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.card .ctasWrapper button {
+    display: grid;
+    place-items: center;
 
     color: var(--color_3);
-    background-color: var(--color_2);
-
-    margin-top: auto;
-    padding: 5px;
     border-radius: 3px;
     border: 0;
+    text-decoration: none;
 
     transition: all 0.25s;
 }
 
-.card button:hover {
+.card .btnsLeftSide {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card .editBtn {
+    padding: 5px;
+    background-color: var(--color_4);
+}
+
+.card .editBtn:hover {
+    background-color: var(--color_warning);
+}
+
+.card .editBtn:active {
+    background-color: var(--color_warning2);
+}
+
+.card .pencil {
+    width: 20px;
+    height: 20px;
+}
+
+.card :not(.ctasWrapperDone) .removeBtn {
+    padding: 5px;
+    background-color: var(--color_4);
+}
+
+.card :not(.ctasWrapperDone) .removeBtn:hover {
+    background-color: var(--color_negative);
+}
+
+.card :not(.ctasWrapperDone) .removeBtn:hover svg * {
+    fill: white;
+}
+
+.card :not(.ctasWrapperDone) .removeBtn:active {
+    background-color: var(--color_negative2);
+}
+
+.card .ctasWrapperDone .removeBtn {
+    padding: 5px;
+    background-color: var(--color_2);
+}
+
+.card .ctasWrapperDone .removeBtn:hover {
+    background-color: var(--color_negative);
+}
+
+.card .ctasWrapperDone .removeBtn:hover svg * {
+    fill: white;
+}
+
+.card .ctasWrapperDone .removeBtn:active {
+    background-color: var(--color_negative2);
+}
+
+.card .completeBtn {
+    padding: 2px 10px;
+}
+
+.card .completeBtn svg {
+    height: 25px;
+    width: 25px;
+}
+
+.card .completeBtn:hover {
+    background-color: var(--color_2);
+    background-color: var(--color_positive);
+    outline: 1px solid white;
+}
+
+.card .completeBtn:active {
+    background-color: var(--color_4);
+}
+
+.card .completeBtn:hover svg * {
+    stroke: white;
+}
+
+.undoBtn {
+    padding: 5px;
+    background-color: var(--color_2);
+}
+
+.undoBtn svg * {
+    stroke: var(--color_5);
+}
+
+.undoBtn:hover {
+    background-color: var(--color_3);
+}
+
+.undoBtn:hover svg * {
+    stroke: var(--color_1);
+}
+
+.undoBtn:active {
+    background-color: #436643;
+}
+
+.ctasWrapperEditing {
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.card input {
     background-color: var(--color_1);
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.nameInput,
+.descriptionInput {
+    width: 100%;
+}
+
+.nameInput input {
+    font-size: 22px;
+    font-weight: 700;
+    
+}
+
+.descriptionInput input {
+    font-size: 16px;
+}
+
+.ctasWrapperEditing button {
+    background-color: var(--color_2);
+    padding: 5px;
+}
+
+.ctasWrapperEditing button:active {
+    filter:brightness(0.5);
+}
+
+.ctasWrapperEditing button:hover {
+    outline: 1px solid black;
+}
+
+.rejectChangesBte:hover {
+    background-color: var(--color_4);
+}
+
+.acceptChangesBte:hover {
+    background-color: var(--color_1);
+}
+
+.editingCard {
+    box-shadow: 3px 5px 2px rgb(0 0 0 / 0.4);
 }

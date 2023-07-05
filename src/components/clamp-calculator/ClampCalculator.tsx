@@ -16,7 +16,7 @@ export default function ClampCalculator() {
 
 
     function calculateClampResult() {
-        console.log('clampcalc')
+        
         if (!maxSizeInput.current || !minSizeInput.current || !minViewportInput.current || !maxViewportInput.current)
             return
 
@@ -33,7 +33,7 @@ export default function ClampCalculator() {
 
         const result = `clamp(${minSize}px, ${preferredRounded}px + ${rateRounded}vw, ${maxSize}px)`
         setClampResult(result)
-        console.log(result)
+        
     }
 
 
@@ -51,7 +51,6 @@ export default function ClampCalculator() {
     }
 
     useEffect(() => {
-        console.log('first render')
         calculateClampResult()
     }, [])
 
@@ -74,7 +73,7 @@ export default function ClampCalculator() {
                         ref={maxSizeInput} />
                 </label>
                 <label>
-                    Maximum Viewport (px)
+                    Minimum Viewport (px)
                     <input type='number'
                         defaultValue={500}
                         onChange={calculateClampResult}

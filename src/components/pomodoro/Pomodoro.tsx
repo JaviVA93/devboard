@@ -8,6 +8,7 @@ import style from './pomodoro.module.css'
 import BatteryProgressBar from "./BatteryProgressBar";
 import { convertMsToTime, convertTimeToMS } from "@/utils/utils";
 import toast, { Toaster } from "react-hot-toast";
+import SettingsSvg from "../assets/SettingsSvg";
 
 
 type PomoData = {
@@ -41,10 +42,20 @@ const Pomodoro = () => {
 
     const alarmFilePath = '/audio/clock-alarm.mp3'
 
-    const pomo_vars = useRef<PomoData>({
+    const playButton = <PlayButton fillColor="#567794" />
+    const pauseButton = <PauseButton fillColor="#567794" />
+    const [pomoTime, setPomoTime] = useState('00:00');
+    const [playPause, setPlayPause] = useState(playButton);
+    const [progressBar, setProgressBar] = useState(<BatteryProgressBar percentageLoaded={100} />)
+    const [pomoAlarm, setPomoAlarm] = useState<HTMLAudioElement | null>(null)
+    const [confPomoTime, setConfPomoTime] = useState<number>(25)
+    const confPomoTimeSelect = useRef<HTMLSelectElement | null>(null)
+    const [view, setView] = useState<'timer' | 'settings'>('timer')
+    const pomoInterval = useRef<null | NodeJS.Timer>(null);
+    const pomoVars = useRef<PomoData>({
         state: POMO_STATE.start,
         interval: {
-            minutes: 25,
+            minutes: confPomoTime,
             seconds: 0,
         },
         timeRemain: {
@@ -57,36 +68,29 @@ const Pomodoro = () => {
         },
         lastUpdateTimestamp: 0,
     });
-    const playButton = <PlayButton fillColor="#567794" />
-    const pauseButton = <PauseButton fillColor="#567794" />
-    const [pomoTime, setPomoTime] = useState('00:00');
-    const [playPause, setPlayPause] = useState(playButton);
-    const [progressBar, setProgressBar] = useState(<BatteryProgressBar percentageLoaded={100} />)
-    const [pomoAlarm, setPomoAlarm] = useState<HTMLAudioElement | null>(null)
-    const pomoInterval = useRef<null | NodeJS.Timer>(null);
-    const intervalTimeInMiliseconds = convertTimeToMS(pomo_vars.current.interval.minutes, pomo_vars.current.interval.seconds);
+    const intervalTimeInMiliseconds = convertTimeToMS(pomoVars.current.interval.minutes, pomoVars.current.interval.seconds);
 
 
 
     function startPauseResumePomodoro() {
 
-        if (pomo_vars.current.state === POMO_STATE.running) {
-            pomo_vars.current.state = POMO_STATE.paused;
+        if (pomoVars.current.state === POMO_STATE.running) {
+            pomoVars.current.state = POMO_STATE.paused;
             setPlayPause(playButton)
             if (pomoInterval.current)
                 clearInterval(pomoInterval.current);
         }
         else {
-            if (pomo_vars.current.state === POMO_STATE.start) {
+            if (pomoVars.current.state === POMO_STATE.start) {
                 showToast("Let's work!")
-                pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
-                pomo_vars.current.timeRemain.totalInMiliseconds =
-                    convertTimeToMS(pomo_vars.current.timeRemain.minutes, pomo_vars.current.timeRemain.seconds);
-                pomo_vars.current.timeElapsed.miliseconds = 0;
+                pomoVars.current.timeRemain = JSON.parse(JSON.stringify(pomoVars.current.interval));
+                pomoVars.current.timeRemain.totalInMiliseconds =
+                    convertTimeToMS(pomoVars.current.timeRemain.minutes, pomoVars.current.timeRemain.seconds);
+                pomoVars.current.timeElapsed.miliseconds = 0;
             }
-            pomo_vars.current.lastUpdateTimestamp = new Date().getTime();
+            pomoVars.current.lastUpdateTimestamp = new Date().getTime();
 
-            pomo_vars.current.state = POMO_STATE.running;
+            pomoVars.current.state = POMO_STATE.running;
 
             setPlayPause(pauseButton)
 
@@ -98,13 +102,13 @@ const Pomodoro = () => {
 
     function stopPomodoro() {
 
-        pomo_vars.current.state = POMO_STATE.start;
+        pomoVars.current.state = POMO_STATE.start;
         if (pomoAlarm) {
             pomoAlarm.pause();
             pomoAlarm.currentTime = 0;
         }
-        if (!pomo_vars.current.interval) return;
-        pomo_vars.current.timeRemain = JSON.parse(JSON.stringify(pomo_vars.current.interval));
+        if (!pomoVars.current.interval) return;
+        pomoVars.current.timeRemain = JSON.parse(JSON.stringify(pomoVars.current.interval));
         if (pomoInterval.current) clearInterval(pomoInterval.current);
 
         const timeRemain = getTimeRemainAsString();
@@ -120,7 +124,7 @@ const Pomodoro = () => {
     function updateProgressBar(percentage?: number) {
         let finalPercentageValue = (percentage) ? percentage : undefined;
         if (!finalPercentageValue) {
-            const remainingTime = intervalTimeInMiliseconds - pomo_vars.current.timeElapsed.miliseconds;
+            const remainingTime = intervalTimeInMiliseconds - pomoVars.current.timeElapsed.miliseconds;
             const remainingPercentage = (remainingTime / intervalTimeInMiliseconds) * 100;
             const remainingPercentageRounded = Math.round(remainingPercentage * 100) / 100;
             finalPercentageValue = remainingPercentageRounded;
@@ -132,27 +136,27 @@ const Pomodoro = () => {
 
     function updateTimeRemain() {
 
-        let elapsedTimeSinceLastUpdate = new Date().getTime() - pomo_vars.current.lastUpdateTimestamp;
+        let elapsedTimeSinceLastUpdate = new Date().getTime() - pomoVars.current.lastUpdateTimestamp;
         let elapsedTimeUpdatedMs =
-            elapsedTimeSinceLastUpdate + pomo_vars.current.timeElapsed.miliseconds;
+            elapsedTimeSinceLastUpdate + pomoVars.current.timeElapsed.miliseconds;
 
-        pomo_vars.current.timeElapsed.miliseconds = elapsedTimeUpdatedMs;
+        pomoVars.current.timeElapsed.miliseconds = elapsedTimeUpdatedMs;
 
-        let timeRemainMs = pomo_vars.current.timeRemain.totalInMiliseconds - elapsedTimeUpdatedMs;
+        let timeRemainMs = pomoVars.current.timeRemain.totalInMiliseconds - elapsedTimeUpdatedMs;
         let timeRemain = convertMsToTime(timeRemainMs);
 
-        pomo_vars.current.timeRemain.minutes = timeRemain.minutes;
-        pomo_vars.current.timeRemain.seconds = timeRemain.seconds;
+        pomoVars.current.timeRemain.minutes = timeRemain.minutes;
+        pomoVars.current.timeRemain.seconds = timeRemain.seconds;
 
-        pomo_vars.current.lastUpdateTimestamp = new Date().getTime();
+        pomoVars.current.lastUpdateTimestamp = new Date().getTime();
     }
 
 
 
     function getTimeRemainAsString() {
-        let min = pomo_vars.current.timeRemain.minutes.toString();
+        let min = pomoVars.current.timeRemain.minutes.toString();
         min = (min.length === 1) ? `0${min}` : min;
-        let sec = pomo_vars.current.timeRemain.seconds.toString();
+        let sec = pomoVars.current.timeRemain.seconds.toString();
         sec = (sec.length === 1) ? `0${sec}` : sec;
 
         return `${min}:${sec}`
@@ -161,7 +165,7 @@ const Pomodoro = () => {
 
     function updatePomodoro() {
 
-        if (pomo_vars.current.state !== POMO_STATE.running) {
+        if (pomoVars.current.state !== POMO_STATE.running) {
             return;
         }
 
@@ -170,10 +174,10 @@ const Pomodoro = () => {
         const timeRemain = getTimeRemainAsString() || '';
         setPomoTime(timeRemain)
 
-        if (pomo_vars.current.timeRemain.seconds <= 0 && pomo_vars.current.timeRemain.minutes <= 0) {
-            pomo_vars.current.timeRemain.seconds = 0;
-            pomo_vars.current.timeRemain.minutes = 0;
-            pomo_vars.current.state = POMO_STATE.ended;
+        if (pomoVars.current.timeRemain.seconds <= 0 && pomoVars.current.timeRemain.minutes <= 0) {
+            pomoVars.current.timeRemain.seconds = 0;
+            pomoVars.current.timeRemain.minutes = 0;
+            pomoVars.current.state = POMO_STATE.ended;
 
             pomoAlarm?.play();
             pomoEndNotification();
@@ -181,7 +185,7 @@ const Pomodoro = () => {
             if (pomoInterval.current)
                 clearInterval(pomoInterval.current);
         }
-        else if (pomo_vars.current.state === POMO_STATE.paused)
+        else if (pomoVars.current.state === POMO_STATE.paused)
             setPlayPause(playButton)
         else
             setPlayPause(pauseButton)
@@ -211,7 +215,7 @@ const Pomodoro = () => {
                 window.focus();
             }
         }
-        showToast('Pomodoro finished! Time for a break.') 
+        showToast('Pomodoro finished! Time for a break.')
     }
 
 
@@ -230,11 +234,45 @@ const Pomodoro = () => {
     }
 
 
+    function changePomoTimeConfig() {
+        if (!confPomoTimeSelect.current)
+            return
+
+        const selectedRawValue = confPomoTimeSelect.current.value
+        const numValue = parseInt(selectedRawValue)
+        const lsSettings = JSON.parse(window.localStorage.getItem('pomodoro') || '{}')
+        lsSettings.time = numValue
+        window.localStorage.setItem('pomodoro', JSON.stringify(lsSettings))
+
+        setConfPomoTime(numValue)
+
+        pomoVars.current.interval.minutes = numValue
+        const tmpCurrentInterval = { ...structuredClone(pomoVars.current.interval), totalInMiliseconds: 0 };
+        pomoVars.current.timeRemain = tmpCurrentInterval;
+        stopPomodoro();
+    }
+
+
+    function getLocalSettings() {
+        return JSON.parse(window.localStorage.getItem('pomodoro') || '{}')
+    }
+
+
     useEffect(() => {
 
         setPomoAlarm(new Audio(alarmFilePath));
-        const tmpCurrentInterval = { ...structuredClone(pomo_vars.current.interval), totalInMiliseconds: 0 };
-        pomo_vars.current.timeRemain = tmpCurrentInterval;
+
+        
+        const settings = getLocalSettings()
+        const settingsTime = settings.time || null
+
+        if (settingsTime) {
+            setConfPomoTime(settingsTime)
+            pomoVars.current.interval.minutes = settingsTime 
+        }
+
+        const tmpCurrentInterval = { ...structuredClone(pomoVars.current.interval), totalInMiliseconds: 0 };
+        pomoVars.current.timeRemain = tmpCurrentInterval;
 
         const timeRemain = getTimeRemainAsString();
         setPomoTime(timeRemain);
@@ -245,21 +283,51 @@ const Pomodoro = () => {
     }, []);
 
 
+    function getViewToRender() {
+        if (view === 'timer') {
+            return (
+            <>
+                <div className={style.midWrapper}>
+                    <span className={style.pomoTime}>{pomoTime}</span>
+                    {progressBar}
+                </div>
+                <div className={style.pomoBtnsWrapper}>
+                    <button className={style.pomoButton} onClick={e => startPauseResumePomodoro()} aria-label="Start pomodoro">
+                        {playPause}
+                    </button>
+                    <button className={style.pomoButton} onClick={e => stopPomodoro()} aria-label="Stop pomodoro">
+                        <StopButton fillColor="#567794" />
+                    </button>
+                </div>
+            </>
+            )
+        }
+        else {
+            return (
+                <>
+                    <div className={style.settingsPomoTime}>
+                        <span>Pomodoro Time</span>
+                        <select ref={confPomoTimeSelect} name="pomodoro time" onChange={changePomoTimeConfig} value={confPomoTime}>
+                            <option value="25">25 minutes</option>
+                            <option value="40">40 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                </>
+            )
+        }
+    }
+
+
     return (
         <div className={style.pomoCard}>
-            <h1>POMODORO</h1>
-            <div className={style.midWrapper}>
-                <span className={style.pomoTime}>{pomoTime}</span>
-                {progressBar}
-            </div>
-            <div className={style.pomoBtnsWrapper}>
-                <button className={style.pomoButton} onClick={e => startPauseResumePomodoro()} aria-label="Start pomodoro">
-                    {playPause}
+            <header>
+                <h1>POMODORO</h1>
+                <button type="button" className={style.settingsBtn} onClick={() => (view === 'timer') ? setView('settings') : setView('timer')}>
+                    <SettingsSvg className={style.settingsSvg} />
                 </button>
-                <button className={style.pomoButton} onClick={e => stopPomodoro()} aria-label="Stop pomodoro">
-                    <StopButton fillColor="#567794" />
-                </button>
-            </div>
+            </header>
+            {getViewToRender()}
         </div>
     )
 }

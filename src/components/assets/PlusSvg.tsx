@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PlusSvg(props: { className?: string }) {
+export default function PlusSvg(props?: any) {
     return (
         <svg
             {...props}

@@ -7,30 +7,31 @@
     --color_3: #1B291B;
     --color_4: #233623;
     --color_5: #1E2E1E;
+    --mainBackColor: #262626ce;
+    --mainBackColorSoft: #474646ce;
     /* --- Variables --- */
 
 
     width: 100%;
-    max-width: 1440px;
+    max-width: 1200px;
 
+    position: relative;
     display: flex;
     flex-direction: column;
 
-    background-color: var(--color_2_soft_80);
+    background-color: var(--mainBackColor);
     border-radius: 5px;
     padding: 10px;
+
+    grid-column: 1/3;
+    border: 1px solid var(--color_1);
 }
 
 .todoWrapperTitle {
     font-weight: 900;
-    font-size: 2.2rem;
+    font-size: 28px;
     align-self: flex-start;
-    color: var(--color_5);
-}
-
-.horizontalUine {
-    width: 100%;
-    border: 1px solid var(--color_4)
+    color: var(--color_2);
 }
 
 .loadingWrapper {
@@ -43,7 +44,7 @@
 }
 
 .loadingWrapper h2 {
-    color: var(--color_3);
+    color: var(--color_1);
 }
 
 .horizontalLine {
@@ -56,7 +57,7 @@
     row-gap: 10px;
     column-gap: 10px;
 
-    margin: 10px 3px;
+    padding: 10px 5px;
 
     overflow-y: auto;
     scrollbar-width: thin;
@@ -80,6 +81,49 @@
     border: 1px solid black;
 }
 
+.doneIssuesContainer {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--mainBackColorSoft);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.completedTasksBtns {
+    color: #c9c9c9;
+    background-color: var(--color_2);
+
+    font-size: 14px;
+
+    border-radius: 3px;
+    border: 0;
+    padding: 5px;
+
+    transition: all 0.25s;
+}
+
+.completedTasksBtns:hover {
+    box-shadow: 0px 0px 1px 2px #c9c9c9;
+}
+
+.completedTasksBtns:active {
+    background-color: #609460;
+}
+
+.hideCompletedTasksBtn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+
+.clearCompletedTasks {
+    align-self: flex-end;
+}
+
 
 .tasksCompletedTitle {
     color: var(--color_1);
@@ -98,6 +142,33 @@
     width: fit-content;
     max-width: 100%;
     align-self: flex-start;
+}
+
+.showCompletedTasksBtn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+
+    color: var(--color_2);
+    background-color: var(--color_4);
+
+    font-size: 14px;
+
+    border-radius: 3px;
+    border: 0;
+    padding: 5px;
+
+    transition: all 0.25s;
+}
+
+.showCompletedTasksBtn:hover {
+    background-color: var(--color_5);
+    box-shadow: 0px 0px 1px 2px var(--color_1);
+    color: var(--color_1)
+}
+
+.showCompletedTasksBtn:active {
+    background-color: #365236;
 }
 
 @media screen and (max-width: 450px) {

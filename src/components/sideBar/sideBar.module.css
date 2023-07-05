@@ -3,6 +3,8 @@
     --secondaryColor: #4D4D4D;
 
     position: fixed;
+    top: 0;
+    left: 0;
     height: 100vh;
     max-width: 48px;
     width: fit-content;
@@ -23,6 +25,8 @@
 .burguer {
     width: 24px;
     height: 24px;
+    background-color: transparent;
+    border: 0;
 }
 
 .burguer * {
@@ -32,7 +36,7 @@
 .burguer:hover *{
     fill: var(--mainColor);
     stroke: var(--mainColor);
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
 }
 
 .sideBar.show {
