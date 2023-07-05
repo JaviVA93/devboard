@@ -1,0 +1,41 @@
+
+.aboutSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    height: calc(100vh - 14px);
+}
+
+.aboutSection .illustration {
+    margin-top: 20px;
+    aspect-ratio: 	851/741;
+    max-width: 400px;
+    width: 90%;
+    height: auto;
+    animation: shadowMove 4s linear infinite;
+}
+
+.aboutSection footer {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+    margin: auto 0 20px 0;
+}
+
+.aboutSection footer a {
+    color: #39F0C1;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+@keyframes shadowMove {
+    0% {
+        filter: drop-shadow(0px 0px 0px #39f0c2a6);
+    }
+    90% {
+        filter: drop-shadow(0px 0px 30px #39f0c200);
+    }
+}
