@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client"
+
 import Image from "next/image"
 import style from "./not-found.module.css"
 import { PATHS } from "@/utils/constants";

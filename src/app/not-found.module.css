@@ -5,21 +5,67 @@
     gap: 15px;
 }
 
+.notFoundSection h1 {
+    transform-origin: top center;
+    animation: swing 1.5s linear;
+}
+
+
 .notFoundSection a {
     text-decoration: none;
     font-size: 16px;
     font-weight: 700;
+    margin-top: 20px;
     padding: 10px 30px;
     border-radius: 6px;
     background-color: #4D4D4D;
     color: #c9c9c9;
+    transition: transform 0.5s;
 }
 
 .notFoundSection a:hover {
     background-color: #c9c9c9;
     color: #4D4D4D;
+    transform: scale(1.3);
 }
 
 .notFoundSection a:active {
     background-color: #8d8d8d;
 }
+
+.notFoundSection img {
+    animation: horizontalShaking 0.25s linear infinite;
+}
+
+
+@keyframes horizontalShaking {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(2px) }
+    50% { transform: translateX(-2px) }
+    75% { transform: translateX(2px) }
+    100% { transform: translateX(0) }
+}
+
+@keyframes swing {
+    20% {
+      transform: rotate3d(0, 0, 1, 15deg);
+    }
+  
+    40% {
+      transform: rotate3d(0, 0, 1, -10deg);
+    }
+  
+    60% {
+      transform: rotate3d(0, 0, 1, 5deg);
+    }
+  
+    80% {
+      transform: rotate3d(0, 0, 1, -5deg);
+    }
+  
+    to {
+      transform: rotate3d(0, 0, 1, 0deg);
+    }
+  }
+  
+

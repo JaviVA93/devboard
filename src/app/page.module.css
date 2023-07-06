@@ -6,6 +6,8 @@
 
     margin-right: 72px;
     margin-bottom: 25px;
+
+    view-transition-name: section;
 }
 
 .workboard > h1 {

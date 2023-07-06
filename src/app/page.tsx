@@ -6,10 +6,9 @@ import ToolsBar from "@/components/toolsBar/toolsBar";
 import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
 import Weather from "@/components/weather/weather";
 import { cookies, headers } from "next/headers";
-import { cloneElement, useEffect } from "react";
+import { cloneElement } from "react";
 import ArrowSvg from "@/components/assets/ArrowSvg";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-
 
 
 export default async function Workboard() {

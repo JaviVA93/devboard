@@ -5,6 +5,7 @@
     align-items: center;
     gap: 24px;
     height: calc(100vh - 14px);
+    view-transition-name: section;
 }
 
 .aboutSection .illustration {
