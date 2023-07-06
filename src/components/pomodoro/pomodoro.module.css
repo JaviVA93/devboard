@@ -25,6 +25,9 @@
 
     border-radius: 5px;
     border: 1px solid var(--color_1);
+
+    animation: open ease-out 1s;
+    overflow: hidden;
 }
 
 .pomoCard header {
@@ -44,6 +47,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    animation: fadeIn 0.5s ease-out;
 }
 
 .pomoTime {
@@ -55,6 +60,8 @@
 .pomoBtnsWrapper {
     display: flex;
     gap: 10px;
+
+    animation: fadeIn 0.5s ease-out;
 }
 
 .startPauseButton {
@@ -114,6 +121,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
+
+    animation: fadeIn 0.5s ease-out;
 }
 
 .settingsPomoTime span {
@@ -123,4 +132,25 @@
 .settingsPomoTime select {
     padding: 5px 15px;
     border-radius: 4px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes open {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

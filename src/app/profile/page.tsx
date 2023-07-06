@@ -95,7 +95,7 @@ export default function ProfilePage() {
     else 
         return (
             <section className={style.section}>
-                <div style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
+                <div className={style.loader} style={{display: 'flex', flexDirection: 'column' ,alignItems: 'center', gap: '10px'}}>
                     <LoaderBlock className={style.loaderBlock} height={412} width={600}/>
                 </div>
             </section>

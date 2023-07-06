@@ -25,6 +25,29 @@
     background-color: var(--color_3);
 }
 
+
+.section > *:not(.loader) {
+    position: relative;
+    opacity: 0;
+}
+
+.section .profileImage {
+    animation: appearRight 0.5s ease-out forwards;
+}
+
+.section .userData {
+    animation: appearLeft 0.5s ease-out forwards;
+    animation-delay: 0.25s;
+}
+.section .providers {
+    animation: appearRight 0.5s ease-out forwards;
+    animation-delay: 0.5s;
+}
+.section .signout {
+    animation: appearLeft 0.5s ease-out forwards;
+    animation-delay: 0.75s;
+}
+
 .profileImage {
     max-width: 150px;
     border-radius: 50px;
@@ -82,3 +105,26 @@
 .loaderBlock {
     border-radius: 8px;
 } 
+
+
+@keyframes appearRight {
+    from {
+        opacity: 0;
+        right: -50%;
+    }
+    to {
+        opacity: 1;
+        right: 0%;
+    }
+}
+
+@keyframes appearLeft {
+    from {
+        opacity: 0;
+        left: -50%;
+    }
+    to {
+        opacity: 1;
+        left: 0%;
+    }
+}

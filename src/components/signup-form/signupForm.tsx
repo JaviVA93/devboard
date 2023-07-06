@@ -48,7 +48,7 @@ export default function SignupForm(props: { supabase: SupabaseClient, className:
 
     if (!isSuccess)
         return (
-            <section className={style.signupContainer}>
+            <section className={`${style.signupContainer} ${className}`}>
                 <form className={style.signupForm} method='post' onSubmit={signUpSubmit}>
                     <div className={style.fieldWrapper}>
                         <input name="email"

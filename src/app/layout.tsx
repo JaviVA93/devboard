@@ -4,6 +4,7 @@ import { Overlock } from 'next/font/google'
 import SideBar from '@/components/sideBar/sideBar'
 import SupabaseProvider from './supabase-context'
 import { Toaster } from 'react-hot-toast'
+import style from './layout.module.css'
 
 
 export const metadata = {
@@ -20,10 +21,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" className={overlock.className}>
+      <head>
+        <meta name="view-transition" content="same-origin" />
+      </head>
       <body>
         <SupabaseProvider>
           <SideBar />
-          <main>
+          <main className={style.main}>
             {children}
           </main>
           <Toaster />

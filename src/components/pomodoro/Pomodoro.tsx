@@ -262,13 +262,13 @@ const Pomodoro = () => {
 
         setPomoAlarm(new Audio(alarmFilePath));
 
-        
+
         const settings = getLocalSettings()
         const settingsTime = settings.time || null
 
         if (settingsTime) {
             setConfPomoTime(settingsTime)
-            pomoVars.current.interval.minutes = settingsTime 
+            pomoVars.current.interval.minutes = settingsTime
         }
 
         const tmpCurrentInterval = { ...structuredClone(pomoVars.current.interval), totalInMiliseconds: 0 };
@@ -286,34 +286,32 @@ const Pomodoro = () => {
     function getViewToRender() {
         if (view === 'timer') {
             return (
-            <>
-                <div className={style.midWrapper}>
-                    <span className={style.pomoTime}>{pomoTime}</span>
-                    {progressBar}
-                </div>
-                <div className={style.pomoBtnsWrapper}>
-                    <button className={style.pomoButton} onClick={e => startPauseResumePomodoro()} aria-label="Start pomodoro">
-                        {playPause}
-                    </button>
-                    <button className={style.pomoButton} onClick={e => stopPomodoro()} aria-label="Stop pomodoro">
-                        <StopButton fillColor="#567794" />
-                    </button>
-                </div>
-            </>
+                <>
+                    <div className={style.midWrapper}>
+                        <span className={style.pomoTime}>{pomoTime}</span>
+                        {progressBar}
+                    </div>
+                    <div className={style.pomoBtnsWrapper}>
+                        <button className={style.pomoButton} onClick={e => startPauseResumePomodoro()} aria-label="Start pomodoro">
+                            {playPause}
+                        </button>
+                        <button className={style.pomoButton} onClick={e => stopPomodoro()} aria-label="Stop pomodoro">
+                            <StopButton fillColor="#567794" />
+                        </button>
+                    </div>
+                </>
             )
         }
         else {
             return (
-                <>
-                    <div className={style.settingsPomoTime}>
-                        <span>Pomodoro Time</span>
-                        <select ref={confPomoTimeSelect} name="pomodoro time" onChange={changePomoTimeConfig} value={confPomoTime}>
-                            <option value="25">25 minutes</option>
-                            <option value="40">40 minutes</option>
-                            <option value="60">60 minutes</option>
-                        </select>
-                    </div>
-                </>
+                <div className={style.settingsPomoTime}>
+                    <span>Pomodoro Time</span>
+                    <select ref={confPomoTimeSelect} name="pomodoro time" onChange={changePomoTimeConfig} value={confPomoTime}>
+                        <option value="25">25 minutes</option>
+                        <option value="40">40 minutes</option>
+                        <option value="60">60 minutes</option>
+                    </select>
+                </div>
             )
         }
     }
