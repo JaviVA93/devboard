@@ -49,7 +49,7 @@ export function invertColor(hexColor: string, blackWhiteResult: boolean) {
     if (hexColor.indexOf('#') === 0) {
         hexColor = hexColor.slice(1);
     }
-    // convert 3-digit hex to 6-digits.
+    
     if (hexColor.length === 3) {
         hexColor = hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
     }
@@ -61,15 +61,14 @@ export function invertColor(hexColor: string, blackWhiteResult: boolean) {
         bInt = parseInt(hexColor.slice(4, 6), 16);
     console.warn('test')
     if (blackWhiteResult) {
-        // https://stackoverflow.com/a/3943023/112731
         return (rInt * 0.299 + gInt * 0.587 + bInt * 0.114) > 186
             ? '#000000'
             : '#FFFFFF';
     }
-    // invert color components
+    
     let r = (255 - rInt).toString(16),
     g = (255 - gInt).toString(16),
     b = (255 - bInt).toString(16);
-    // pad each with zeros and return
+    
     return "#" + padZero(r) + padZero(g) + padZero(b);
 }
