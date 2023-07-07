@@ -43,6 +43,12 @@ export default function ToolsBar() {
         mainCardColor: '#ffffff',
         titleColor: '#2e6dcc',
         toolId: 'weather',
+    }, {
+        toolName: 'Color Picker',
+        imagePreviewPath: '',
+        mainCardColor: '#ffffff',
+        titleColor: '#2e6dcc',
+        toolId: 'colorpicker',
     }]
 
 

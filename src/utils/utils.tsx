@@ -39,3 +39,37 @@ export function validateEmail(email: string) {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
 };
+
+function padZero(str: string, len=2) {
+    var zeros = new Array(len).join('0');
+    return (zeros + str).slice(-len);
+}
+
+export function invertColor(hexColor: string, blackWhiteResult: boolean) {
+    if (hexColor.indexOf('#') === 0) {
+        hexColor = hexColor.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hexColor.length === 3) {
+        hexColor = hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
+    }
+    if (hexColor.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    let rInt = parseInt(hexColor.slice(0, 2), 16),
+        gInt = parseInt(hexColor.slice(2, 4), 16),
+        bInt = parseInt(hexColor.slice(4, 6), 16);
+    console.warn('test')
+    if (blackWhiteResult) {
+        // https://stackoverflow.com/a/3943023/112731
+        return (rInt * 0.299 + gInt * 0.587 + bInt * 0.114) > 186
+            ? '#000000'
+            : '#FFFFFF';
+    }
+    // invert color components
+    let r = (255 - rInt).toString(16),
+    g = (255 - gInt).toString(16),
+    b = (255 - bInt).toString(16);
+    // pad each with zeros and return
+    return "#" + padZero(r) + padZero(g) + padZero(b);
+}
