@@ -42,6 +42,7 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
+    animation: fadeIn ease-out 1s;
 }
 
 .leftWrapper .fileInput {
@@ -122,6 +123,7 @@
     position: relative;
     display: grid;
     place-items: center;
+    animation: fadeIn ease-out 1s;
 }
 
 .defaultImageText {
@@ -167,5 +169,14 @@
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

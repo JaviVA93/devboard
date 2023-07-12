@@ -8,6 +8,7 @@ import PickerSvg from '../assets/PickerSvg'
 import ImageFileSvg from '../assets/ImageFileSvg'
 import toast from 'react-hot-toast'
 import CopySvg from '../assets/CopySvg'
+import SimpleLoader from '../assets/simple-loader/SimpleLoader'
 
 declare global {
     interface Window {
@@ -19,6 +20,7 @@ export default function ColorPicker() {
 
     const defaultImage = '/images/color_spectrum.jpg'
 
+    const [hasEyeDropper, setHasEyeDropper] = useState<boolean | 'loading'>('loading')
     const [imageSrc, setImageSrc] = useState<string | null>(null)
     const [color, setColor] = useState('#808080')
     const [textColor, setTextColor] = useState('black')
@@ -62,7 +64,17 @@ export default function ColorPicker() {
     }
 
 
-    if (!!window.EyeDropper)
+    useEffect(() => {
+        setHasEyeDropper(!!window.EyeDropper)
+    }, [])
+
+    if (hasEyeDropper === 'loading') 
+        return (
+            <div className={`${style.container} ${style.containerNotSupported}`}>
+                <SimpleLoader className={style.loader} />
+            </div>
+        )
+    else if (hasEyeDropper)
         return (
             <div className={style.container}>
                 <div className={style.leftWrapper}>
