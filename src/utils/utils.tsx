@@ -59,7 +59,7 @@ export function invertColor(hexColor: string, blackWhiteResult: boolean) {
     let rInt = parseInt(hexColor.slice(0, 2), 16),
         gInt = parseInt(hexColor.slice(2, 4), 16),
         bInt = parseInt(hexColor.slice(4, 6), 16);
-    console.warn('test')
+    
     if (blackWhiteResult) {
         return (rInt * 0.299 + gInt * 0.587 + bInt * 0.114) > 186
             ? '#000000'
