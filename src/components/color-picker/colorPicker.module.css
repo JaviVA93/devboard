@@ -11,6 +11,33 @@
     border-radius: 5px;
 }
 
+.containerNotSupported {
+    width: 100%;
+    max-width: 1200px;
+    height: 350px;
+    grid-column: 1/3;
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #960093;
+    border-radius: 5px;
+}
+
+.containerNotSupported a {
+    text-decoration: none;
+    color: #960093;
+    transition: all 0.5s;
+}
+
+.containerNotSupported a:hover {
+    transform: scale(1.2);
+}
+
+
 .leftWrapper {
     display: flex;
     flex-direction: column;

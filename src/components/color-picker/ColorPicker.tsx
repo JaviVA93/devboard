@@ -64,6 +64,11 @@ export default function ColorPicker() {
         )
     else
             return (
-                'not supported'
+                <div className={style.containerNotSupported}>
+                    <h1>This browser doesn&apos;t suppor EyeDropper</h1>
+                    <a href='https://caniuse.com/mdn-api_eyedropper' target='_blank'>
+                        Check the compatibility
+                    </a>
+                </div>
             )
 }
