@@ -3,171 +3,23 @@
     --cp-color2: #5008A3;
     --cp-color3: #AD0958;
     
-    --cp-color1: #960093;
-    --cp-color2: #5008A3;
-    --cp-color3: #AD0958;
-    
     width: 100%;
     max-width: 1200px;
     height: 350px;
-
-    border: 1px solid var(--cp-color1);
-    border-radius: 5px;
-
-    animation: open ease-out 1s;
     grid-column: 1/3;
-
-.containerNotSupported {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    align-items: center;
-    justify-content: center;
-}
-
-.containerNotSupported a {
-    text-decoration: none;
-    color: var(--cp-color1);
-    transition: all 0.5s;
-}
-
-.containerNotSupported a:hover {
-    transform: scale(1.2);
-}
-
 
     display: grid;
     grid-template-columns: 50% 50%;
 
     border: 1px solid var(--cp-color1);
-    justify-content: center;
     border-radius: 5px;
 
     animation: open ease-out 1s;
-.leftWrapper .fileInput {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-    padding: 8px 12px;
-    background-color: var(--cp-color2);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-}
-.leftWrapper .fileInput:hover {
-    transform: scale(1.2);
 }
 
-.fileInput input[type="file"] {
-    display: none;
-}
-
-.imageFileIcon * {
-    stroke: #c9c9c9;
-    fill: #c9c9c9;
-}
-
-.pickerBtn {
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #c9c9c9;
-    background-color: var(--cp-color3);
-    border: 0;
-    border-radius: 4px;
-    cursor: copy;
-    transition: all 0.5s;
-}
-
-.leftWrapper .pickerBtn:hover {
-    transform: scale(1.2);
-}
-
-
-.colorValueWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px 60px 15px 40px;
+.containerNotSupported {
     display: flex;
     flex-direction: column;
-    border: 1px solid #c9c9c9;
-    border-radius: 4px;
-    margin-top: 35px;
-    cursor: copy;
-}
-
-.colorValueWrapper .copyBtn {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    padding: 3px;
-    border-radius: 3px;
-    border: 0;
-    transition: all 0.5s;
-}
-
-.colorValueWrapper .copyBtn:hover {
-    transform: translate(-2px, -55%);
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.705);
-}
-
-.rightWrapper {
-    position: relative;
-    display: grid;
-    place-items: center;
-}
-
-.defaultImageText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: 700;
-    font-size: 22px;
-}
-
-.image {
-    width: auto;
-    max-width: 70%;
-    height: auto;
-    max-height: 70%;
-}
-
-.backgroundImage {
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    filter: blur(10px);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    object-position: center;
-    object-fit: cover;
-    z-index: -1;
-}
-
-.loader {
-    border-color: var(--cp-color1);
-    border-left-color: transparent;
-}
-
-
-@keyframes open {
-    from {
-        opacity: 0;
-        transform: scale(0);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
     gap: 25px;
     align-items: center;
     justify-content: center;
