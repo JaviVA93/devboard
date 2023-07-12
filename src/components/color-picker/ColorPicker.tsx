@@ -9,6 +9,12 @@ import ImageFileSvg from '../assets/ImageFileSvg'
 import toast from 'react-hot-toast'
 import CopySvg from '../assets/CopySvg'
 
+declare global {
+    interface Window {
+        EyeDropper?: any;
+    }
+}
+
 export default function ColorPicker() {
 
     const defaultImage = '/images/color_spectrum.jpg'
@@ -28,7 +34,10 @@ export default function ColorPicker() {
 
     async function openEyeDropper() {
         try {
-            const eyeDropper = new EyeDropper()
+            if (!window.EyeDropper)
+                return
+
+            const eyeDropper = new window.EyeDropper()
             const result = await eyeDropper.open()
             setColor(result.sRGBHex)
 
