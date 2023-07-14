@@ -19,36 +19,42 @@ export default function ToolsBar() {
 
     const toolsList = [{
         toolName: 'Pomodoro',
-        imagePreviewPath: '/images/pomodoro-preview.png',
+        imagePreviewPath: '/svg/undraw_time_management_re_tk5w.svg',
         mainCardColor: '#567794',
         titleColor: '#151b24',
         toolId: 'pomodoro',
     },
     {
         toolName: 'To-Do List',
-        imagePreviewPath: '/images/todo-tool-preview.png',
-        mainCardColor: '#1E2E1E',
-        titleColor: '#5e765ed7',
+        imagePreviewPath: '/svg/undraw_to_do_re_jaef.svg',
+        mainCardColor: '#76B576',
+        titleColor: '#1B291B',
         toolId: 'todo',
     },
     {
         toolName: 'Clamp Calculator',
-        imagePreviewPath: '/images/clampcalc-preview.png',
+        imagePreviewPath: '/svg/undraw_file_bundle_re_6q1e.svg',
         mainCardColor: '#AB7B76',
         titleColor: '#c9c9c9',
         toolId: 'clampcalc',
     }, {
         toolName: 'Weather',
-        imagePreviewPath: '/images/weather-preview.png',
+        imagePreviewPath: '/svg/undraw_weather_re_qsmd.svg',
         mainCardColor: '#ffffff',
         titleColor: '#2e6dcc',
         toolId: 'weather',
     }, {
         toolName: 'Color Picker',
-        imagePreviewPath: '/images/colorpicker-preview.png',
+        imagePreviewPath: '/svg/undraw_specs_re_546x.svg',
         mainCardColor: '#960093',
         titleColor: '#ffffff',
         toolId: 'colorpicker',
+    }, {
+        toolName: 'Code Editor',
+        imagePreviewPath: '/svg/undraw_code_review_re_woeb.svg',
+        mainCardColor: '#7F90F5',
+        titleColor: '#F5F067',
+        toolId: 'codeeditor',
     }]
 
 
