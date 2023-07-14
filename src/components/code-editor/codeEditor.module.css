@@ -1,0 +1,18 @@
+
+.ceContainer {
+    /* COLORS */
+    --ce-color-1: #F5F067;
+    --ce-color-2: #DECB52;
+    --ce-color-3: #FAD55D;
+    --ce-color-4: #9FFA5D;
+    --ce-color-5: #BDDE52;
+
+    grid-column: 1/3;
+    width: 100%;
+    max-width: 100%;
+    height: 900px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border: 1px solid var(--ce-color-1);
+    border-radius: 4px;
+}
