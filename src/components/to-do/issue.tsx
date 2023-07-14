@@ -9,7 +9,7 @@ import UndoSvg from '../assets/UndoSvg';
 import PencilSvg from '../assets/PencilSvg';
 import CrossSvg from '../assets/CrossSvg';
 import CheckSvg from '../assets/CheckSvg';
-import { title } from 'process';
+import Linkify from "linkify-react";
 
 const Issue = (props: {
     removeIssueOnList: (card_id: string) => void,
@@ -34,6 +34,7 @@ const Issue = (props: {
     const [taskDescription, setTaskDescription] = useState(description)
     const titleInput = useRef<HTMLInputElement | null>(null)
     const descriptionInput = useRef<HTMLInputElement | null>(null)
+
 
     function removeCard() {
         if (!card.current) return;
@@ -60,10 +61,10 @@ const Issue = (props: {
         const updatedDescription = descriptionInput.current.value
 
 
-        if (updatedName !== name || updatedDescription !== description) {
+        if (updatedName !== taskTitle || updatedDescription !== taskDescription) {
             setTaskTitle(updatedName)
             setTaskDescription(updatedDescription)
-    
+
             updateTaskContent(id, updatedName, updatedDescription)
         }
 
@@ -76,7 +77,11 @@ const Issue = (props: {
         return (
             <div className={(isDone) ? `${style.card} ${style.cardDone}` : style.card} id={id} ref={card}>
                 <h1>{taskTitle}</h1>
-                <span>{taskDescription}</span>
+                {/* <span> */}
+                <Linkify as="span" options={{target: '_blank'}}>
+                    {taskDescription}
+                </Linkify>
+                {/* </span> */}
                 {!isDone
                     ? <div className={style.ctasWrapper}>
                         <div className={style.btnsLeftSide}>

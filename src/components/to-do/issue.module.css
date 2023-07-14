@@ -42,7 +42,7 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: var(--color_2);
+    color: var(--color_1);
     text-align: start;
 }
 
@@ -53,6 +53,10 @@
     text-overflow: ellipsis;
     color: var(--color_1);
     margin-bottom: 9px;
+}
+
+.card span a {
+    color: #9ed1af;
 }
 
 .ctasWrapper {
