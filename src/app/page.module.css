@@ -4,7 +4,7 @@
     gap: 20px;
     align-items: center;
 
-    margin-right: 72px;
+    margin-right: 75px;
     margin-bottom: 25px;
 
     view-transition-name: section;
@@ -18,7 +18,7 @@
 
 .toolsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 50%);
+    grid-template-columns: repeat(auto-fit, calc(50% - 15px));
     gap: 30px;
     justify-items: center;
     align-items: center;

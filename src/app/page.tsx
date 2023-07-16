@@ -10,6 +10,7 @@ import { cloneElement } from "react";
 import ArrowSvg from "@/components/assets/ArrowSvg";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import ColorPicker from "@/components/color-picker/ColorPicker";
+import CodeEditor from "@/components/code-editor/CodeEditor";
 
 
 export default async function Workboard() {
@@ -35,6 +36,10 @@ export default async function Workboard() {
         {
             id: 'colorpicker',
             component: <ColorPicker />
+        },
+        {
+            id: 'codeeditor',
+            component: <CodeEditor />
         }
     ]
 
