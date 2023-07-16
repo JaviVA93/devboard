@@ -11,6 +11,7 @@ import ArrowSvg from "@/components/assets/ArrowSvg";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import ColorPicker from "@/components/color-picker/ColorPicker";
 import CodeEditor from "@/components/code-editor/CodeEditor";
+import SvgToComponent from "@/components/svg-to-component/SvgToComponent";
 
 
 export default async function Workboard() {
@@ -91,6 +92,7 @@ export default async function Workboard() {
             {toolsToShow.length > 0
                 ? <div className={style.toolsContainer}>
                     {toolsToShow.map(t => cloneElement(t.component, { key: t.id }))}
+                    <SvgToComponent />
                 </div>
                 : <div>
                     <h1 className={style.emptyBoardMsg}>Add tools to your workboard!</h1>

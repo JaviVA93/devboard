@@ -1,0 +1,11 @@
+
+.svg2component {
+    width: 100%;
+    grid-column: 1/3;
+}
+
+.editorsWrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 900px;
+}
