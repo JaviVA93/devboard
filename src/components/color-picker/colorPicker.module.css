@@ -11,6 +11,7 @@
     display: grid;
     grid-template-columns: 30% 70%;
 
+    background-color: #262626ce;
     border: 1px solid var(--cp-color1);
     border-radius: 8px;
 

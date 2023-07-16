@@ -9,10 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.22.5",
     "@monaco-editor/react": "^4.5.1",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.21.0",
+    "@svgr/core": "^8.0.0",
+    "@svgr/plugin-jsx": "^8.0.1",
+    "@svgr/plugin-prettier": "^8.0.1",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "18.15.11",
     "@types/react": "18.0.33",
@@ -23,6 +27,7 @@
     "js-cookie": "^3.0.5",
     "linkify-react": "^4.1.1",
     "linkifyjs": "^4.1.1",
+    "lodash.debounce": "^4.0.8",
     "next": "^13.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,6 +36,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
     "@types/uuid": "^9.0.1",
     "encoding": "^0.1.13"
   }
