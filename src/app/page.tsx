@@ -12,37 +12,11 @@ import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import ColorPicker from "@/components/color-picker/ColorPicker";
 import CodeEditor from "@/components/code-editor/CodeEditor";
 import SvgToComponent from "@/components/svg-to-component/SvgToComponent";
+import { TOOLS_LIST as tools } from "@/utils/constants";
 
 
 export default async function Workboard() {
     const toolsToShow: { id: string, component: JSX.Element }[] = []
-
-    const tools = [
-        {
-            id: 'pomodoro',
-            component: <Pomodoro />
-        },
-        {
-            id: 'todo',
-            component: <ToDo />
-        },
-        {
-            id: 'clampcalc',
-            component: <ClampCalculator />
-        },
-        {
-            id: 'weather',
-            component: <Weather />
-        },
-        {
-            id: 'colorpicker',
-            component: <ColorPicker />
-        },
-        {
-            id: 'codeeditor',
-            component: <CodeEditor />
-        }
-    ]
 
     let toolsCookie: null | string = null
     let toolsConfigFromDB: null | string = null
@@ -81,7 +55,7 @@ export default async function Workboard() {
         toolsSplited.forEach(id => {
             const tool = tools.find(v => v.id === id)
             if (tool)
-                toolsToShow.push(tool)
+                toolsToShow.push({id: tool.id, component: tool.component})
         })
     }
 
@@ -92,7 +66,6 @@ export default async function Workboard() {
             {toolsToShow.length > 0
                 ? <div className={style.toolsContainer}>
                     {toolsToShow.map(t => cloneElement(t.component, { key: t.id }))}
-                    <SvgToComponent />
                 </div>
                 : <div>
                     <h1 className={style.emptyBoardMsg}>Add tools to your workboard!</h1>
