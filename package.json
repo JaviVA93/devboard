@@ -32,7 +32,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "swiper": "^10.0.4",
     "typescript": "5.0.4",
     "uuid": "^9.0.0"
   },
