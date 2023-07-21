@@ -2,6 +2,8 @@
 .card {
     --color_negative: #D9534F;
     --color_positive: #4c9154;
+
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
