@@ -2,8 +2,6 @@
 import style from './page.module.css'
 import ToolsBar from "@/components/toolsBar/toolsBar";
 import { cookies, headers } from "next/headers";
-import { cloneElement } from "react";
-import ArrowSvg from "@/components/assets/ArrowSvg";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { TOOLS_LIST as tools } from "@/utils/constants";
 import ToolsContainer from '@/components/tools-container/ToolsContainer';
@@ -58,15 +56,7 @@ export default async function Workboard() {
         <section className={style.workboard}>
             <ToolsBar activeTools={toolsToShow.map(t => t.id)} />
             <h1>Your Board</h1>
-            {toolsToShow.length > 0
-                ? <ToolsContainer toolsToShow={toolsToShow} />
-                : <div>
-                    <h1 className={style.emptyBoardMsg}>Add tools to your workboard!</h1>
-                    <div className={style.emptyBoardArrowWrapper}>
-                        <ArrowSvg className={style.emptyBoardArrow} />
-                    </div>
-                </div>}
-
+            <ToolsContainer toolsToShow={toolsToShow} />
         </section>
     )
 }
