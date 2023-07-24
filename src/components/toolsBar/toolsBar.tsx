@@ -12,7 +12,7 @@ import { useLoggedUser, sessionState } from '@/utils/supabase'
 import { TOOLS_LIST as toolsList } from '@/utils/constants'
 
 
-export default function ToolsBar() {
+export default function ToolsBar(props: { activeTools: string[] }) {
 
     const [isLoadingBoardConfig, setIsLoadingBoardConfig] = useState(true)
     const toolsBar = useRef<HTMLDivElement | null>(null)
@@ -78,6 +78,7 @@ export default function ToolsBar() {
                     mainCardColor={v.mainCardColor}
                     titleColor={v.titleColor}
                     toolId={v.id}
+                    isActive={!!props.activeTools.find(tId => tId === v.id)}
                 />)}
             </div>
         </div>

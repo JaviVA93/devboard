@@ -1,18 +1,9 @@
-.workboard {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-
-    margin-right: 75px;
-
-    view-transition-name: section;
-}
-
-.workboard > h1 {
-    font-size: 2.2rem;
-    align-self: flex-start;
-    line-height: 0.9;
+.toolsContainerWrapper {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding: 25px;
+    min-height: calc(100vh - 90px);
 }
 
 .toolsContainer {
@@ -23,6 +14,8 @@
     align-items: center;
     max-width: 100%;
     width: 1444px;
+    transition: all 0.25s;
+    filter: blur(0px);
 }
 
 .emptyBoardMsg {
@@ -42,9 +35,27 @@
 .emptyBoardArrow {
     width: 150px;
     height: 100px;
-
     transform: rotate(-16deg);
 }
+
+
+.blurFilter {
+    filter: blur(5px);
+    cursor: copy;
+}
+
+.draggingOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 50px;
+    font-size: 32px;
+    background-color: rgba(0, 0, 0, 0.65);
+    border-radius: 8px;
+    
+    animation: popIn 0.25s ease-out forwards;
+}
+
 
 @media screen and (max-width: 700px) {
     .toolsContainer {
@@ -54,32 +65,12 @@
     }
 }
 
-@keyframes bounce {
-    80% {
-        transform: translateX(0%);
-    }
 
-    88% {
-        transform: translateX(-15%);
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0);
     }
-
-    93% {
-        transform: translateX(0%);
-    }
-
-    95% {
-        transform: translateX(-7%);
-    }
-
-    97% {
-        transform: translateX(0%);
-    }
-
-    99% {
-        transform: translateX(-3%);
-    }
-
-    100% {
-        transform: translateX(0);
+    to {
+        transform: translate(-50%, -50%) scale(1);
     }
 }
