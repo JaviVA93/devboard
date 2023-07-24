@@ -1,6 +1,8 @@
 .toolsContainerWrapper {
+    box-sizing: border-box;
     position: relative;
     width: 100%;
+    padding: 25px;
     min-height: calc(100vh - 90px);
 }
 
@@ -12,6 +14,8 @@
     align-items: center;
     max-width: 100%;
     width: 1444px;
+    transition: all 0.25s;
+    filter: blur(0px);
 }
 
 .emptyBoardMsg {
@@ -31,13 +35,11 @@
 .emptyBoardArrow {
     width: 150px;
     height: 100px;
-
     transform: rotate(-16deg);
 }
 
 
 .blurFilter {
-    transition: all 0.25s;
     filter: blur(5px);
     cursor: copy;
 }
