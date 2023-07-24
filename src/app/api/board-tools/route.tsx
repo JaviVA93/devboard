@@ -23,6 +23,7 @@ export async function GET() {
         const time = now.getTime();
         const expireTime = time + 1000 * 60 * 60 * 24 * 365;
         now.setTime(expireTime);
+
         return new Response(undefined, {
             status: 200,
             headers: {
@@ -64,6 +65,9 @@ export async function POST() {
     const time = now.getTime();
     const expireTime = time + 1000 * 60 * 60 * 24 * 365;
     now.setTime(expireTime);
+
+    console.log('cookie set')
+
     return new Response(undefined, {
         status: 200,
         headers: {

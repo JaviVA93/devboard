@@ -1,18 +1,12 @@
 
-import Pomodoro from "@/components/pomodoro/Pomodoro";
-import ToDo from "@/components/to-do/toDo";
 import style from './page.module.css'
 import ToolsBar from "@/components/toolsBar/toolsBar";
-import ClampCalculator from "@/components/clamp-calculator/ClampCalculator";
-import Weather from "@/components/weather/weather";
 import { cookies, headers } from "next/headers";
 import { cloneElement } from "react";
 import ArrowSvg from "@/components/assets/ArrowSvg";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import ColorPicker from "@/components/color-picker/ColorPicker";
-import CodeEditor from "@/components/code-editor/CodeEditor";
-import SvgToComponent from "@/components/svg-to-component/SvgToComponent";
 import { TOOLS_LIST as tools } from "@/utils/constants";
+import ToolsContainer from '@/components/tools-container/ToolsContainer';
 
 
 export default async function Workboard() {
@@ -34,6 +28,7 @@ export default async function Workboard() {
         }
     }
 
+
     if (!toolsCookie) {
         toolsCookie = cookies().get('devboard-tools')?.value || null
 
@@ -47,7 +42,6 @@ export default async function Workboard() {
                 }).then(() => { /* DO NOTHING */ })
             }
         }
-
     }
 
     if (toolsCookie) {
@@ -55,18 +49,17 @@ export default async function Workboard() {
         toolsSplited.forEach(id => {
             const tool = tools.find(v => v.id === id)
             if (tool)
-                toolsToShow.push({id: tool.id, component: tool.component})
+                toolsToShow.push({ id: tool.id, component: tool.component })
         })
     }
 
+
     return (
         <section className={style.workboard}>
-            <ToolsBar />
+            <ToolsBar activeTools={toolsToShow.map(t => t.id)} />
             <h1>Your Board</h1>
             {toolsToShow.length > 0
-                ? <div className={style.toolsContainer}>
-                    {toolsToShow.map(t => cloneElement(t.component, { key: t.id }))}
-                </div>
+                ? <ToolsContainer toolsToShow={toolsToShow} />
                 : <div>
                     <h1 className={style.emptyBoardMsg}>Add tools to your workboard!</h1>
                     <div className={style.emptyBoardArrowWrapper}>
